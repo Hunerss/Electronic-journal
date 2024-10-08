@@ -40,7 +40,7 @@ namespace Electronic_journal.UserControls
                     window.frame.NavigationService.Navigate(new Admin_TeachersMenu_UserControl(window));
                     break;
                 case "students_button":
-                    window.frame.NavigationService.Navigate(new Admin_TeachersMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new Admin_StudentsMenu_UserControl(window));
                     break;
                 case "logout_button":
                     window.frame.NavigationService.GoBack();

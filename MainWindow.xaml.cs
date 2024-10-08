@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Electronic_journal.UserControls;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,7 +20,7 @@ namespace Electronic_journal
         public MainWindow()
         {
             InitializeComponent();
-            frame.NavigationService.Navigate(new MainMenu(this));
+            frame.NavigationService.Navigate(new RoleSelection_UserControl(this));
         }
     }
 }

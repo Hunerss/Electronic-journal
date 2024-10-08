@@ -7,6 +7,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem x:Name="addTeacher_menuItem" Header="Add Teacher" Click="AddTeacher_menuItem_Click"/>
+            <MenuItem x:Name="removeTeacher_menuItem" Header="Remove Teacher" Click="RemoveTeacher_menuItem_Click"/>
+            <MenuItem x:Name="modifyTeacher_menuItem" Header="Modify Teacher" Click="ModifyTeacher_menuItem_Click"/>
+        </Menu>
+        <TextBlock Grid.Row="1" Margin="10" Text="Students" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="1">
+                <Grid>
+                    <!--All teachers are shown here and we have options to sort it by name, surname, age, their class-->
+                </Grid>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

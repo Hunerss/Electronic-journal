@@ -20,9 +20,27 @@ namespace Electronic_journal.UserControls
     /// </summary>
     public partial class Admin_TeachersMenu_UserControl : UserControl
     {
-        public Admin_TeachersMenu_UserControl()
+        MainWindow window;
+
+        public Admin_TeachersMenu_UserControl(MainWindow window)
         {
             InitializeComponent();
+            this.window = window;
+        }
+
+        private void AddTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ModifyTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

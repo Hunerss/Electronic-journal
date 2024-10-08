@@ -12,6 +12,8 @@
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Images\" />
+    <Folder Include="UserControls\Student\" />
+    <Folder Include="UserControls\Teacher\" />
   </ItemGroup>
 
 </Project>

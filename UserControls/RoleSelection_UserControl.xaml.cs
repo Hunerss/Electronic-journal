@@ -27,5 +27,25 @@ namespace Electronic_journal.UserControls
             InitializeComponent();
             this.window = window;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string userName = ((Button)sender).Name.ToString();
+            switch (userName)
+            {
+                case "student_button":
+                    //window.frame.NavigationService.Navigate(new Student_Menu_UserControl(this));
+                    break;
+                case "teacher_button":
+                    //window.frame.NavigationService.Navigate(new Student_Menu_UserControl(this));
+                    break;
+                case "admin_button":
+                    window.frame.NavigationService.Navigate(new Admin_MainMenu_UserControl(window));
+                    break;
+                default:
+                    Console.WriteLine("RoleSelction_UserControl - Button Error");
+                    break;
+            }
+        }
     }
 }

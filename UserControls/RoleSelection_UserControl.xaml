@@ -29,9 +29,9 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="1" x:Name="student_button" Content="Student"/>
-                    <Button Grid.Row="3" x:Name="teacher_button" Content="Teacher"/>
-                    <Button Grid.Row="5" x:Name="admin_button" Content="Administrator"/>
+                    <Button Grid.Row="1" x:Name="student_button" Content="Student" Click="Button_Click"/>
+                    <Button Grid.Row="3" x:Name="teacher_button" Content="Teacher" Click="Button_Click"/>
+                    <Button Grid.Row="5" x:Name="admin_button" Content="Administrator" Click="Button_Click"/>
                 </Grid>
             </Grid>
         </Grid>

@@ -1,5 +1,8 @@
-﻿using Electronic_journal.UserControls;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,17 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal
+namespace Electronic_journal.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logika interakcji dla klasy Login_UserControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Login_UserControl : UserControl
     {
-        public MainWindow()
+        MainWindow window;
+        public Login_UserControl(MainWindow window)
         {
             InitializeComponent();
-            frame.NavigationService.Navigate(new MainMenu_UserControl(this));
+            this.window = window;
         }
     }
 }

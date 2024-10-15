@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace Electronic_journal.UserControls
 {
     /// <summary>
-    /// Logika interakcji dla klasy RoleSelection_UserControl.xaml
+    /// Logika interakcji dla klasy MainMenu_UserControl.xaml
     /// </summary>
-    public partial class RoleSelection_UserControl : UserControl
+    public partial class MainMenu_UserControl : UserControl
     {
         MainWindow window;
 
-        public RoleSelection_UserControl(MainWindow window)
+        public MainMenu_UserControl(MainWindow window)
         {
             InitializeComponent();
             this.window = window;
@@ -33,14 +33,15 @@ namespace Electronic_journal.UserControls
             string userName = ((Button)sender).Name.ToString();
             switch (userName)
             {
-                case "student_button":
-                    //window.frame.NavigationService.Navigate(new Student_Menu_UserControl(this));
+                case "login_button":
+                    window.frame.NavigationService.Navigate(new Login_UserControl(this));
                     break;
-                case "teacher_button":
-                    //window.frame.NavigationService.Navigate(new Student_Menu_UserControl(this));
+                case "register_button":
+                    window.frame.NavigationService.Navigate(new Register_UserControl(this));
                     break;
-                case "admin_button":
-                    window.frame.NavigationService.Navigate(new Admin_MainMenu_UserControl(window));
+                case "turnoff_button":
+                    Application.Current.Shutdown();
+                    window.Close();
                     break;
                 default:
                     Console.WriteLine("RoleSelction_UserControl - Button Error");

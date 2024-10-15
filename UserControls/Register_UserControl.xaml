@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Electronic_journal.UserControls.Register_UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Electronic_journal.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="40px" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">Registration</TextBlock>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="return_Button" Grid.Column="0" Click="Navigation">Go back</Button>
+                <Button x:Name="register_Button" Grid.Column="1" Click="Navigation">Register</Button>
+            </Grid>
+            <ScrollViewer Grid.Row="1">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38px">Name</TextBlock>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38px">Surname</TextBlock>
+                        <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38px">Email</TextBlock>
+                        <TextBlock Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38px">Password</TextBlock>
+                        <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38px">Licence</TextBlock>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="name_TextBox" Grid.Row="0" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                        <TextBox x:Name="surname_TextBox" Grid.Row="1" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                        <TextBox x:Name="email_TextBox" Grid.Row="2" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                        <PasswordBox x:Name="password_PasswordBox" Grid.Row="3" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
+
+                        <DockPanel Grid.Row="4" VerticalAlignment="Center">
+                            <CheckBox x:Name="licence_CheckBox" Margin="15 0 0 0" Content="Accept" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button x:Name="read_Button" Grid.Row="4" Width="60px" Height="40px" FontSize="20px" Click="Navigation">Read</Button>
+                        </DockPanel>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -27,5 +27,20 @@ namespace Electronic_journal.UserControls
             InitializeComponent();
             this.window = window;
         }
+
+        private void AddStudent_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveStudent_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ModifyStudent_menuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

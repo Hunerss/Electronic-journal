@@ -34,10 +34,10 @@ namespace Electronic_journal.UserControls
             switch (userName)
             {
                 case "login_button":
-                    window.frame.NavigationService.Navigate(new Login_UserControl(this));
+                    window.frame.NavigationService.Navigate(new Login_UserControl(window));
                     break;
                 case "register_button":
-                    window.frame.NavigationService.Navigate(new Register_UserControl(this));
+                    window.frame.NavigationService.Navigate(new Register_UserControl(window));
                     break;
                 case "turnoff_button":
                     Application.Current.Shutdown();

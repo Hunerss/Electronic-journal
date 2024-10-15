@@ -24,8 +24,8 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Button Name="btn_0" Grid.Column="0" Click="Navigation">Go back</Button>
-                <Button Name="btn_1" Grid.Column="1" Click="Navigation">Sing in</Button>
+                <Button Name="return_Button" Grid.Column="0" Click="Navigation">Go back</Button>
+                <Button Name="login_Button" Grid.Column="1" Click="Navigation">Sing in</Button>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -45,8 +45,8 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Name="txb_0" Grid.Row="0" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
-                    <PasswordBox Name="txb_1" Grid.Row="1" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
+                    <TextBox Name="login_TextBox" Grid.Row="0" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                    <PasswordBox Name="password_TextBox" Grid.Row="1" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
                 </Grid>
             </Grid>
         </Grid>

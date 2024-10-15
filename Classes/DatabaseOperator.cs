@@ -1,4 +1,11 @@
-﻿using MySqlConnector;
+﻿
+
+using MySqlConnector;
+using Org.BouncyCastle.Crypto.Digests;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Text;
 
 namespace Electronic_journal.Classes
 {
@@ -6,17 +13,70 @@ namespace Electronic_journal.Classes
     {
         private static string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static MySqlConnection connector = new(db_adress);
+
+        public Boolean Register(int school_role, int school_role_id, string name, string surname, string email, string password)
+        {
+            if (school_role <= -1 || school_role_id <= -1 || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return false;
+
+            if (!CheckPassword(password))
+                return false;
+
+            try
+            {
+                connector.Open();
+                string querry = "INSERT INTO users(school_role, school_role_id, name, surname, email, password) " +
+                                "VALUES(@SchoolRole, @SchoolRoleId, @Name, @Surname, @Email, @Password)";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@SchoolRole", school_role);
+                command.Parameters.AddWithValue("@SchoolRoleId", school_role_id);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", ComputeSha3_256Hash(password));
+                Console.WriteLine(BitConverter.ToString(ComputeSha3_256Hash(password)).Replace("-", "").ToLower());
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - Register - succes log - Registered successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - Register - error log - Failed to register");
+                Console.WriteLine("DatabaseOperator - Register - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static byte[] ComputeSha3_256Hash(string input)
+        {
+            return SHA3_256.HashData(Encoding.UTF8.GetBytes(input));
+        }
+
+        private static Boolean CheckPassword(string password)
+        {
+            if (password.Length < 8)
+                return false;
+
+            if (!password.Any(char.IsPunctuation))
+                return false;
+
+            if (!password.Any(char.IsLower))
+                return false;
+
+            if (!password.Any(char.IsUpper))
+                return false;
+
+            if (!password.Any(char.IsDigit))
+                return false;
+
+            return true;
+        }
     }
 }
-
-//using Electronic_journal.Windows.pages;
-//using MySqlConnector;
-//using Org.BouncyCastle.Crypto.Digests;
-//using System;
-//using System.Linq;
-//using System.Security.Cryptography;
-//using System.Windows.Controls;
-//using System.Xml.Linq;
 
 //namespace ToDoList.classes
 //{
@@ -264,89 +324,24 @@ namespace Electronic_journal.Classes
 //            return age;
 //        }
 
-//        private static Boolean CheckPassword(string password)
-//        {
-//            if (password.Length < 8)
-//                return false;
+//        
+//        
+//        
+//        
 
-//            if (!password.Any(char.IsPunctuation))
-//                return false;
+//        
+//        
 
-//            if (!password.Any(char.IsLower))
-//                return false;
+//        
+//        
 
-//            if (!password.Any(char.IsUpper))
-//                return false;
+//        
+//        
 
-//            if (!password.Any(char.IsDigit))
-//                return false;
+//        
+//        
 
-//            return true;
-//        }
-
-//        public Boolean Register(string login, string password, DateTime birthdate, Boolean licence, Boolean instruction)
-//        {
-//            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) || birthdate == DateTime.MinValue || birthdate >= DateTime.Now || !licence || !instruction)
-//                return false;
-
-//            if (ReturnAge(birthdate) < 18)
-//                return false;
-
-//            if (!CheckPassword(password))
-//                return false;
-
-//            try
-//            {
-//                connector.Open();
-//                string querry = "INSERT INTO users(login, password, birthday, age, instruction, licence) " +
-//                                "VALUES(@Login, @Password, @Birthday, @Age, @Instruction, @Licence)";
-//                using MySqlCommand command = new(querry, connector);
-//                command.Parameters.AddWithValue("@Login", login);
-//                command.Parameters.AddWithValue("@Password", HashPassword(password));
-//                command.Parameters.AddWithValue("@Birthday", birthdate);
-//                command.Parameters.AddWithValue("@Age", ReturnAge(birthdate));
-//                command.Parameters.AddWithValue("@Instruction", licence);
-//                command.Parameters.AddWithValue("@Licence", instruction);
-//                command.ExecuteNonQuery();
-//                Console.WriteLine("DatabaseOperator - Register - succes log - Registered successfully");
-//                return true;
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine("DatabaseOperator - Register - error log - Failed to register");
-//                Console.WriteLine("DatabaseOperator - Register - exception message - " + ex.Message);
-//                return false;
-//            }
-//            finally
-//            {
-//                connector.Close();
-//            }
-//        }
-
-//        private static string HashPassword(string input)
-//        {
-//            if (string.IsNullOrEmpty(input))
-//                return "";
-
-//            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-//            byte[] salt = GenerateSalt();
-//            byte[] saltedInput = new byte[inputBytes.Length + salt.Length];
-//            Buffer.BlockCopy(saltedInput, 0, inputBytes, 0, inputBytes.Length);
-//            Buffer.BlockCopy(salt, 0, saltedInput, inputBytes.Length, salt.Length);
-
-//            Sha3Digest sha3 = new(512);
-//            byte[] outputBytes = new byte[sha3.GetDigestSize()];
-//            sha3.BlockUpdate(inputBytes, 0, inputBytes.Length);
-//            sha3.DoFinal(outputBytes, 0);
-//            return Convert.ToBase64String(outputBytes);
-//        }
-
-//        private static byte[] GenerateSalt()
-//        {
-//            byte[] salt = new byte[32];
-//            using RNGCryptoServiceProvider rng = new();
-//            rng.GetBytes(salt);
-//            return salt;
-//        }
+//        
+//        
 //    }
 //}

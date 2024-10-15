@@ -13,18 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal.UserControls
+namespace Electronic_journal.UserControls.Start
 {
     /// <summary>
-    /// Logika interakcji dla klasy Login_UserControl.xaml
+    /// Logika interakcji dla klasy Licence_UserControl.xaml
     /// </summary>
-    public partial class Login_UserControl : UserControl
+    public partial class Licence_UserControl : UserControl
     {
         MainWindow window;
-        public Login_UserControl(MainWindow window)
+        public Licence_UserControl(MainWindow window)
         {
             InitializeComponent();
             this.window = window;
+        }
+
+        private void Return_Button_Click(object sender, RoutedEventArgs e)
+        {
+            window.frame.NavigationService.GoBack();
         }
     }
 }

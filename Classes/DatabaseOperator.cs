@@ -1,7 +1,7 @@
 ﻿
 
 using MySqlConnector;
-using System.Security.Cryptography;
+using SHA3.Net;
 using System.Text;
 
 namespace Electronic_journal.Classes
@@ -16,10 +16,13 @@ namespace Electronic_journal.Classes
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return false;
 
+            Console.WriteLine(HashPassword(password));
+
+
             try
             {
                 connector.Open();
-                string querry = "SELECT id FROM users WHERE login = @Login AND password = @Password";
+                string querry = "SELECT id FROM users WHERE email = @Login AND password = @Password";
                 using MySqlCommand command = new(querry, connector);
                 command.Parameters.AddWithValue("@Login", login);
                 command.Parameters.AddWithValue("@Password", HashPassword(password));
@@ -43,10 +46,44 @@ namespace Electronic_journal.Classes
             return false;
         }
 
+        public int GetRole(string login, string password)
+        {
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM users WHERE email = @Login AND password = @Password";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Login", login);
+                command.Parameters.AddWithValue("@Password", HashPassword(password));
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetRole - success log - User chips retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetRole - error log - User not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetRole - error log - Failed to log in");
+                Console.WriteLine("DatabaseOperator - GetRole - exception message - " + ex.Message);
+                return -1;
+            }
+        }
 
         public static string HashPassword(string input)
         {
-            return Convert.ToBase64String(SHA3_256.HashData(Encoding.UTF8.GetBytes(input)));
+            return BitConverter.ToString(Sha3.Sha3256().ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", "").ToLower();
         }
     }
 }

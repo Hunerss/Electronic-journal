@@ -11,8 +11,8 @@ namespace Electronic_journal.Classes
 {
     internal class DatabaseOperator
     {
-        private static string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
-        private static MySqlConnection connector = new(db_adress);
+        private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
+        private static readonly MySqlConnection connector = new(db_adress);
 
         public Boolean Register(int school_role, int school_role_id, string name, string surname, string email, string password)
         {

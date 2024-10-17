@@ -28,17 +28,17 @@ namespace Electronic_journal.UserControls
             this.window = window;
         }
 
-        private void AddTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        private void Add_menuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void RemoveTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        private void Remove_menuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void ModifyTeacher_menuItem_Click(object sender, RoutedEventArgs e)
+        private void Modify_menuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }

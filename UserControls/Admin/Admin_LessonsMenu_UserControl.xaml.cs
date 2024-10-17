@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal.UserControls
+namespace Electronic_journal.UserControls.Admin
 {
     /// <summary>
-    /// Logika interakcji dla klasy Admin_ClassesMenu_UserControl.xaml
+    /// Logika interakcji dla klasy Admin_LessonsMenu_UserControl.xaml
     /// </summary>
-    public partial class Admin_ClassesMenu_UserControl : UserControl
+    public partial class Admin_LessonsMenu_UserControl : UserControl
     {
         MainWindow window;
 
-        public Admin_ClassesMenu_UserControl(MainWindow window)
+        public Admin_LessonsMenu_UserControl(MainWindow window)
         {
             InitializeComponent();
             this.window = window;

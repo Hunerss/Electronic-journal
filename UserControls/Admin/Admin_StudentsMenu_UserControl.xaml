@@ -13,9 +13,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem x:Name="addStudent_menuItem" Header="Add Student" Click="AddStudent_menuItem_Click"/>
-            <MenuItem x:Name="removeStudent_menuItem" Header="Remove Student" Click="RemoveStudent_menuItem_Click"/>
-            <MenuItem x:Name="modifyStudent_menuItem" Header="Modify Student" Click="ModifyStudent_menuItem_Click"/>
+            <MenuItem x:Name="add_menuItem" Header="Add Student" Click="Add_menuItem_Click"/>
+            <MenuItem x:Name="remove_menuItem" Header="Remove Student" Click="Remove_menuItem_Click"/>
+            <MenuItem x:Name="modify_menuItem" Header="Modify Student" Click="Modify_menuItem_Click"/>
         </Menu>
         <TextBlock Grid.Row="1" Margin="10" Text="Students" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="2">

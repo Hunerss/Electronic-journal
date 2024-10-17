@@ -18,11 +18,11 @@ namespace Electronic_journal.UserControls
     /// <summary>
     /// Logika interakcji dla klasy Admin_MainMenu_UserControl.xaml
     /// </summary>
-    public partial class Admin_MainMenu_UserControl : UserControl
+    public partial class Admin_Menu_UserControl : UserControl
     {
         MainWindow window;
 
-        public Admin_MainMenu_UserControl(MainWindow window)
+        public Admin_Menu_UserControl(MainWindow window)
         {
             InitializeComponent();
             this.window = window;

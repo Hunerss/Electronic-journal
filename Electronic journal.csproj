@@ -10,12 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
-    <Folder Include="UserControls\Student\" />
-    <Folder Include="UserControls\Teacher\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
     <PackageReference Include="MySqlConnector" Version="2.3.7" />
   </ItemGroup>

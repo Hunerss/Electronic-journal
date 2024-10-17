@@ -26,12 +26,9 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="1" x:Name="login_button" Content="Login" Click="Button_Click"/>
-                    <Button Grid.Row="3" x:Name="register_button" Content="Register" Click="Button_Click"/>
-                    <Button Grid.Row="5" x:Name="turnoff_button" Content="Close" Click="Button_Click"/>
+                    <Button Grid.Row="1" x:Name="login_button" Content="Login" Click="Button_Click" />
+                    <Button Grid.Row="3" x:Name="turnoff_button" Content="Close" Click="Button_Click"/>
                 </Grid>
             </Grid>
         </Grid>

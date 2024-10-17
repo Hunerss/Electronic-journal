@@ -20,9 +20,12 @@ namespace Electronic_journal.UserControls.Student
     /// </summary>
     public partial class Student_Menu_UserControl : UserControl
     {
-        public Student_Menu_UserControl()
+        MainWindow window;
+
+        public Student_Menu_UserControl(MainWindow window)
         {
             InitializeComponent();
+            this.window = window;
         }
     }
 }

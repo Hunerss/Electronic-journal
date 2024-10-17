@@ -1,10 +1,7 @@
 ﻿
 
 using MySqlConnector;
-using Org.BouncyCastle.Crypto.Digests;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
 
 namespace Electronic_journal.Classes
@@ -14,66 +11,42 @@ namespace Electronic_journal.Classes
         private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static readonly MySqlConnection connector = new(db_adress);
 
-        public Boolean Register(int school_role, int school_role_id, string name, string surname, string email, string password)
+        public Boolean Login(string login, string password)
         {
-            if (school_role <= -1 || school_role_id <= -1 || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-                return false;
-
-            if (!CheckPassword(password))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return false;
 
             try
             {
                 connector.Open();
-                string querry = "INSERT INTO users(school_role, school_role_id, name, surname, email, password) " +
-                                "VALUES(@SchoolRole, @SchoolRoleId, @Name, @Surname, @Email, @Password)";
+                string querry = "SELECT id FROM users WHERE login = @Login AND password = @Password";
                 using MySqlCommand command = new(querry, connector);
-                command.Parameters.AddWithValue("@SchoolRole", school_role);
-                command.Parameters.AddWithValue("@SchoolRoleId", school_role_id);
-                command.Parameters.AddWithValue("@Name", name);
-                command.Parameters.AddWithValue("@Surname", surname);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Password", ComputeSha3_256Hash(password));
-                Console.WriteLine(BitConverter.ToString(ComputeSha3_256Hash(password)).Replace("-", "").ToLower());
-                command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - Register - succes log - Registered successfully");
-                return true;
+                command.Parameters.AddWithValue("@Login", login);
+                command.Parameters.AddWithValue("@Password", HashPassword(password));
+
+                using var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Console.WriteLine("DatabaseOperator - Login - succes log - Logged in successfully");
+                    connector.Close();
+                    return true;
+                }
+                connector.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - Register - error log - Failed to register");
-                Console.WriteLine("DatabaseOperator - Register - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - Login - error log - Failed to log in");
+                Console.WriteLine("DatabaseOperator - Login - exception message - " + ex.Message);
                 return false;
             }
-            finally
-            {
-                connector.Close();
-            }
+            connector.Close();
+            return false;
         }
 
-        public static byte[] ComputeSha3_256Hash(string input)
+
+        public static string HashPassword(string input)
         {
-            return SHA3_256.HashData(Encoding.UTF8.GetBytes(input));
-        }
-
-        private static Boolean CheckPassword(string password)
-        {
-            if (password.Length < 8)
-                return false;
-
-            if (!password.Any(char.IsPunctuation))
-                return false;
-
-            if (!password.Any(char.IsLower))
-                return false;
-
-            if (!password.Any(char.IsUpper))
-                return false;
-
-            if (!password.Any(char.IsDigit))
-                return false;
-
-            return true;
+            return Convert.ToBase64String(SHA3_256.HashData(Encoding.UTF8.GetBytes(input)));
         }
     }
 }

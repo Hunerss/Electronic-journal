@@ -1,5 +1,6 @@
 ﻿
 
+using Electronic_journal.Classes.DataClasses;
 using MySqlConnector;
 using SHA3.Net;
 using System.Text;
@@ -10,6 +11,109 @@ namespace Electronic_journal.Classes
     {
         private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static readonly MySqlConnection connector = new(db_adress);
+
+        public List<Person> GetParents()
+        {
+            List<Person> people = [];
+            connector.Open();
+            string querry = "SELECT name, surname, birthday, sex FROM parents";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Person
+                {
+                    Name = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Birthday = reader.GetInt32(2),
+                    Sex = reader.GetByte(3)
+                });
+            }
+
+            return people;
+        }
+
+        public List<Student> GetStudents()
+        {
+            List<Student> people = [];
+            connector.Open();
+            string querry = "SELECT name, surname, class, birthday, age, average, sex, parent_1_id, parent_2_id FROM students";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Student
+                {
+                    Name = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Class_name = reader.GetString(2),
+                    Birthday = reader.GetInt32(3),
+                    Age = reader.GetInt32(4),
+                    Average = reader.GetDouble(5),
+                    Sex = reader.GetByte(6),
+                    Parent_1_id = reader.GetInt32(7),
+                    Parent_2_id = reader.GetInt32(8)
+                });
+            }
+
+            return people;
+        }
+
+        public List<Student> GetStudents(string class_name)
+        {
+            List<Student> people = [];
+            connector.Open();
+            string querry = "SELECT name, surname, class, birthday, age, average, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Class", class_name);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Student
+                {
+                    Name = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Class_name = reader.GetString(2),
+                    Birthday = reader.GetInt32(3),
+                    Age = reader.GetInt32(4),
+                    Average = reader.GetDouble(5),
+                    Sex = reader.GetByte(6),
+                    Parent_1_id = reader.GetInt32(7),
+                    Parent_2_id = reader.GetInt32(8)
+                });
+            }
+
+            return people;
+        }
+
+        public List<Teacher> GetTeachers()
+        {
+            List<Teacher> people = [];
+            connector.Open();
+            string querry = "SELECT name, surname, subject, class, classroom, birthday, age, sex FROM teachers";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Teacher
+                {
+                    Name = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Subject = reader.GetString(2),
+                    Class_name = reader.GetString(3),
+                    Classroom = reader.GetInt32(4),
+                    Birthday = reader.GetInt32(5),
+                    Age = reader.GetInt32(6),
+                    Sex = reader.GetByte(6)
+                });
+            }
+
+            return people;
+        }
 
         public Boolean Login(string login, string password)
         {

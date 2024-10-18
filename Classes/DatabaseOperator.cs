@@ -12,7 +12,7 @@ namespace Electronic_journal.Classes
         private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static readonly MySqlConnection connector = new(db_adress);
 
-        public List<Person> GetParents()
+        public static List<Person> GetParents()
         {
             List<Person> people = [];
             connector.Open();
@@ -34,7 +34,7 @@ namespace Electronic_journal.Classes
             return people;
         }
 
-        public List<Student> GetStudents()
+        public static List<Student> GetStudents()
         {
             List<Student> people = [];
             connector.Open();
@@ -61,7 +61,7 @@ namespace Electronic_journal.Classes
             return people;
         }
 
-        public List<Student> GetStudents(string class_name)
+        public static List<Student> GetStudents(string class_name)
         {
             List<Student> people = [];
             connector.Open();
@@ -89,7 +89,7 @@ namespace Electronic_journal.Classes
             return people;
         }
 
-        public List<Teacher> GetTeachers()
+        public static List<Teacher> GetTeachers()
         {
             List<Teacher> people = [];
             connector.Open();
@@ -115,7 +115,7 @@ namespace Electronic_journal.Classes
             return people;
         }
 
-        public Boolean Login(string login, string password)
+        public static Boolean Login(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return false;
@@ -150,7 +150,7 @@ namespace Electronic_journal.Classes
             return false;
         }
 
-        public int GetRole(string login, string password)
+        public static int GetRole(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return -1;
@@ -185,7 +185,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static string HashPassword(string input)
+        private static string HashPassword(string input)
         {
             return BitConverter.ToString(Sha3.Sha3256().ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", "").ToLower();
         }

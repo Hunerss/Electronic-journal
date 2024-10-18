@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Electronic_journal.Classes
+namespace Electronic_journal.Classes.DataClasses
 {
     internal class Grade
     {
-        public int Id {  get; set; }
+        public int Id { get; set; }
         public string Grade_name { get; set; }
         public int Student_id { get; set; }
         public int Teacher_id { get; set; }

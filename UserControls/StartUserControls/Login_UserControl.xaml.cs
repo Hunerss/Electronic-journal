@@ -1,6 +1,6 @@
 ﻿using Electronic_journal.Classes;
-using Electronic_journal.UserControls.Student;
-using Electronic_journal.UserControls.Teacher;
+using Electronic_journal.UserControls.StudentUserControls;
+using Electronic_journal.UserControls.TeacherUserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Electronic_journal.UserControls
+namespace Electronic_journal.UserControls.StartUserControls
 {
     /// <summary>
     /// Logika interakcji dla klasy Login_UserControl.xaml

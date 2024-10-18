@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal.UserControls.Teacher
+namespace Electronic_journal.UserControls.TeacherUserControls
 {
     /// <summary>
     /// Logika interakcji dla klasy Teacher_Menu_UserControl.xaml

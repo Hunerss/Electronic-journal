@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal.UserControls
+namespace Electronic_journal.UserControls.StartUserControls
 {
     /// <summary>
     /// Logika interakcji dla klasy MainMenu_UserControl.xaml

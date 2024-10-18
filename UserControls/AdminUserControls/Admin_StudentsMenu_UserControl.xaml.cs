@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Electronic_journal.UserControls
+namespace Electronic_journal.UserControls.AdminUserControls
 {
     /// <summary>
     /// Logika interakcji dla klasy Admin_StudentsMenu_UserControl.xaml

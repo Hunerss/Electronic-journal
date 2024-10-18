@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_journal.Classes.DataClasses
 {
-    internal class Class
+    internal class Class_data
     {
     }
 }

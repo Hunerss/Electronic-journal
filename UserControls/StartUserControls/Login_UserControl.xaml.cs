@@ -1,4 +1,5 @@
 ﻿using Electronic_journal.Classes;
+using Electronic_journal.UserControls.AdminUserControls;
 using Electronic_journal.UserControls.StudentUserControls;
 using Electronic_journal.UserControls.TeacherUserControls;
 using System;
@@ -47,10 +48,10 @@ namespace Electronic_journal.UserControls.StartUserControls
                 {
                     DatabaseOperator databaseOperator = new();
                     string login = login_TextBox.Text, password = password_TextBox.Password;
-                    if (databaseOperator.Login(login, password))
+                    if (DatabaseOperator.Login(login, password))
                     {
                         MessageBox.Show("Correct login or password");
-                        int id = databaseOperator.GetRole(login, password);
+                        int id = DatabaseOperator.GetRole(login, password);
                         if (id == 0)
                         {
                             window.frame.NavigationService.Navigate(new Admin_Menu_UserControl(window));

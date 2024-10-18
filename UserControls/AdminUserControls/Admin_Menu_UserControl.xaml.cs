@@ -34,7 +34,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             switch (userName)
             {
                 case "classes_button":
-                    window.frame.NavigationService.Navigate(new Admin_ClassesMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new Admin_PersonelMenu_UserControl(window));
                     break;
                 case "teachers_button":
                     window.frame.NavigationService.Navigate(new Admin_TeachersMenu_UserControl(window));

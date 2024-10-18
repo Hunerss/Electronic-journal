@@ -1,4 +1,5 @@
 ﻿using Electronic_journal.UserControls;
+using Electronic_journal.UserControls.StartUserControls;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;

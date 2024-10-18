@@ -9,7 +9,7 @@ namespace Electronic_journal.Classes.DataClasses
     internal class Teacher : Person
     {
         public string Subject { get; set; }
-        public string Class { get; set; }
+        public string Class_name { get; set; }
         public int Classroom { get; set; }
         public int Age { get; set; }
     }

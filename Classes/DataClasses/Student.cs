@@ -8,7 +8,7 @@ namespace Electronic_journal.Classes.DataClasses
 {
     internal class Student : Person
     {
-        public string Class { get; set; }
+        public string Class_name { get; set; }
         public int Age { get; set; }
         public double Average { get; set; }
         public int Parent_1_id { get; set; }

@@ -10,7 +10,6 @@ namespace Electronic_journal.Classes.DataClasses
     {
         public string Class_name { get; set; }
         public int Age { get; set; }
-        public double Average { get; set; }
         public int Parent_1_id { get; set; }
         public int Parent_2_id { get; set; }
     }

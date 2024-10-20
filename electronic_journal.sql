@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 09:06 PM
+-- Generation Time: Oct 20, 2024 at 05:44 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -144,7 +144,6 @@ CREATE TABLE `students` (
   `class` text NOT NULL,
   `birthday` int(11) NOT NULL,
   `age` int(11) NOT NULL,
-  `average` double NOT NULL,
   `sex` tinyint(1) NOT NULL,
   `parent_1_id` int(11) NOT NULL,
   `parent_2_id` int(11) NOT NULL
@@ -154,37 +153,37 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `name`, `surname`, `class`, `birthday`, `age`, `average`, `sex`, `parent_1_id`, `parent_2_id`) VALUES
-(1, 'Andrzej', 'Nowak', '1A', 20097280, 15, 4.44, 1, 1, 2),
-(2, 'Maria', 'Kowalska', '1A', 20090106, 15, 4.12, 0, 3, 4),
-(3, 'Paweł', 'Wiśniewski', '1A', 20097196, 15, 3.85, 1, 5, 6),
-(4, 'Barbara', 'Wójcik', '1A', 20091151, 15, 4, 0, 7, 8),
-(5, 'Andrzej', 'Kowalczyk', '1A', 20099545, 15, 4.11, 1, 9, 10),
-(6, 'Małgorzata', 'Kamińska', '1A', 20097262, 15, 4.74, 0, 11, 12),
-(7, 'Jan', 'Lewandowski', '1A', 20104967, 14, 4.21, 1, 13, 14),
-(8, 'Katarzyna', 'Zielińska', '1A', 20094971, 15, 4.32, 0, 15, 16),
-(9, 'Krzysztof', 'Woźniak', '1A', 20091460, 15, 3.92, 1, 17, 18),
-(10, 'Zofia', 'Szymańska', '1A', 20094812, 15, 3.67, 0, 19, 20),
-(11, 'Adam', 'Dąbrowski', '1A', 20090479, 15, 4.13, 1, 21, 22),
-(12, 'Magdalena', 'Kozłowska', '1A', 20090735, 16, 4.56, 0, 23, 24),
-(13, 'Paweł', 'Mazur', '1A', 20090106, 15, 4.15, 1, 25, 26),
-(14, 'Anna', 'Jankowska', '1A', 20107390, 14, 3.98, 0, 27, 28),
-(15, 'Tomasz', 'Kwiatkowski', '1A', 20091962, 15, 4.7, 1, 29, 30),
-(16, 'Marek', 'Wojciechowski', '1A', 20097486, 15, 3.86, 1, 31, 32),
-(17, 'Zofia', 'Krawczyk', '1A', 20096588, 15, 4.02, 0, 33, 34),
-(18, 'Piotr', 'Kaczmarek', '1A', 20092085, 15, 4.2, 1, 35, 36),
-(19, 'Joanna', 'Piotrowska', '1A', 20103606, 14, 3.78, 0, 37, 38),
-(20, 'Tomasz', 'Grabowski', '1A', 20099545, 15, 4.6, 1, 39, 40),
-(21, 'Zofia', 'Zając', '1A', 20099471, 15, 3.91, 0, 41, 42),
-(22, 'Marek', 'Pawłowski', '1A', 20098745, 15, 3.75, 1, 43, 44),
-(23, 'Anna', 'Król', '1A', 20095165, 15, 3.98, 0, 45, 46),
-(24, 'Krzysztof', 'Michalski', '1A', 20096234, 15, 4.5, 1, 47, 48),
-(25, 'Maria', 'Wróbel', '1A', 20096555, 15, 4.12, 0, 49, 50),
-(26, 'Adam', 'Wieczorek', '1A', 20098415, 15, 3.85, 1, 51, 52),
-(27, 'Joanna', 'Jabłońska', '1A', 20094560, 15, 3.93, 0, 53, 54),
-(28, 'Piotr', 'Nowakowski', '1A', 20093478, 15, 3.76, 1, 55, 56),
-(29, 'Zofia', 'Majewska', '1A', 20096588, 15, 4.38, 0, 57, 58),
-(30, 'Tomasz', 'Olszewski', '1A', 20099345, 15, 3.99, 1, 59, 60);
+INSERT INTO `students` (`id`, `name`, `surname`, `class`, `birthday`, `age`, `sex`, `parent_1_id`, `parent_2_id`) VALUES
+(1, 'Andrzej', 'Nowak', '1A', 20097280, 15, 1, 1, 2),
+(2, 'Maria', 'Kowalska', '1A', 20090106, 15, 0, 3, 4),
+(3, 'Paweł', 'Wiśniewski', '1A', 20097196, 15, 1, 5, 6),
+(4, 'Barbara', 'Wójcik', '1A', 20091151, 15, 0, 7, 8),
+(5, 'Andrzej', 'Kowalczyk', '1A', 20099545, 15, 1, 9, 10),
+(6, 'Małgorzata', 'Kamińska', '1A', 20097262, 15, 0, 11, 12),
+(7, 'Jan', 'Lewandowski', '1A', 20104967, 14, 1, 13, 14),
+(8, 'Katarzyna', 'Zielińska', '1A', 20094971, 15, 0, 15, 16),
+(9, 'Krzysztof', 'Woźniak', '1A', 20091460, 15, 1, 17, 18),
+(10, 'Zofia', 'Szymańska', '1A', 20094812, 15, 0, 19, 20),
+(11, 'Adam', 'Dąbrowski', '1A', 20090479, 15, 1, 21, 22),
+(12, 'Magdalena', 'Kozłowska', '1A', 20090735, 16, 0, 23, 24),
+(13, 'Paweł', 'Mazur', '1A', 20090106, 15, 1, 25, 26),
+(14, 'Anna', 'Jankowska', '1A', 20107390, 14, 0, 27, 28),
+(15, 'Tomasz', 'Kwiatkowski', '1A', 20091962, 15, 1, 29, 30),
+(16, 'Marek', 'Wojciechowski', '1A', 20097486, 15, 1, 31, 32),
+(17, 'Zofia', 'Krawczyk', '1A', 20096588, 15, 0, 33, 34),
+(18, 'Piotr', 'Kaczmarek', '1A', 20092085, 15, 1, 35, 36),
+(19, 'Joanna', 'Piotrowska', '1A', 20103606, 14, 0, 37, 38),
+(20, 'Tomasz', 'Grabowski', '1A', 20099545, 15, 1, 39, 40),
+(21, 'Zofia', 'Zając', '1A', 20099471, 15, 0, 41, 42),
+(22, 'Marek', 'Pawłowski', '1A', 20098745, 15, 1, 43, 44),
+(23, 'Anna', 'Król', '1A', 20095165, 15, 0, 45, 46),
+(24, 'Krzysztof', 'Michalski', '1A', 20096234, 15, 1, 47, 48),
+(25, 'Maria', 'Wróbel', '1A', 20096555, 15, 0, 49, 50),
+(26, 'Adam', 'Wieczorek', '1A', 20098415, 15, 1, 51, 52),
+(27, 'Joanna', 'Jabłońska', '1A', 20094560, 15, 0, 53, 54),
+(28, 'Piotr', 'Nowakowski', '1A', 20093478, 15, 1, 55, 56),
+(29, 'Zofia', 'Majewska', '1A', 20096588, 15, 0, 57, 58),
+(30, 'Tomasz', 'Olszewski', '1A', 20099345, 15, 1, 59, 60);
 
 -- --------------------------------------------------------
 

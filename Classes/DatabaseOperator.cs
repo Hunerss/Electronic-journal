@@ -12,6 +12,455 @@ namespace Electronic_journal.Classes
         private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static readonly MySqlConnection connector = new(db_adress);
 
+        //-----------------------------Removers--------------------------------------
+
+        public static Boolean RemoveUser(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM users WHERE email=@Email";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Email", email);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveUser - succes log - User addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveUser - error log - Failed to remove user");
+                Console.WriteLine("DatabaseOperator - RemoveUser - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean RemoveUser(string email, int id)
+        {
+            if (string.IsNullOrEmpty(email) || id < 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM users WHERE email=@Email AND school_role_id=@Id";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Id", id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveUser - succes log - User removed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveUser - error log - Failed to remove user");
+                Console.WriteLine("DatabaseOperator - RemoveUser - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean RemoveStudent(int id)
+        {
+            if (id < 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM students WHERE id=@Id";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Id", id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveStudent - succes log - Student removed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveStudent - error log - Failed to remove student");
+                Console.WriteLine("DatabaseOperator - RemoveStudent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean RemoveTeacher(int id)
+        {
+            if (id < 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM teachers WHERE id=@Id";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Id", id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveTeacher - succes log - Teacher removed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveTeacher - error log - Failed to remove teacher");
+                Console.WriteLine("DatabaseOperator - RemoveTeacher - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean RemoveParent(int id)
+        {
+            if (id < 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM parents WHERE id=@Id";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Id", id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveParent - succes log - Parent removed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveParent - error log - Failed to remove parent");
+                Console.WriteLine("DatabaseOperator - RemoveParent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        //-----------------------------Adders--------------------------------------
+
+        //-----------------------------Users--------------------------------------
+        public static Boolean AddUser(int school_role, int school_role_id, string email, string password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "INSERT INTO users(school_role, school_role_id, email, password) VALUES (@School_role, @School_role_id, @Email, @Password)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@School_role", school_role);
+                command.Parameters.AddWithValue("@School_role_id", school_role);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", HashPassword(password));
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddUser - error log - Failed to add user");
+                Console.WriteLine("DatabaseOperator - AddUser - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        //-----------------------------Teachers-------------------------------------
+
+        public static Boolean AddTeacher(string name, string surname, string subject, string classname, int classroom, int birthday, int age, byte sex)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(subject) || birthday <= 0 || age <= 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO teachers(name, surname, subject, class, classroom, birthday, age, sex) " +
+                    "VALUES(@Name, @Surname, @Subject, @Class, @Classroom, @Birthday, @Age, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Subject", subject);
+                command.Parameters.AddWithValue("@Class", classname);
+                command.Parameters.AddWithValue("@Classroom", classroom);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+                command.Parameters.AddWithValue("@Age", age);
+                command.Parameters.AddWithValue("@Sex", sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddTeacher - succes log - Teacher addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddTeacher - error log - Failed to add teacher");
+                Console.WriteLine("DatabaseOperator - AddTeacher - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddTeacher(Teacher teacher)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO teachers(name, surname, subject, class, classroom, birthday, age, sex) " +
+                    "VALUES(@Name, @Surname, @Subject, @Class, @Classroom, @Birthday, @Age, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", teacher.Name);
+                command.Parameters.AddWithValue("@Surname", teacher.Surname);
+                command.Parameters.AddWithValue("@Subject", teacher.Subject);
+                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
+                command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
+                command.Parameters.AddWithValue("@Age", teacher.Age);
+                command.Parameters.AddWithValue("@Sex", teacher.Sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddTeacher - succes log - Teacher addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddTeacher - error log - Failed to add teacher");
+                Console.WriteLine("DatabaseOperator - AddTeacher - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddTeacher(Teacher teacher, MySqlConnection connector)
+        {
+            try
+            {
+                string query = "INSERT INTO teachers(name, surname, subject, class, classroom, birthday, age, sex) " +
+                    "VALUES(@Name, @Surname, @Subject, @Class, @Classroom, @Birthday, @Age, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", teacher.Name);
+                command.Parameters.AddWithValue("@Surname", teacher.Surname);
+                command.Parameters.AddWithValue("@Subject", teacher.Subject);
+                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
+                command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
+                command.Parameters.AddWithValue("@Age", teacher.Age);
+                command.Parameters.AddWithValue("@Sex", teacher.Sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddTeacher - succes log - Teacher addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddTeacher - error log - Failed to add teacher");
+                Console.WriteLine("DatabaseOperator - AddTeacher - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+
+        //-----------------------------Students-------------------------------------
+
+        public static Boolean AddStudent(string name, string surname, string classname, int birthday, int age, byte sex, int parent1, int parent2)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(classname) || birthday <= 0 || age <= 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO students(name, surname, class, birthday, age, sex, parent_1_id, parent_2_id) VALUES (@Name, @Surname, @Class, @Birthday, @Age, @Sex, @Parent1, @Parent2)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Class", classname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+                command.Parameters.AddWithValue("@Age", age);
+                command.Parameters.AddWithValue("@Sex", sex);
+                command.Parameters.AddWithValue("@Parent1", parent1);
+                command.Parameters.AddWithValue("@Parent2", parent2);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddStudent - succes log - Student addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddStudent - error log - Failed to add student");
+                Console.WriteLine("DatabaseOperator - AddStudent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddStudent(Student student)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO students(name, surname, class, birthday, age, sex, parent_1_id, parent_2_id) VALUES (@Name, @Surname, @Class, @Birthday, @Age, @Sex, @Parent1, @Parent2)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", student.Name);
+                command.Parameters.AddWithValue("@Surname", student.Surname);
+                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Birthday", student.Birthday);
+                command.Parameters.AddWithValue("@Age", student.Age);
+                command.Parameters.AddWithValue("@Sex", student.Sex);
+                command.Parameters.AddWithValue("@Parent1", student.Parent_1_id);
+                command.Parameters.AddWithValue("@Parent2", student.Parent_2_id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddStudent - succes log - Student addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddStudent - error log - Failed to add student");
+                Console.WriteLine("DatabaseOperator - AddStudent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddStudent(Student student, MySqlConnection connector)
+        {
+            try
+            {
+
+                string query = "INSERT INTO students(name, surname, class, birthday, age, sex, parent_1_id, parent_2_id) VALUES (@Name, @Surname, @Class, @Birthday, @Age, @Sex, @Parent1, @Parent2)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", student.Name);
+                command.Parameters.AddWithValue("@Surname", student.Surname);
+                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Birthday", student.Birthday);
+                command.Parameters.AddWithValue("@Age", student.Age);
+                command.Parameters.AddWithValue("@Sex", student.Sex);
+                command.Parameters.AddWithValue("@Parent1", student.Parent_1_id);
+                command.Parameters.AddWithValue("@Parent2", student.Parent_2_id);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddStudent - succes log - Student addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddStudent - error log - Failed to add student");
+                Console.WriteLine("DatabaseOperator - AddStudent - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+        //-----------------------------Parents--------------------------------------
+
+        public static Boolean AddParent(string name, string surname, int birthday, byte sex)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "INSERT INTO parents(name, surname, birthday, sex) VALUES (@Name, @Surname, @Birthday, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+                command.Parameters.AddWithValue("@Sex", sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddParent - succes log - Parent addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddParent - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddParent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddParent(Person person)
+        {
+            try
+            {
+                connector.Open();
+                string query = "INSERT INTO parents(name, surname, birthday, sex) VALUES (@Name, @Surname, @Birthday, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Surname", person.Surname);
+                command.Parameters.AddWithValue("@Birthday", person.Birthday);
+                command.Parameters.AddWithValue("@Sex", person.Sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddParent - succes log - Parent addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddParent - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddParent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static Boolean AddParent(Person person, MySqlConnection connector)
+        {
+            try
+            {
+                string query = "INSERT INTO parents(name, surname, birthday, sex) VALUES (@Name, @Surname, @Birthday, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Surname", person.Surname);
+                command.Parameters.AddWithValue("@Birthday", person.Birthday);
+                command.Parameters.AddWithValue("@Sex", person.Sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddParent - succes log - Parent addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddParent - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddParent - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+        //-----------------------------Getters--------------------------------------
+
         public static List<Person> GetParents()
         {
             List<Person> people = [];
@@ -30,7 +479,7 @@ namespace Electronic_journal.Classes
                     Sex = reader.GetByte(3)
                 });
             }
-
+            connector.Close();
             return people;
         }
 
@@ -38,7 +487,7 @@ namespace Electronic_journal.Classes
         {
             List<Student> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, class, birthday, age, average, sex, parent_1_id, parent_2_id FROM students";
+            string querry = "SELECT name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students";
             using MySqlCommand command = new(querry, connector);
 
             using var reader = command.ExecuteReader();
@@ -51,13 +500,12 @@ namespace Electronic_journal.Classes
                     Class_name = reader.GetString(2),
                     Birthday = reader.GetInt32(3),
                     Age = reader.GetInt32(4),
-                    Average = reader.GetDouble(5),
-                    Sex = reader.GetByte(6),
-                    Parent_1_id = reader.GetInt32(7),
-                    Parent_2_id = reader.GetInt32(8)
+                    Sex = reader.GetByte(5),
+                    Parent_1_id = reader.GetInt32(6),
+                    Parent_2_id = reader.GetInt32(7)
                 });
             }
-
+            connector.Close();
             return people;
         }
 
@@ -65,7 +513,7 @@ namespace Electronic_journal.Classes
         {
             List<Student> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, class, birthday, age, average, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
+            string querry = "SELECT name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Class", class_name);
 
@@ -79,13 +527,12 @@ namespace Electronic_journal.Classes
                     Class_name = reader.GetString(2),
                     Birthday = reader.GetInt32(3),
                     Age = reader.GetInt32(4),
-                    Average = reader.GetDouble(5),
-                    Sex = reader.GetByte(6),
-                    Parent_1_id = reader.GetInt32(7),
-                    Parent_2_id = reader.GetInt32(8)
+                    Sex = reader.GetByte(5),
+                    Parent_1_id = reader.GetInt32(6),
+                    Parent_2_id = reader.GetInt32(7)
                 });
             }
-
+            connector.Close();
             return people;
         }
 
@@ -108,12 +555,69 @@ namespace Electronic_journal.Classes
                     Classroom = reader.GetInt32(4),
                     Birthday = reader.GetInt32(5),
                     Age = reader.GetInt32(6),
-                    Sex = reader.GetByte(6)
+                    Sex = reader.GetByte(7)
                 });
             }
-
+            connector.Close();
             return people;
         }
+
+        public static List<Admin> GetAdmins()
+        {
+            List<Admin> people = [];
+            connector.Open();
+            string querry = "SELECT email, password FROM users WHERE school_role=0";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Admin
+                {
+                    Email = reader.GetString(0),
+                    Password = reader.GetString(1)
+                });
+            }
+            connector.Close();
+            return people;
+        }
+
+        //-----------------------------Updates--------------------------------------
+
+        public static void UpdateParent(Person person)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = @"UPDATE parents SET name = @Name, surname = @Surname, birthday = @Birthday, sex = @Sex
+                WHERE name = @Name AND surname = @Surname AND birthday = @Birthday;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Surname", person.Surname);
+                command.Parameters.AddWithValue("@Birthday", person.Birthday);
+                command.Parameters.AddWithValue("@Sex", person.Sex);
+
+                Console.WriteLine(command);
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddParent(person, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating parent: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        //-----------------------------Random--------------------------------------
 
         public static Boolean Login(string login, string password)
         {
@@ -168,7 +672,7 @@ namespace Electronic_journal.Classes
                 if (result != null && result != DBNull.Value)
                 {
                     int id = Convert.ToInt32(result);
-                    Console.WriteLine("DatabaseOperator - GetRole - success log - User chips retrieved successfully");
+                    Console.WriteLine("DatabaseOperator - GetRole - success log - Loged in successfuly");
                     return id;
                 }
                 else
@@ -181,6 +685,114 @@ namespace Electronic_journal.Classes
             {
                 Console.WriteLine("DatabaseOperator - GetRole - error log - Failed to log in");
                 Console.WriteLine("DatabaseOperator - GetRole - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+        public static int GetParentId(string name, string surname, int birthday)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM parents WHERE name=@Name AND surname=@Surname AND birthday=@Birthday";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetParentId - success log - Parent id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetParentId - error log - Parent not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetParentId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetParentId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+        public static int GetStudentId(string name, string surname, int birthday)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM students WHERE name=@Name AND surname=@Surname AND birthday=@Birthday";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetStudentId - success log - Student id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetStudentId - error log - Student not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetStudentId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetStudentId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+        public static int GetTeacherId(string name, string surname, int birthday)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM teachers WHERE name=@Name AND surname=@Surname AND birthday=@Birthday";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetTeacherId - success log - Teacher id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetTeacherId - error log - Teacher not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetTeacherId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetTeacherId - exception message - " + ex.Message);
                 return -1;
             }
         }

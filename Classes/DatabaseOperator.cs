@@ -880,6 +880,41 @@ namespace Electronic_journal.Classes
 
         #endregion
 
+        #region Other
+
+        public static int GetClassroom(int id)
+        {
+            try
+            {
+                connector.Open();
+                string querry = "SELECT classroom FROM teachers WHERE id = @Id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassroom - success log - Classroom number retrieved successfully");
+                    return Convert.ToInt32(result);
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassroom - error log - Classroom not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetClassroom - error log - Failed to retriev classroom number");
+                Console.WriteLine("DatabaseOperator - GetClassroom - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+
+        #endregion
+
         #endregion
 
         #region Updaters

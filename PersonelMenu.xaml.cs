@@ -93,7 +93,9 @@ namespace Electronic_journal
                         MessageBox.Show("Fill all boxes");
                     else
                     {
-                        if (DatabaseOperator.AddUser(0, 0, admin_email.Text, admin_password.Password))
+                        int id = DatabaseOperator.GetLastAdminId();
+                        id++;
+                        if (DatabaseOperator.AddUser(0, id, admin_email.Text, admin_password.Password))
                         {
                             MessageBox.Show("Admin added successfully");
                             Close();

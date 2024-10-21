@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Electronic_journal.UserControls"
+             xmlns:local="clr-namespace:Electronic_journal.UserControls.AdminUserControls"
              mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,21 +14,22 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem x:Name="addt_menuItem" Header="Add Class" Click="Add_menuItem_Click"/>
-            <MenuItem x:Name="remove_menuItem" Header="Remove Class" Click="Remove_menuItem_Click"/>
-            <MenuItem x:Name="modify_menuItem" Header="Modify Class" Click="Modify_menuItem_Click"/>
+            <MenuItem x:Name="save_menuItem" Header="Save Changes" Click="menuItem_Click"/>
         </Menu>
         <TextBlock Grid.Row="1" Margin="10" Text="Classes" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="6*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="1">
-                <Grid>
-                    <!--All classes are shown here and we have options to sort it by name, year, students number and all class have all the students listed and sorted by surname-->
-                </Grid>
+            <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Grid>
+                        <DataGrid x:Name="classes_DataGrid" AutoGenerateColumns="False" IsReadOnly="False"/>
+                    </Grid>
+                    <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
+                </StackPanel>
             </ScrollViewer>
         </Grid>
     </Grid>

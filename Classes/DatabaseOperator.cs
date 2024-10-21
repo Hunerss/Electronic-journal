@@ -14,7 +14,7 @@ namespace Electronic_journal.Classes
 
         //-----------------------------Removers--------------------------------------
 
-        public static Boolean RemoveUser(string email)
+        public static bool RemoveUser(string email)
         {
             if (string.IsNullOrEmpty(email))
                 return false;
@@ -41,7 +41,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean RemoveUser(string email, int id)
+        public static bool RemoveUser(string email, int id)
         {
             if (string.IsNullOrEmpty(email) || id < 0)
                 return false;
@@ -69,7 +69,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean RemoveStudent(int id)
+        public static bool RemoveStudent(int id)
         {
             if (id < 0)
                 return false;
@@ -96,7 +96,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean RemoveTeacher(int id)
+        public static bool RemoveTeacher(int id)
         {
             if (id < 0)
                 return false;
@@ -123,7 +123,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean RemoveParent(int id)
+        public static bool RemoveParent(int id)
         {
             if (id < 0)
                 return false;
@@ -153,7 +153,8 @@ namespace Electronic_journal.Classes
         //-----------------------------Adders--------------------------------------
 
         //-----------------------------Users--------------------------------------
-        public static Boolean AddUser(int school_role, int school_role_id, string email, string password)
+
+        public static bool AddUser(int school_role, int school_role_id, string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return false;
@@ -183,9 +184,83 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static bool AddUser(int school_role, int school_role_id, string email, string password, MySqlConnection connector)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return false;
+
+            try
+            {
+                string query = "INSERT INTO users(school_role, school_role_id, email, password) VALUES (@School_role, @School_role_id, @Email, @Password)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@School_role", school_role);
+                command.Parameters.AddWithValue("@School_role_id", school_role);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", HashPassword(password));
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddUser - error log - Failed to add user");
+                Console.WriteLine("DatabaseOperator - AddUser - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+        public static bool AddUser(Admin admin)
+        {
+            try
+            {
+                connector.Open();
+                string query = "INSERT INTO users(school_role, school_role_id, email, password) VALUES (@School_role, @School_role_id, @Email, @Password)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@School_role", 0);
+                command.Parameters.AddWithValue("@School_role_id", 0);
+                command.Parameters.AddWithValue("@Email", admin.Email);
+                command.Parameters.AddWithValue("@Password", HashPassword(admin.Email));
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddUser - error log - Failed to add user");
+                Console.WriteLine("DatabaseOperator - AddUser - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static bool AddUser(Admin admin, MySqlConnection connector)
+        {
+            try
+            {
+                string query = "INSERT INTO users(school_role, school_role_id, email, password) VALUES (@School_role, @School_role_id, @Email, @Password)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@School_role", 0);
+                command.Parameters.AddWithValue("@School_role_id", 0);
+                command.Parameters.AddWithValue("@Email", admin.Email);
+                command.Parameters.AddWithValue("@Password", HashPassword(admin.Email));
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddUser - error log - Failed to add user");
+                Console.WriteLine("DatabaseOperator - AddUser - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
         //-----------------------------Teachers-------------------------------------
 
-        public static Boolean AddTeacher(string name, string surname, string subject, string classname, int classroom, int birthday, int age, byte sex)
+        public static bool AddTeacher(string name, string surname, string subject, string classname, int classroom, int birthday, int age, byte sex)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(subject) || birthday <= 0 || age <= 0)
                 return false;
@@ -221,7 +296,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddTeacher(Teacher teacher)
+        public static bool AddTeacher(Teacher teacher)
         {
             try
             {
@@ -254,7 +329,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddTeacher(Teacher teacher, MySqlConnection connector)
+        public static bool AddTeacher(Teacher teacher, MySqlConnection connector)
         {
             try
             {
@@ -284,7 +359,7 @@ namespace Electronic_journal.Classes
 
         //-----------------------------Students-------------------------------------
 
-        public static Boolean AddStudent(string name, string surname, string classname, int birthday, int age, byte sex, int parent1, int parent2)
+        public static bool AddStudent(string name, string surname, string classname, int birthday, int age, byte sex, int parent1, int parent2)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(classname) || birthday <= 0 || age <= 0)
                 return false;
@@ -319,7 +394,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddStudent(Student student)
+        public static bool AddStudent(Student student)
         {
             try
             {
@@ -351,7 +426,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddStudent(Student student, MySqlConnection connector)
+        public static bool AddStudent(Student student, MySqlConnection connector)
         {
             try
             {
@@ -380,7 +455,7 @@ namespace Electronic_journal.Classes
 
         //-----------------------------Parents--------------------------------------
 
-        public static Boolean AddParent(string name, string surname, int birthday, byte sex)
+        public static bool AddParent(string name, string surname, int birthday, byte sex)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
                 return false;
@@ -410,7 +485,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddParent(Person person)
+        public static bool AddParent(Person person)
         {
             try
             {
@@ -437,7 +512,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static Boolean AddParent(Person person, MySqlConnection connector)
+        public static bool AddParent(Person person, MySqlConnection connector)
         {
             try
             {
@@ -465,7 +540,7 @@ namespace Electronic_journal.Classes
         {
             List<Person> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, birthday, sex FROM parents";
+            string querry = "SELECT id, name, surname, birthday, sex FROM parents";
             using MySqlCommand command = new(querry, connector);
 
             using var reader = command.ExecuteReader();
@@ -473,10 +548,11 @@ namespace Electronic_journal.Classes
             {
                 people.Add(new Person
                 {
-                    Name = reader.GetString(0),
-                    Surname = reader.GetString(1),
-                    Birthday = reader.GetInt32(2),
-                    Sex = reader.GetByte(3)
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Birthday = reader.GetInt32(3),
+                    Sex = reader.GetByte(4)
                 });
             }
             connector.Close();
@@ -487,7 +563,7 @@ namespace Electronic_journal.Classes
         {
             List<Student> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students";
+            string querry = "SELECT id, name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students";
             using MySqlCommand command = new(querry, connector);
 
             using var reader = command.ExecuteReader();
@@ -495,14 +571,15 @@ namespace Electronic_journal.Classes
             {
                 people.Add(new Student
                 {
-                    Name = reader.GetString(0),
-                    Surname = reader.GetString(1),
-                    Class_name = reader.GetString(2),
-                    Birthday = reader.GetInt32(3),
-                    Age = reader.GetInt32(4),
-                    Sex = reader.GetByte(5),
-                    Parent_1_id = reader.GetInt32(6),
-                    Parent_2_id = reader.GetInt32(7)
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Class_name = reader.GetString(3),
+                    Birthday = reader.GetInt32(4),
+                    Age = reader.GetInt32(5),
+                    Sex = reader.GetByte(6),
+                    Parent_1_id = reader.GetInt32(7),
+                    Parent_2_id = reader.GetInt32(8)
                 });
             }
             connector.Close();
@@ -513,7 +590,7 @@ namespace Electronic_journal.Classes
         {
             List<Student> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
+            string querry = "SELECT id, name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Class", class_name);
 
@@ -522,14 +599,15 @@ namespace Electronic_journal.Classes
             {
                 people.Add(new Student
                 {
-                    Name = reader.GetString(0),
-                    Surname = reader.GetString(1),
-                    Class_name = reader.GetString(2),
-                    Birthday = reader.GetInt32(3),
-                    Age = reader.GetInt32(4),
-                    Sex = reader.GetByte(5),
-                    Parent_1_id = reader.GetInt32(6),
-                    Parent_2_id = reader.GetInt32(7)
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Class_name = reader.GetString(3),
+                    Birthday = reader.GetInt32(4),
+                    Age = reader.GetInt32(5),
+                    Sex = reader.GetByte(6),
+                    Parent_1_id = reader.GetInt32(7),
+                    Parent_2_id = reader.GetInt32(8)
                 });
             }
             connector.Close();
@@ -540,7 +618,7 @@ namespace Electronic_journal.Classes
         {
             List<Teacher> people = [];
             connector.Open();
-            string querry = "SELECT name, surname, subject, class, classroom, birthday, age, sex FROM teachers";
+            string querry = "SELECT id, name, surname, subject, class, classroom, birthday, age, sex FROM teachers";
             using MySqlCommand command = new(querry, connector);
 
             using var reader = command.ExecuteReader();
@@ -548,14 +626,15 @@ namespace Electronic_journal.Classes
             {
                 people.Add(new Teacher
                 {
-                    Name = reader.GetString(0),
-                    Surname = reader.GetString(1),
-                    Subject = reader.GetString(2),
-                    Class_name = reader.GetString(3),
-                    Classroom = reader.GetInt32(4),
-                    Birthday = reader.GetInt32(5),
-                    Age = reader.GetInt32(6),
-                    Sex = reader.GetByte(7)
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Subject = reader.GetString(3),
+                    Class_name = reader.GetString(4),
+                    Classroom = reader.GetInt32(5),
+                    Birthday = reader.GetInt32(6),
+                    Age = reader.GetInt32(7),
+                    Sex = reader.GetByte(8)
                 });
             }
             connector.Close();
@@ -566,7 +645,7 @@ namespace Electronic_journal.Classes
         {
             List<Admin> people = [];
             connector.Open();
-            string querry = "SELECT email, password FROM users WHERE school_role=0";
+            string querry = "SELECT id, email, password FROM users WHERE school_role=0";
             using MySqlCommand command = new(querry, connector);
 
             using var reader = command.ExecuteReader();
@@ -574,8 +653,9 @@ namespace Electronic_journal.Classes
             {
                 people.Add(new Admin
                 {
-                    Email = reader.GetString(0),
-                    Password = reader.GetString(1)
+                    Id = reader.GetInt32(0),
+                    Email = reader.GetString(1),
+                    Password = reader.GetString(2)
                 });
             }
             connector.Close();
@@ -584,6 +664,141 @@ namespace Electronic_journal.Classes
 
         //-----------------------------Updates--------------------------------------
 
+        public static void UpdateUser(int school_role, int school_role_id, string email, string password)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = @"UPDATE users SET school_role = @School_role, school_role_id = @Id, email = @Email, password = @Password WHERE id = @Id;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", school_role_id);
+                command.Parameters.AddWithValue("@School_role", school_role);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", password);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddUser(school_role, school_role_id, email, password, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating user: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static void UpdateAdmin(Admin admin)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = @"UPDATE users SET name = @Name, surname = @Surname, class = @Class, birthday = @Birthday, age = @Age, sex = @Sex, parent_1_id = @Parent1, parent_2_id = @Parent2
+        WHERE id = @Id;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", admin.Id);
+                command.Parameters.AddWithValue("@Email", admin.Email);
+                command.Parameters.AddWithValue("@Password", admin.Password);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddUser(admin, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating student: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static void UpdateTeacher(Teacher teacher)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = @"UPDATE teachers SET name = @Name, surname = @Surname, subject = @Subject, class = @Class, classroom = @Classroom, birthday = @Birthday, age = @Age, sex = @Sex WHERE id = @Id;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", teacher.Id);
+                command.Parameters.AddWithValue("@Name", teacher.Name);
+                command.Parameters.AddWithValue("@Surname", teacher.Surname);
+                command.Parameters.AddWithValue("@Subject", teacher.Subject);
+                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
+                command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
+                command.Parameters.AddWithValue("@Age", teacher.Age);
+                command.Parameters.AddWithValue("@Sex", teacher.Sex);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddTeacher(teacher, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating teacher: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static void UpdateStudent(Student student)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = @"UPDATE students SET name = @Name, surname = @Surname, class = @Class, birthday = @Birthday, age = @Age, sex = @Sex, parent_1_id = @Parent1, parent_2_id = @Parent2
+                WHERE id = @Id;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", student.Id);
+                command.Parameters.AddWithValue("@Name", student.Name);
+                command.Parameters.AddWithValue("@Surname", student.Surname);
+                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Birthday", student.Birthday);
+                command.Parameters.AddWithValue("@Age", student.Age);
+                command.Parameters.AddWithValue("@Sex", student.Sex);
+                command.Parameters.AddWithValue("@Parent1", student.Parent_1_id);
+                command.Parameters.AddWithValue("@Parent2", student.Parent_2_id);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddStudent(student, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating student: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
         public static void UpdateParent(Person person)
         {
             try
@@ -591,15 +806,15 @@ namespace Electronic_journal.Classes
                 connector.Open();
 
                 string query = @"UPDATE parents SET name = @Name, surname = @Surname, birthday = @Birthday, sex = @Sex
-                WHERE name = @Name AND surname = @Surname AND birthday = @Birthday;";
+                WHERE id = @Id;";
 
                 using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", person.Id);
                 command.Parameters.AddWithValue("@Name", person.Name);
                 command.Parameters.AddWithValue("@Surname", person.Surname);
                 command.Parameters.AddWithValue("@Birthday", person.Birthday);
                 command.Parameters.AddWithValue("@Sex", person.Sex);
 
-                Console.WriteLine(command);
                 int rowsAffected = command.ExecuteNonQuery();
 
                 if (rowsAffected == 0)
@@ -619,7 +834,7 @@ namespace Electronic_journal.Classes
 
         //-----------------------------Random--------------------------------------
 
-        public static Boolean Login(string login, string password)
+        public static bool Login(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return false;
@@ -724,6 +939,43 @@ namespace Electronic_journal.Classes
                 return -1;
             }
         }
+
+        public static int GetUserId(string email, int school_id, int school_role)
+        {
+            if (string.IsNullOrEmpty(email) || school_id <= 0 || school_role <= 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM users WHERE email=@Email AND school_role=@School_role AND school_role_id=@School_id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@School_role", school_role);
+                command.Parameters.AddWithValue("@School_id", school_id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetUserId - success log - user id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
 
         public static int GetStudentId(string name, string surname, int birthday)
         {

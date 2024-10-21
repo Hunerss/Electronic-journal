@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2024 at 05:44 PM
+-- Generation Time: Oct 21, 2024 at 10:27 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -44,11 +44,11 @@ CREATE TABLE `grades` (
 CREATE TABLE `lessons` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
-  `class` int(11) NOT NULL,
+  `class` text NOT NULL,
   `classroom` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL,
-  `lesson` int(11) NOT NULL
+  `lesson` int(11) NOT NULL,
+  `day` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

@@ -38,6 +38,7 @@
                     <Grid>
                         <DataGrid x:Name="personel_DataGrid" AutoGenerateColumns="False" IsReadOnly="False"/>
                     </Grid>
+                    <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

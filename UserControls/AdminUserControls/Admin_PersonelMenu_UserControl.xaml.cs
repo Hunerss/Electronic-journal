@@ -250,8 +250,6 @@ namespace Electronic_journal.UserControls.AdminUserControls
             {
                 case Admin admin:
                     DatabaseOperator.UpdateAdmin(admin);
-                    int id = DatabaseOperator.GetUserId(admin.Email, admin.Id, 0);
-                    DatabaseOperator.UpdateUser(0, id, admin.Email, admin.Password);
                     break;
                 case Teacher teacher:
                     DatabaseOperator.UpdateTeacher(teacher);
@@ -280,6 +278,12 @@ namespace Electronic_journal.UserControls.AdminUserControls
         private void Save_menuItem_Click(object sender, RoutedEventArgs e)
         {
             UpdateDatabase();
+        }
+
+        private void Return_Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateDatabase();
+            window.frame.NavigationService.GoBack();
         }
     }
 }

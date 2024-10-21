@@ -202,11 +202,11 @@ namespace Electronic_journal.UserControls.AdminUserControls
                 case List<Teacher>:
                     personel_DataGrid.Columns.Add(CreateTextColumn("Name", "Name"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Surname", "Surname"));
+                    personel_DataGrid.Columns.Add(CreateTextColumn("Birthday", "Birthday"));
+                    personel_DataGrid.Columns.Add(CreateTextColumn("Age", "Age"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Subject", "Subject"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Class_name"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Classroom", "Classroom"));
-                    personel_DataGrid.Columns.Add(CreateTextColumn("Birthday", "Birthday"));
-                    personel_DataGrid.Columns.Add(CreateTextColumn("Age", "Age"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Sex", "Sex"));
                     break;
             }
@@ -244,23 +244,32 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
         private void UpdatePersonInDatabase(object person)
         {
+            string email = "";
+            string password = "";
             switch (person)
             {
                 case Admin admin:
-                    Console.WriteLine("admin");
-                    //DatabaseOperator.UpdateAdmin(person);
+                    DatabaseOperator.UpdateAdmin(admin);
+                    int id = DatabaseOperator.GetUserId(admin.Email, admin.Id, 0);
+                    DatabaseOperator.UpdateUser(0, id, admin.Email, admin.Password);
                     break;
                 case Teacher teacher:
-                    Console.WriteLine("teacher");
-                    //DatabaseOperator.UpdateTeacher(person);
+                    DatabaseOperator.UpdateTeacher(teacher);
+                    email = teacher.Name + "." + teacher.Surname;
+                    password = teacher.Name+ teacher.Surname + teacher.Birthday;
+                    DatabaseOperator.UpdateUser(1, teacher.Id, email, password);
                     break;
                 case Student student:
-                    Console.WriteLine("student");
-                    //DatabaseOperator.UpdateStudent(person);
+                    DatabaseOperator.UpdateStudent(student);
+                    email = student.Name + "." + student.Surname;
+                    password = student.Surname + student.Birthday;
+                    DatabaseOperator.UpdateUser(2, student.Id, email, password);
                     break;
                 case Person parent:
-                    Console.WriteLine("parent");
                     DatabaseOperator.UpdateParent(parent);
+                    email = parent.Name + "." + parent.Surname;
+                    password = parent.Name+parent.Surname+parent.Birthday;
+                    DatabaseOperator.UpdateUser(3,parent.Id,email,password);
                     break;
                 default:
                     Console.WriteLine("UpdatePersonInDatabase() - unknown type");

@@ -33,14 +33,14 @@ namespace Electronic_journal.UserControls.AdminUserControls
             string userName = ((Button)sender).Name.ToString();
             switch (userName)
             {
-                case "classes_button":
+                case "personel_button":
                     window.frame.NavigationService.Navigate(new Admin_PersonelMenu_UserControl(window));
                     break;
-                case "teachers_button":
-                    //window.frame.NavigationService.Navigate(new Admin_TeachersMenu_UserControl(window));
+                case "classes_button":
+                    window.frame.NavigationService.Navigate(new Admin_ClassesMenu_UserControl(window));
                     break;
-                case "students_button":
-                    //window.frame.NavigationService.Navigate(new Admin_StudentsMenu_UserControl(window));
+                case "lesson_button":
+                    window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
                     break;
                 case "logout_button":
                     window.frame.NavigationService.GoBack();

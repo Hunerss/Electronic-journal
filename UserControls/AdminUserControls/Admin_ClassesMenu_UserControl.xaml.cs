@@ -67,7 +67,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             classes_DataGrid.Columns.Add(CreateTextColumn("Students Count", "Students_number"));
         }
 
-        private void menuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             //UpdateDatabase();
         }

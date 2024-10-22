@@ -35,6 +35,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             {
                 personel_DataGrid.ItemsSource = DatabaseOperator.GetTeachers();
                 SetupDataGridColumns();
+                SetupClassMenuItems();
             }
             catch (Exception ex)
             {
@@ -63,6 +64,32 @@ namespace Electronic_journal.UserControls.AdminUserControls
             personel_DataGrid.Columns.Add(CreateTextColumn("Classroom", "Classroom"));
         }
 
+        private MenuItem CreateMenuItem(string header)
+        {
+            MenuItem item = new()
+            {
+                Name = header.ToLower() + "_menuItem",
+                Header = header
+            };
+            item.Click += Show_MenuItem_Click;
+            return item;
+        }
+
+        private void SetupClassMenuItems()
+        {
+            List<string> classes = DatabaseOperator.GetClassesHeaders();
+
+            Console.WriteLine("Classes" + classes.Count);
+
+            choose_class_menuItem.Items.Clear();
+
+            foreach (string header in classes)
+            {
+                if(!string.IsNullOrEmpty(header))
+                    choose_class_menuItem.Items.Add(CreateMenuItem(header));
+            }
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             List<Lesson> lessons = GetLessons();
@@ -77,6 +104,12 @@ namespace Electronic_journal.UserControls.AdminUserControls
                 Console.WriteLine("Lesson_hour " + lesson.Lesson_hour);
                 Console.WriteLine("Lesson_day " + lesson.Lesson_day);
             }
+        }
+
+        private void Show_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string title = ((MenuItem)sender).Header.ToString();
+            Console.WriteLine("Class " + title);
         }
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)

@@ -171,7 +171,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Password", HashPassword(password));
                 command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                Console.WriteLine("DatabaseOperator - AddUser - 1 - succes log - User addded successfully");
                 return true;
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Password", HashPassword(password));
                 command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                Console.WriteLine("DatabaseOperator - AddUser - 2 - succes log - User addded successfully");
                 return true;
             }
             catch (Exception ex)
@@ -223,7 +223,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Email", admin.Email);
                 command.Parameters.AddWithValue("@Password", admin.Email);
                 command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                Console.WriteLine("DatabaseOperator - AddUser - 3 - succes log - User addded successfully");
                 return true;
             }
             catch (Exception ex)
@@ -249,7 +249,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Email", admin.Email);
                 command.Parameters.AddWithValue("@Password", admin.Email);
                 command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - AddUser - succes log - User addded successfully");
+                Console.WriteLine("DatabaseOperator - AddUser - 4 - succes log - User addded successfully");
                 return true;
             }
             catch (Exception ex)
@@ -548,6 +548,12 @@ namespace Electronic_journal.Classes
         #region Getters
 
         #region Lists
+
+        //public static List<string> GetClassesHeaders()
+        //{
+
+        //}
+
         public static List<Person> GetParents()
         {
             List<Person> people = [];
@@ -931,7 +937,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@SchoolRole", school_role);
                 command.Parameters.AddWithValue("@SchoolRoleId", school_role_id);
                 command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Password", password);
+                command.Parameters.AddWithValue("@Password", HashPassword(password));
                 int rowsAffected = command.ExecuteNonQuery();
 
                 if (rowsAffected == 0)
@@ -1132,7 +1138,7 @@ namespace Electronic_journal.Classes
             try
             {
                 connector.Open();
-                string querry = "SELECT id FROM users WHERE email = @Login AND password = @Password";
+                string querry = "SELECT school_role FROM users WHERE email = @Login AND password = @Password";
                 using MySqlCommand command = new(querry, connector);
                 command.Parameters.AddWithValue("@Login", login);
                 command.Parameters.AddWithValue("@Password", HashPassword(password));

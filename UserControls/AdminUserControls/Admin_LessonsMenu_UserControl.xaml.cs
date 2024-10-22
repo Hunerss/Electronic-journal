@@ -11,23 +11,31 @@ namespace Electronic_journal.UserControls.AdminUserControls
     /// </summary>
     public partial class Admin_LessonsMenu_UserControl : UserControl
     {
-        MainWindow window;
+        private MainWindow window;
 
-        string Class_name;
+        private List<Lesson> lessons;
+
+        private List<List<Lesson>> lessons_list;
+
+        private List<string> Subjects = new()
+        {
+            "Język polski", "Matematyka", "Język angielski", "Historia", "Wiedza o społeczeństwie (WOS)",
+            "Geografia", "Biologia", "Chemia", "Fizyka", "Informatyka", "Wychowanie fizyczne (WF)",
+            "Edukacja dla bezpieczeństwa (EDB)", "Religia", "Etyka", "Język rosyjski", "Podstawy przedsiębiorczości"
+        };
+
+        private string Class_name;
+
+        bool check = true;
 
         public Admin_LessonsMenu_UserControl(MainWindow window)
         {
             InitializeComponent();
             InitializeGrid();
             this.window = window;
+            //Subjects = DatabaseOperator.GetSubjects();
+            lessons_list = [];
         }
-
-        private readonly List<string> Subjects = new List<string>
-        {
-            "Język polski", "Matematyka", "Język angielski", "Historia", "Wiedza o społeczeństwie (WOS)",
-            "Geografia", "Biologia", "Chemia", "Fizyka", "Informatyka", "Wychowanie fizyczne (WF)",
-            "Edukacja dla bezpieczeństwa (EDB)", "Religia", "Etyka", "Język rosyjski", "Podstawy przedsiębiorczości"
-        };
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -35,11 +43,18 @@ namespace Electronic_journal.UserControls.AdminUserControls
             {
                 personel_DataGrid.ItemsSource = DatabaseOperator.GetTeachers();
                 SetupDataGridColumns();
-                SetupClassMenuItems();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading teachers: {ex.Message}");
+            }
+            try
+            {
+                SetupClassMenuItems();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading classes: {ex.Message}");
             }
         }
 
@@ -68,7 +83,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             MenuItem item = new()
             {
-                Name = header.ToLower() + "_menuItem",
+                Name = "item_" + header.ToLowerInvariant() + "_menuItem",
                 Header = header
             };
             item.Click += Show_MenuItem_Click;
@@ -79,14 +94,15 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             List<string> classes = DatabaseOperator.GetClassesHeaders();
 
-            Console.WriteLine("Classes" + classes.Count);
-
             choose_class_menuItem.Items.Clear();
 
             foreach (string header in classes)
             {
-                if(!string.IsNullOrEmpty(header))
+                if (!string.IsNullOrEmpty(header))
+                {
+                    lessons_list.Add(DatabaseOperator.GetLessons(header));
                     choose_class_menuItem.Items.Add(CreateMenuItem(header));
+                }
             }
         }
 
@@ -94,22 +110,43 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             List<Lesson> lessons = GetLessons();
 
-            foreach (Lesson lesson in lessons)
+            if(lessons.Count == 0)
             {
-                Console.WriteLine("--------------------------------------------------");
-                Console.WriteLine("Name " + lesson.Name);
-                Console.WriteLine("Class " + lesson.Class_name);
-                Console.WriteLine("Classroom " + lesson.Classroom);
-                Console.WriteLine("Teacher_id " + lesson.Teacher_id);
-                Console.WriteLine("Lesson_hour " + lesson.Lesson_hour);
-                Console.WriteLine("Lesson_day " + lesson.Lesson_day);
+                MessageBox.Show("There is nothing to save.");
+            }
+            else
+            {
+                ShowScheduleConflicts(lessons_list);
+                foreach (Lesson lesson in lessons)
+                {
+                    lesson.Class_name = Class_name;
+                    //DatabaseOperator.AddLesson(lesson);
+                }
+                //if (ShowScheduleConflicts(lessons_list))
+                //{
+                //    if (check)
+                //    {
+
+                //    }
+                //    else
+                //    {
+                //        foreach (Lesson lesson in lessons)
+                //        {
+                //            lesson.Class_name = Class_name;
+                //            DatabaseOperator.AddLesson(lesson);
+                //        }
+                //    }
+                //}
             }
         }
 
         private void Show_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string title = ((MenuItem)sender).Header.ToString();
-            Console.WriteLine("Class " + title);
+            Class_name = ((MenuItem)sender).Header.ToString();
+            class_header.Text = Class_name;
+            lessons = DatabaseOperator.GetLessons(Class_name);
+            FillGrid(lessons);
+            Console.WriteLine("Class " + Class_name);
         }
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
@@ -161,7 +198,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
             for (int row = 1; row <= 10; row++)
             {
-                for (int column = 1; column <= 5; column++) 
+                for (int column = 1; column <= 5; column++)
                 {
                     DockPanel dockPanel = (DockPanel)main_Grid.Children
                         .Cast<UIElement>()
@@ -174,7 +211,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
                         int teacher_id = int.TryParse(textBox.Text, out int tid) ? tid : 0;
                         int classroom;
-                        if(teacher_id == 0)
+                        if (teacher_id == 0)
                             classroom = 0;
                         else
                             classroom = DatabaseOperator.GetClassroom(teacher_id);
@@ -200,8 +237,106 @@ namespace Electronic_journal.UserControls.AdminUserControls
             return lessons; // Zwróć listę lekcji
         }
 
+        private void FillGrid(List<Lesson> lessons)
+        {
+            if(lessons.Count == 0)
+            {
+                MessageBox.Show("This class doesn't have lessons plan yet.");
+                check = false;
+                ClearGrid();
+            }
+            else
+            {
+                foreach (var lesson in lessons)
+                {
+                    foreach (var child in main_Grid.Children)
+                    {
+                        if (child is DockPanel dockPanel)
+                        {
+                            int row = Grid.GetRow(dockPanel);
+                            int column = Grid.GetColumn(dockPanel);
 
+                            if (row == lesson.Lesson_hour + 1 && column == lesson.Lesson_day)
+                            {
+                                foreach (var dockChild in dockPanel.Children)
+                                {
+                                    if (dockChild is ComboBox comboBox)
+                                        comboBox.SelectedItem = lesson.Name;
+                                    else if (dockChild is TextBox textBox)
+                                        textBox.Text = lesson.Teacher_id.ToString();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        private void ClearGrid()
+        {
+            foreach (var child in main_Grid.Children)
+            {
+                if (child is DockPanel dockPanel)
+                {
+                    foreach (var dockChild in dockPanel.Children)
+                    {
+                        if (dockChild is ComboBox comboBox)
+                        {
+                            comboBox.SelectedItem = null;
+                        }
+                        else if (dockChild is TextBox textBox)
+                        {
+                            textBox.Text = string.Empty;
+                        }
+                    }
+                }
+            }
+        }
 
+        private List<(int TeacherId, int LessonDay, int LessonHour)> CheckScheduleConflicts(List<Lesson> lessons)
+        {
+            var conflicts = lessons
+                .GroupBy(l => new { l.Teacher_id, l.Lesson_day, l.Lesson_hour })
+                .Where(g => g.Count() > 1)
+                .Select(g => (g.Key.Teacher_id, g.Key.Lesson_day, g.Key.Lesson_hour))
+                .ToList();
+
+            return conflicts;
+        }
+
+        private List<(int TeacherId, int LessonDay, int LessonHour)> CheckScheduleConflictsForMultipleClasses(List<List<Lesson>> allLessons)
+        {
+            List<Lesson> mergedLessons = [];
+
+            foreach (var lessonList in allLessons)
+            {
+                mergedLessons.AddRange(lessonList);
+            }
+
+            return CheckScheduleConflicts(mergedLessons);
+        }
+
+        private bool ShowScheduleConflicts(List<List<Lesson>> allLessons)
+        {
+            var conflicts = CheckScheduleConflictsForMultipleClasses(allLessons);
+
+            if (conflicts.Count == 0)
+            {
+                MessageBox.Show("Lessons don't colide.");
+                return true;
+            }
+
+            string message = "";
+            int counter = 1;
+            foreach (var conflict in conflicts)
+            {
+                message += $"{counter}. Teacher id: {conflict.TeacherId}, Lesson hour: {conflict.LessonHour}, Day: {conflict.LessonDay}\n";
+                counter++;
+            }
+
+            MessageBox.Show(message, "Conflicts Detected", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
     }
 }

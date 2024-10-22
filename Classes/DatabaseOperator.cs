@@ -545,28 +545,27 @@ namespace Electronic_journal.Classes
 
         #region Lessons
 
-        public static bool AddLesson(string name, string surname, int birthday, byte sex)
+        public static bool AddLesson(Lesson lesson)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
-                return false;
-
             try
             {
                 connector.Open();
-                string query = "INSERT INTO parents(name, surname, birthday, sex) VALUES (@Name, @Surname, @Birthday, @Sex)";
+                string query = "INSERT INTO lessons(name, class, classroom, teacher_id, lesson, day) VALUES (@Name, @Class, @Classroom, @Teacher_id, @Lesson, @Day)";
                 using MySqlCommand command = new(query, connector);
-                command.Parameters.AddWithValue("@Name", name);
-                command.Parameters.AddWithValue("@Surname", surname);
-                command.Parameters.AddWithValue("@Birthday", birthday);
-                command.Parameters.AddWithValue("@Sex", sex);
+                command.Parameters.AddWithValue("@Name", lesson.Name);
+                command.Parameters.AddWithValue("@Class", lesson.Class_name);
+                command.Parameters.AddWithValue("@Classroom", lesson.Classroom);
+                command.Parameters.AddWithValue("@Teacher_id", lesson.Teacher_id);
+                command.Parameters.AddWithValue("@Lesson", lesson.Lesson_hour);
+                command.Parameters.AddWithValue("@Day", lesson.Lesson_day);
                 command.ExecuteNonQuery();
-                Console.WriteLine("DatabaseOperator - AddParent - succes log - Parent addded successfully");
+                Console.WriteLine("DatabaseOperator - AddLesson - succes log - Lesson addded successfully");
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - AddParent - error log - Failed to add Parent");
-                Console.WriteLine("DatabaseOperator - AddParent - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - AddLesson - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddLesson - exception message - " + ex.Message);
                 return false;
             }
             finally
@@ -583,10 +582,21 @@ namespace Electronic_journal.Classes
 
         #region Lists
 
-        //public static List<string> GetClassesHeaders()
-        //{
+        public static List<string> GetClassesHeaders()
+        {
+            List<string> headers = [];
+            connector.Open();
+            string querry = "SELECT class FROM teachers GROUP BY class;";
+            using MySqlCommand command = new(querry, connector);
 
-        //}
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                headers.Add(reader.GetString(0));
+            }
+            connector.Close();
+            return headers;
+        }
 
         public static List<Person> GetParents()
         {

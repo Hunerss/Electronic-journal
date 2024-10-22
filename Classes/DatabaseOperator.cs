@@ -543,6 +543,40 @@ namespace Electronic_journal.Classes
 
         #endregion
 
+        #region Lessons
+
+        public static bool AddLesson(string name, string surname, int birthday, byte sex)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) || birthday <= 0)
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "INSERT INTO parents(name, surname, birthday, sex) VALUES (@Name, @Surname, @Birthday, @Sex)";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Surname", surname);
+                command.Parameters.AddWithValue("@Birthday", birthday);
+                command.Parameters.AddWithValue("@Sex", sex);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddParent - succes log - Parent addded successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddParent - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddParent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Getters

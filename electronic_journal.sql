@@ -391,6 +391,12 @@ ALTER TABLE `grades`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `lessons`
+--
+ALTER TABLE `lessons`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `parents`
 --
 ALTER TABLE `parents`
@@ -422,6 +428,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `lessons`
+--
+ALTER TABLE `lessons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

@@ -564,7 +564,7 @@ namespace Electronic_journal.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - AddLesson - error log - Failed to add Parent");
+                Console.WriteLine("DatabaseOperator - AddLesson - error log - Failed to add lesson");
                 Console.WriteLine("DatabaseOperator - AddLesson - exception message - " + ex.Message);
                 return false;
             }
@@ -597,6 +597,24 @@ namespace Electronic_journal.Classes
             connector.Close();
             return headers;
         }
+
+        public static List<string> GetSubjects()
+        {
+            List<string> subjects = [];
+            subjects.Add("");
+            connector.Open();
+            string querry = "SELECT DISTINCT subject FROM teachers;";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                subjects.Add(reader.GetString(0));
+            }
+            connector.Close();
+            return subjects;
+        }
+
 
         public static List<Person> GetParents()
         {
@@ -745,6 +763,32 @@ namespace Electronic_journal.Classes
                     HomeroomTeacher_name = reader.GetString(2),
                     HomeroomTeacher_surname = reader.GetString(3),
                     Students_number = reader.GetInt32(4)
+                });
+            }
+            connector.Close();
+            return classes;
+        }
+
+        public static List<Lesson> GetLessons(string class_name)
+        {
+            List<Lesson> classes = [];
+            connector.Open();
+            string querry = "SELECT * FROM lessons WHERE class=@Classname;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Classname", class_name);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                classes.Add(new Lesson
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Class_name = reader.GetString(2),
+                    Classroom = reader.GetInt32(3),
+                    Teacher_id = reader.GetInt32(4),
+                    Lesson_hour = reader.GetInt32(5),
+                    Lesson_day = reader.GetInt32(6)
                 });
             }
             connector.Close();

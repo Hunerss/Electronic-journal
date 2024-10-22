@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 22, 2024 at 02:24 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Generation Time: Oct 22, 2024 at 09:17 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `grades`
+-- Table structure for table `grades`
 --
 
 CREATE TABLE `grades` (
@@ -38,7 +38,7 @@ CREATE TABLE `grades` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `lessons`
+-- Table structure for table `lessons`
 --
 
 CREATE TABLE `lessons` (
@@ -51,10 +51,46 @@ CREATE TABLE `lessons` (
   `day` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `lessons`
+--
+
+INSERT INTO `lessons` (`id`, `name`, `class`, `classroom`, `teacher_id`, `lesson`, `day`) VALUES
+(1, 'Matematyka', '1a', 120, 19, 1, 1),
+(2, 'Język polski', '1a', 101, 1, 1, 2),
+(3, 'Język angielski', '1a', 103, 3, 1, 3),
+(4, 'Historia', '1a', 104, 4, 1, 4),
+(5, 'Język rosyjski', '1a', 116, 15, 1, 5),
+(6, 'Fizyka', '1a', 109, 9, 2, 1),
+(7, 'Matematyka', '1a', 120, 19, 2, 2),
+(8, 'Język polski', '1a', 101, 1, 2, 3),
+(9, 'Język angielski', '1a', 103, 3, 2, 4),
+(10, 'Biologia', '1a', 107, 7, 2, 5),
+(11, 'Historia', '1a', 104, 4, 3, 1),
+(12, 'Chemia', '1a', 108, 8, 3, 2),
+(13, 'Biologia', '1a', 106, 6, 3, 3),
+(14, 'Matematyka', '1a', 120, 19, 3, 4),
+(15, 'Fizyka', '1a', 109, 9, 3, 5),
+(16, 'Język angielski', '1a', 103, 3, 4, 1),
+(17, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 4, 2),
+(18, 'Wiedza o społeczeństwie (WOS)', '1a', 105, 5, 4, 3),
+(19, 'Informatyka', '1a', 110, 10, 4, 4),
+(20, 'Matematyka', '1a', 120, 19, 4, 5),
+(21, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 5, 1),
+(22, 'Biologia', '1a', 107, 7, 5, 2),
+(23, 'Religia', '1a', 114, 13, 5, 3),
+(24, 'Geografia', '1a', 106, 6, 5, 4),
+(25, 'Chemia', '1a', 108, 8, 5, 5),
+(26, 'Edukacja dla bezpieczeństwa (EDB)', '1a', 113, 12, 6, 1),
+(27, 'Język polski', '1a', 101, 1, 6, 2),
+(28, 'Informatyka', '1a', 110, 10, 6, 3),
+(29, 'Podstawy przedsiębiorczości', '1a', 117, 16, 6, 4),
+(30, 'Etyka', '1a', 115, 14, 6, 5);
+
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `parents`
+-- Table structure for table `parents`
 --
 
 CREATE TABLE `parents` (
@@ -134,7 +170,7 @@ INSERT INTO `parents` (`id`, `name`, `surname`, `birthday`, `sex`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `students`
+-- Table structure for table `students`
 --
 
 CREATE TABLE `students` (
@@ -188,7 +224,7 @@ INSERT INTO `students` (`id`, `name`, `surname`, `class`, `birthday`, `age`, `se
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `teachers`
+-- Table structure for table `teachers`
 --
 
 CREATE TABLE `teachers` (
@@ -242,7 +278,7 @@ INSERT INTO `teachers` (`id`, `name`, `surname`, `subject`, `class`, `classroom`
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -381,41 +417,41 @@ INSERT INTO `users` (`id`, `school_role`, `school_role_id`, `email`, `password`)
 (121, 3, 60, 'Barbara.Olszewska', 'def86fff2b94548ed54b1c8a1adc7588dc8691f157546dd78ec6d1d71337f44d');
 
 --
--- Indeksy dla zrzutów tabel
+-- Indexes for dumped tables
 --
 
 --
--- Indeksy dla tabeli `grades`
+-- Indexes for table `grades`
 --
 ALTER TABLE `grades`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `lessons`
+-- Indexes for table `lessons`
 --
 ALTER TABLE `lessons`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `parents`
+-- Indexes for table `parents`
 --
 ALTER TABLE `parents`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `students`
+-- Indexes for table `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `teachers`
+-- Indexes for table `teachers`
 --
 ALTER TABLE `teachers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
@@ -434,7 +470,7 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `parents`

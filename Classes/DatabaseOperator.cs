@@ -615,6 +615,31 @@ namespace Electronic_journal.Classes
             return subjects;
         }
 
+        public static List<Message> GetMessages(int id)
+        {
+            List<Message> messages = [];
+            connector.Open();
+            string querry = "SELECT * FROM messages WHERE author_id = @Id OR single_target_id = @Id";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Id", id);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                messages.Add(new Message
+                {
+                    Id = reader.GetInt32(0),
+                    Author_id = reader.GetInt32(1),
+                    Single_target = reader.GetByte(2) == 1,
+                    Target_id = reader.GetInt32(3),
+                    Group_id = reader.GetString(4),
+                    Title = reader.GetString(5),
+                    Content = reader.GetString(6)
+                });
+            }
+            connector.Close();
+            return messages;
+        }
 
         public static List<Person> GetParents()
         {

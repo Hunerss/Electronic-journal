@@ -40,10 +40,7 @@ namespace Electronic_journal.UserControls.TeacherUserControls
             classroom_TextBlock.Text = teacher.Classroom.ToString();
             birthday_TextBlock.Text = FormatDate(teacher.Birthday);
             age_TextBlock.Text = teacher.Age.ToString();
-            if (teacher.Sex == 0)
-                sex_TextBlock.Text = "Woman";
-            else
-                sex_TextBlock.Text = "Man";
+            sex_TextBlock.Text = teacher.Sex == 0 ? "Female" : "Male";
             lessons_TextBlock.Text = DatabaseOperator.GetLessonsCount(teacher.Id).ToString();
         }
 

@@ -2,11 +2,8 @@
 
 using Electronic_journal.Classes.DataClasses;
 using MySqlConnector;
-using Org.BouncyCastle.Utilities.Encoders;
 using SHA3.Net;
 using System.Text;
-using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace Electronic_journal.Classes
 {
@@ -985,23 +982,32 @@ namespace Electronic_journal.Classes
             string querry = "SELECT t.* FROM teachers t JOIN users u ON u.school_role_id = t.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 1;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Email", email);
-            command.Parameters.AddWithValue("@Password", password);
+            command.Parameters.AddWithValue("@Password", HashPassword(password));
 
             using var reader = command.ExecuteReader();
-            Teacher teacher = new()
+            if (reader.Read())
             {
-                Id = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                Surname = reader.GetString(2),
-                Subject = reader.GetString(3),
-                Class_name = reader.GetString(4),
-                Classroom = reader.GetInt32(5),
-                Birthday = reader.GetInt32(6),
-                Age = reader.GetInt32(7),
-                Sex = reader.GetByte(8)
-            };
-            connector.Close();
-            return teacher;
+                Teacher teacher = new()
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Subject = reader.GetString(3),
+                    Class_name = reader.GetString(4),
+                    Classroom = reader.GetInt32(5),
+                    Birthday = reader.GetInt32(6),
+                    Age = reader.GetInt32(7),
+                    Sex = reader.GetByte(8)
+                };
+                connector.Close();
+                return teacher;
+            }
+            else
+            {
+                connector.Close();
+                return null;
+
+            }
         }
 
         public static Student GetStudent(string email, string password)
@@ -1013,20 +1019,28 @@ namespace Electronic_journal.Classes
             command.Parameters.AddWithValue("@Password", password);
 
             using var reader = command.ExecuteReader();
-            Student student = new()
+            if (reader.Read())
             {
-                Id = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                Surname = reader.GetString(2),
-                Class_name = reader.GetString(3),
-                Birthday = reader.GetInt32(4),
-                Age = reader.GetInt32(7),
-                Sex = reader.GetByte(8),
-                Parent_1_id = reader.GetInt32(9),
-                Parent_2_id = reader.GetInt32(10)
-            };
-            connector.Close();
-            return student;
+                Student student = new()
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Class_name = reader.GetString(3),
+                    Birthday = reader.GetInt32(4),
+                    Age = reader.GetInt32(7),
+                    Sex = reader.GetByte(8),
+                    Parent_1_id = reader.GetInt32(9),
+                    Parent_2_id = reader.GetInt32(10)
+                };
+                connector.Close();
+                return student;
+            }
+            else
+            {
+                connector.Close();
+                return null;
+            }
         }
 
         public static Person GetPerson(string email, string password)
@@ -1038,16 +1052,24 @@ namespace Electronic_journal.Classes
             command.Parameters.AddWithValue("@Password", password);
 
             using var reader = command.ExecuteReader();
-            Person parent = new()
+            if (reader.Read())
             {
-                Id = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                Surname = reader.GetString(2),
-                Birthday = reader.GetInt32(3),
-                Sex = reader.GetByte(4)
-            };
-            connector.Close();
-            return parent;
+                Person parent = new()
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Birthday = reader.GetInt32(3),
+                    Sex = reader.GetByte(4)
+                };
+                connector.Close();
+                return parent;
+            }
+            else
+            {
+                connector.Close();
+                return null;
+            }
         }
 
 
@@ -1085,6 +1107,35 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static int GetLessonsCount(int Teacher_id)
+        {
+            try
+            {
+                connector.Open();
+                string querry = "SELECT COUNT(*) AS total_lessons FROM lessons WHERE teacher_id = @TeacherId;";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@TeacherId", Teacher_id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetLessonsCount - success log - Lessons number retrieved successfully");
+                    return Convert.ToInt32(result);
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetLessonsCount - error log - Teacger not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetLessonsCount - error log - Failed to retriev lessons number");
+                Console.WriteLine("DatabaseOperator - GetLessonsCount - exception message - " + ex.Message);
+                return -1;
+            }
+        }
 
         #endregion
 

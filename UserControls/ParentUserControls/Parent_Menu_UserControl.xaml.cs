@@ -14,26 +14,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Electronic_journal.UserControls.TeacherUserControls
+namespace Electronic_journal.UserControls.ParentUserControls
 {
     /// <summary>
-    /// Logika interakcji dla klasy Teacher_Menu_UserControl.xaml
+    /// Logika interakcji dla klasy Parent_Menu_UserControl.xaml
     /// </summary>
-    public partial class Teacher_Menu_UserControl : UserControl
+    public partial class Parent_Menu_UserControl : UserControl
     {
         MainWindow window;
-        Teacher teacher;
+        Person parent;
 
-        public Teacher_Menu_UserControl(MainWindow window, Teacher teacher)
+        public Parent_Menu_UserControl(MainWindow window, Person parent)
         {
             InitializeComponent();
             this.window = window;
-            this.teacher = teacher;
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
+            this.parent = parent;
         }
     }
 }

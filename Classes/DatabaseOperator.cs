@@ -2,8 +2,11 @@
 
 using Electronic_journal.Classes.DataClasses;
 using MySqlConnector;
+using Org.BouncyCastle.Utilities.Encoders;
 using SHA3.Net;
 using System.Text;
+using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace Electronic_journal.Classes
 {
@@ -971,6 +974,82 @@ namespace Electronic_journal.Classes
                 return -1;
             }
         }
+
+        #endregion
+
+        #region Objects
+
+        public static Teacher GetTeacher(string email, string password)
+        {
+            connector.Open();
+            string querry = "SELECT t.* FROM teachers t JOIN users u ON u.school_role_id = t.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 1;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Email", email);
+            command.Parameters.AddWithValue("@Password", password);
+
+            using var reader = command.ExecuteReader();
+            Teacher teacher = new()
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Surname = reader.GetString(2),
+                Subject = reader.GetString(3),
+                Class_name = reader.GetString(4),
+                Classroom = reader.GetInt32(5),
+                Birthday = reader.GetInt32(6),
+                Age = reader.GetInt32(7),
+                Sex = reader.GetByte(8)
+            };
+            connector.Close();
+            return teacher;
+        }
+
+        public static Student GetStudent(string email, string password)
+        {
+            connector.Open();
+            string querry = "SELECT s.* FROM students s JOIN users u ON u.school_role_id = s.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 2;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Email", email);
+            command.Parameters.AddWithValue("@Password", password);
+
+            using var reader = command.ExecuteReader();
+            Student student = new()
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Surname = reader.GetString(2),
+                Class_name = reader.GetString(3),
+                Birthday = reader.GetInt32(4),
+                Age = reader.GetInt32(7),
+                Sex = reader.GetByte(8),
+                Parent_1_id = reader.GetInt32(9),
+                Parent_2_id = reader.GetInt32(10)
+            };
+            connector.Close();
+            return student;
+        }
+
+        public static Person GetPerson(string email, string password)
+        {
+            connector.Open();
+            string querry = "SELECT p.* FROM parents p JOIN users u ON u.school_role_id = p.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 3;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Email", email);
+            command.Parameters.AddWithValue("@Password", password);
+
+            using var reader = command.ExecuteReader();
+            Person parent = new()
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Surname = reader.GetString(2),
+                Birthday = reader.GetInt32(3),
+                Sex = reader.GetByte(4)
+            };
+            connector.Close();
+            return parent;
+        }
+
 
         #endregion
 

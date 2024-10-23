@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Electronic_journal.Classes.DataClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,13 @@ namespace Electronic_journal.UserControls.StudentUserControls
     public partial class Student_Menu_UserControl : UserControl
     {
         MainWindow window;
+        Student student;
 
-        public Student_Menu_UserControl(MainWindow window)
+        public Student_Menu_UserControl(MainWindow window, Student student)
         {
             InitializeComponent();
             this.window = window;
+            this.student = student;
         }
     }
 }

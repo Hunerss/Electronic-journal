@@ -1,4 +1,5 @@
 ﻿using Electronic_journal.Classes;
+using Electronic_journal.Classes.DataClasses;
 using Electronic_journal.UserControls.AdminUserControls;
 using Electronic_journal.UserControls.StudentUserControls;
 using Electronic_journal.UserControls.TeacherUserControls;
@@ -58,13 +59,13 @@ namespace Electronic_journal.UserControls.StartUserControls
                         }
                         else if (id == 1)
                         {
-                            //window.frame.NavigationService.Navigate(new Teacher_Menu_UserControl(window));
-                            Console.WriteLine("Not yet implemented - teacher");
+                            Teacher teacher = DatabaseOperator.GetTeacher(login, password);
+                            window.frame.NavigationService.Navigate(new Teacher_Menu_UserControl(window, teacher));
                         }
                         else
                         {
-                            //window.frame.NavigationService.Navigate(new Student_Menu_UserControl(window));
-                            Console.WriteLine("Not yet implemented - student");
+                            Student student = DatabaseOperator.GetStudent(login, password);
+                            window.frame.NavigationService.Navigate(new Student_Menu_UserControl(window, student));
                         }
 
 

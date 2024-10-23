@@ -20,8 +20,8 @@
             <MenuItem x:Name="save_menuItem" Header="Save Lessons" Click="MenuItem_Click" />
         </Menu>
         <DockPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Margin="10" Text="Lessons - " FontSize="32" VerticalAlignment="Center"/>
-            <TextBlock x:Name="class_header" Text="Class not selected" FontSize="32" VerticalAlignment="Center"/>
+            <TextBlock Margin="10" Text="Lessons - " FontSize="48" VerticalAlignment="Center"/>
+            <TextBlock x:Name="class_header" Text="Class not selected" FontSize="48" VerticalAlignment="Center"/>
         </DockPanel>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

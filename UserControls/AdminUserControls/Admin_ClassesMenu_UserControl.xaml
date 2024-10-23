@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="1" Margin="10" Text="Classes" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Margin="10" Text="Classes" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

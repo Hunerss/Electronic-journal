@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_journal.Classes.DataClasses
 {
-    internal class Student : Person
+    public class Student : Person
     {
         public string Class_name { get; set; }
         public int Age { get; set; }

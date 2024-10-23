@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_journal.Classes.DataClasses
 {
-    internal class Lesson
+    public class Lesson
     {
         public int Id { get; set; }
         public string Name { get; set; }

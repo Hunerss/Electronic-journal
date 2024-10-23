@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Electronic_journal.Classes
 {
-    internal class DatabaseOperator
+    public class DatabaseOperator
     {
         private static readonly string db_adress = "SERVER=localhost;DATABASE=electronic_journal;UID=root;PASSWORD=;ConvertZeroDateTime=True;";
         private static readonly MySqlConnection connector = new(db_adress);

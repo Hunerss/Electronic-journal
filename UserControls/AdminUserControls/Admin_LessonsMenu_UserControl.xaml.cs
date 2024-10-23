@@ -17,14 +17,14 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
         private List<List<Lesson>> lessons_list;
 
-        private List<string> Subjects = new()
-        {
-            "Język polski", "Matematyka", "Język angielski", "Historia", "Wiedza o społeczeństwie (WOS)",
-            "Geografia", "Biologia", "Chemia", "Fizyka", "Informatyka", "Wychowanie fizyczne (WF)",
-            "Edukacja dla bezpieczeństwa (EDB)", "Religia", "Etyka", "Język rosyjski", "Podstawy przedsiębiorczości"
-        };
+        private List<string> Subjects = [];
+        //[
+        //    "", "Język polski", "Matematyka", "Język angielski", "Historia", "Wiedza o społeczeństwie (WOS)",
+        //    "Geografia", "Biologia", "Chemia", "Fizyka", "Informatyka", "Wychowanie fizyczne (WF)",
+        //    "Edukacja dla bezpieczeństwa (EDB)", "Religia", "Etyka", "Język rosyjski", "Podstawy przedsiębiorczości"
+        //];
 
-        private string Class_name;
+    private string Class_name;
 
         bool check = true;
 
@@ -33,7 +33,11 @@ namespace Electronic_journal.UserControls.AdminUserControls
             InitializeComponent();
             InitializeGrid();
             this.window = window;
-            //Subjects = DatabaseOperator.GetSubjects();
+            Subjects = DatabaseOperator.GetSubjects();
+            foreach (var subject in Subjects)
+            {
+                Console.WriteLine(subject);
+            }
             lessons_list = [];
         }
 
@@ -110,7 +114,9 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             List<Lesson> lessons = GetLessons();
 
-            if(lessons.Count == 0)
+            ShowScheduleConflicts(lessons_list);
+
+            if (lessons.Count == 0)
             {
                 MessageBox.Show("There is nothing to save.");
             }
@@ -164,13 +170,21 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
                     ComboBox comboBox = new()
                     {
-                        ItemsSource = Subjects,
                         Width = 70,
                         Height = 20,
                         Margin = new Thickness(0, 10, 0, 5),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center
                     };
+
+                    foreach (string subject in Subjects)
+                    {
+                        ComboBoxItem comboBoxItem = new()
+                        {
+                            Content = subject
+                        };
+                        comboBox.Items.Add(comboBoxItem);
+                    }
 
 
                     TextBox textBox = new()

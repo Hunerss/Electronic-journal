@@ -142,7 +142,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                         students_list = DatabaseOperator.GetStudents();
                         personel_DataGrid.ItemsSource = students_list;
                         header_TextBlock.Text = "Personel - Students";
-                            role = 2;
+                        role = 2;
                         break;
 
                     case "show_parent_menuItem":
@@ -253,28 +253,28 @@ namespace Electronic_journal.UserControls.AdminUserControls
                     break;
                 case Teacher teacher:
                     DatabaseOperator.UpdateTeacher(teacher);
-                    email = teacher.Name + "." + teacher.Surname;
-                    password = teacher.Name+ teacher.Surname + teacher.Birthday;
+                    email = teacher.Name + "." + teacher.Surname + "@school.edu.pl";
+                    password = teacher.Name + teacher.Surname + teacher.Birthday;
                     DatabaseOperator.UpdateUser(1, teacher.Id, email, password);
                     break;
                 case Student student:
                     DatabaseOperator.UpdateStudent(student);
-                    email = student.Name + "." + student.Surname;
+                    email = student.Name + "." + student.Surname + "@school.edu.pl";
                     password = student.Surname + student.Birthday;
                     DatabaseOperator.UpdateUser(2, student.Id, email, password);
                     break;
                 case Person parent:
                     DatabaseOperator.UpdateParent(parent);
-                    email = parent.Name + "." + parent.Surname;
-                    password = parent.Name+parent.Surname+parent.Birthday;
-                    DatabaseOperator.UpdateUser(3,parent.Id,email,password);
+                    email = parent.Name + "." + parent.Surname + "@school.edu.pl";
+                    password = parent.Name + parent.Surname + parent.Birthday;
+                    DatabaseOperator.UpdateUser(3, parent.Id, email, password);
                     break;
                 default:
                     Console.WriteLine("UpdatePersonInDatabase() - unknown type");
                     break;
             }
         }
-        
+
         private void Save_menuItem_Click(object sender, RoutedEventArgs e)
         {
             UpdateDatabase();

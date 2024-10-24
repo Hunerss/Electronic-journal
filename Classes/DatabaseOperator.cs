@@ -150,6 +150,33 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static bool RemoveLessonsByClass(string classname)
+        {
+            if (string.IsNullOrEmpty(classname))
+                return false;
+
+            try
+            {
+                connector.Open();
+                string query = "DELETE FROM lessons WHERE class = @Classname";
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Classname", classname);
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - RemoveParent - succes log - Lessons removed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - RemoveParent - error log - Failed to remove lessons");
+                Console.WriteLine("DatabaseOperator - RemoveParent - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
         #endregion
 
         #region Adders
@@ -312,7 +339,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Name", teacher.Name);
                 command.Parameters.AddWithValue("@Surname", teacher.Surname);
                 command.Parameters.AddWithValue("@Subject", teacher.Subject);
-                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Class", teacher.Classname);
                 command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
                 command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
                 command.Parameters.AddWithValue("@Age", teacher.Age);
@@ -343,7 +370,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Name", teacher.Name);
                 command.Parameters.AddWithValue("@Surname", teacher.Surname);
                 command.Parameters.AddWithValue("@Subject", teacher.Subject);
-                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Class", teacher.Classname);
                 command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
                 command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
                 command.Parameters.AddWithValue("@Age", teacher.Age);
@@ -409,7 +436,7 @@ namespace Electronic_journal.Classes
                 using MySqlCommand command = new(query, connector);
                 command.Parameters.AddWithValue("@Name", student.Name);
                 command.Parameters.AddWithValue("@Surname", student.Surname);
-                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Class", student.Classname);
                 command.Parameters.AddWithValue("@Birthday", student.Birthday);
                 command.Parameters.AddWithValue("@Age", student.Age);
                 command.Parameters.AddWithValue("@Sex", student.Sex);
@@ -440,7 +467,7 @@ namespace Electronic_journal.Classes
                 using MySqlCommand command = new(query, connector);
                 command.Parameters.AddWithValue("@Name", student.Name);
                 command.Parameters.AddWithValue("@Surname", student.Surname);
-                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Class", student.Classname);
                 command.Parameters.AddWithValue("@Birthday", student.Birthday);
                 command.Parameters.AddWithValue("@Age", student.Age);
                 command.Parameters.AddWithValue("@Sex", student.Sex);
@@ -553,7 +580,7 @@ namespace Electronic_journal.Classes
                 string query = "INSERT INTO lessons(name, class, classroom, teacher_id, lesson, day) VALUES (@Name, @Class, @Classroom, @Teacher_id, @Lesson, @Day)";
                 using MySqlCommand command = new(query, connector);
                 command.Parameters.AddWithValue("@Name", lesson.Name);
-                command.Parameters.AddWithValue("@Class", lesson.Class_name);
+                command.Parameters.AddWithValue("@Class", lesson.Classname);
                 command.Parameters.AddWithValue("@Classroom", lesson.Classroom);
                 command.Parameters.AddWithValue("@Teacher_id", lesson.Teacher_id);
                 command.Parameters.AddWithValue("@Lesson", lesson.Lesson_hour);
@@ -679,7 +706,7 @@ namespace Electronic_journal.Classes
                     Id = reader.GetInt32(0),
                     Name = reader.GetString(1),
                     Surname = reader.GetString(2),
-                    Class_name = reader.GetString(3),
+                    Classname = reader.GetString(3),
                     Birthday = reader.GetInt32(4),
                     Age = reader.GetInt32(5),
                     Sex = reader.GetByte(6),
@@ -691,13 +718,13 @@ namespace Electronic_journal.Classes
             return people;
         }
 
-        public static List<Student> GetStudents(string class_name)
+        public static List<Student> GetStudents(string classname)
         {
             List<Student> people = [];
             connector.Open();
             string querry = "SELECT id, name, surname, class, birthday, age, sex, parent_1_id, parent_2_id FROM students WHERE class = @Class";
             using MySqlCommand command = new(querry, connector);
-            command.Parameters.AddWithValue("@Class", class_name);
+            command.Parameters.AddWithValue("@Class", classname);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -707,7 +734,7 @@ namespace Electronic_journal.Classes
                     Id = reader.GetInt32(0),
                     Name = reader.GetString(1),
                     Surname = reader.GetString(2),
-                    Class_name = reader.GetString(3),
+                    Classname = reader.GetString(3),
                     Birthday = reader.GetInt32(4),
                     Age = reader.GetInt32(5),
                     Sex = reader.GetByte(6),
@@ -735,7 +762,7 @@ namespace Electronic_journal.Classes
                     Name = reader.GetString(1),
                     Surname = reader.GetString(2),
                     Subject = reader.GetString(3),
-                    Class_name = reader.GetString(4),
+                    Classname = reader.GetString(4),
                     Classroom = reader.GetInt32(5),
                     Birthday = reader.GetInt32(6),
                     Age = reader.GetInt32(7),
@@ -771,7 +798,7 @@ namespace Electronic_journal.Classes
         {
             List<Class_data> classes = [];
             connector.Open();
-            string querry = "SELECT t.class AS Class_name, t.classroom AS Classroom, t.name AS HomeroomTeacher_name, t.surname AS HomeroomTeacher_surname, COUNT(s.id) AS Students_number " +
+            string querry = "SELECT t.class AS Classname, t.classroom AS Classroom, t.name AS HomeroomTeacher_name, t.surname AS HomeroomTeacher_surname, COUNT(s.id) AS Students_number " +
                 "FROM teachers t " +
                 "LEFT JOIN students s ON t.class = s.class " +
                 "WHERE t.class IS NOT NULL AND t.class != '' " +
@@ -783,7 +810,7 @@ namespace Electronic_journal.Classes
             {
                 classes.Add(new Class_data
                 {
-                    Class_name = reader.GetString(0),
+                    Classname = reader.GetString(0),
                     Classroom = reader.GetInt32(1),
                     HomeroomTeacher_name = reader.GetString(2),
                     HomeroomTeacher_surname = reader.GetString(3),
@@ -794,13 +821,13 @@ namespace Electronic_journal.Classes
             return classes;
         }
 
-        public static List<Lesson> GetLessons(string class_name)
+        public static List<Lesson> GetLessons(string classname)
         {
             List<Lesson> classes = [];
             connector.Open();
             string querry = "SELECT * FROM lessons WHERE class=@Classname;";
             using MySqlCommand command = new(querry, connector);
-            command.Parameters.AddWithValue("@Classname", class_name);
+            command.Parameters.AddWithValue("@Classname", classname);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -809,7 +836,7 @@ namespace Electronic_journal.Classes
                 {
                     Id = reader.GetInt32(0),
                     Name = reader.GetString(1),
-                    Class_name = reader.GetString(2),
+                    Classname = reader.GetString(2),
                     Classroom = reader.GetInt32(3),
                     Teacher_id = reader.GetInt32(4),
                     Lesson_hour = reader.GetInt32(5),
@@ -1018,7 +1045,7 @@ namespace Electronic_journal.Classes
                     Name = reader.GetString(1),
                     Surname = reader.GetString(2),
                     Subject = reader.GetString(3),
-                    Class_name = reader.GetString(4),
+                    Classname = reader.GetString(4),
                     Classroom = reader.GetInt32(5),
                     Birthday = reader.GetInt32(6),
                     Age = reader.GetInt32(7),
@@ -1031,7 +1058,6 @@ namespace Electronic_journal.Classes
             {
                 connector.Close();
                 return null;
-
             }
         }
 
@@ -1051,7 +1077,7 @@ namespace Electronic_journal.Classes
                     Id = reader.GetInt32(0),
                     Name = reader.GetString(1),
                     Surname = reader.GetString(2),
-                    Class_name = reader.GetString(3),
+                    Classname = reader.GetString(3),
                     Birthday = reader.GetInt32(4),
                     Age = reader.GetInt32(7),
                     Sex = reader.GetByte(8),
@@ -1241,7 +1267,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Name", teacher.Name);
                 command.Parameters.AddWithValue("@Surname", teacher.Surname);
                 command.Parameters.AddWithValue("@Subject", teacher.Subject);
-                command.Parameters.AddWithValue("@Class", teacher.Class_name);
+                command.Parameters.AddWithValue("@Class", teacher.Classname);
                 command.Parameters.AddWithValue("@Classroom", teacher.Classroom);
                 command.Parameters.AddWithValue("@Birthday", teacher.Birthday);
                 command.Parameters.AddWithValue("@Age", teacher.Age);
@@ -1277,7 +1303,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Id", student.Id);
                 command.Parameters.AddWithValue("@Name", student.Name);
                 command.Parameters.AddWithValue("@Surname", student.Surname);
-                command.Parameters.AddWithValue("@Class", student.Class_name);
+                command.Parameters.AddWithValue("@Class", student.Classname);
                 command.Parameters.AddWithValue("@Birthday", student.Birthday);
                 command.Parameters.AddWithValue("@Age", student.Age);
                 command.Parameters.AddWithValue("@Sex", student.Sex);
@@ -1337,6 +1363,46 @@ namespace Electronic_journal.Classes
         #endregion
 
         #region Uncategorized
+
+        public static bool CheckLessons(Lesson lesson)
+        {
+            try
+            {
+                connector.Open();
+                string query = "SELECT COUNT(*) FROM lessons WHERE class != @Class AND classroom = @Classroom AND teacher_id = @Teacher AND lesson = @Lesson AND day = @Day";
+
+                using MySqlCommand command = new(query, connector);
+                Console.WriteLine("Parameters - database operator");
+                Console.WriteLine("Class " + lesson.Classname);
+                Console.WriteLine("Classroom " + lesson.Classroom);
+                Console.WriteLine("Teacher " + lesson.Teacher_id);
+                Console.WriteLine("Day " + lesson.Lesson_day);
+                Console.WriteLine("Hours " + lesson.Lesson_hour);
+                Console.WriteLine("-------------------------");
+
+                command.Parameters.AddWithValue("@Class", lesson.Classname);
+                command.Parameters.AddWithValue("@Classroom", lesson.Classroom);
+                command.Parameters.AddWithValue("@Teacher", lesson.Teacher_id);
+                command.Parameters.AddWithValue("@Lesson", lesson.Lesson_hour);
+                command.Parameters.AddWithValue("@Day", lesson.Lesson_day);
+
+                int count = Convert.ToInt32(command.ExecuteScalar());
+                
+                bool tmp = count == 0;
+                Console.WriteLine("Method outcome " + tmp);
+                return tmp;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - Login - error log - Failed to check lesson");
+                Console.WriteLine("DatabaseOperator - Login - exception message - " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
 
         public static bool Login(string login, string password)
         {

@@ -35,7 +35,7 @@ namespace Electronic_journal.UserControls.TeacherUserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             teacher_header.Text = "Welcome - " + teacher.Name + " " + teacher.Surname;
-            if (teacher.Class_name!="") class_button.IsEnabled = true;
+            if (teacher.Classname!="") class_button.IsEnabled = true;
             else class_button.IsEnabled = false;
                 
         }

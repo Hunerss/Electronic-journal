@@ -36,7 +36,7 @@ namespace Electronic_journal.UserControls.TeacherUserControls
         {
             name_TextBlock.Text = teacher.Name + " " + teacher.Surname;
             subject_TextBlock.Text = teacher.Subject;
-            homeroom_class_TextBlock.Text = teacher.Class_name.ToUpper();
+            homeroom_class_TextBlock.Text = teacher.Classname.ToUpper();
             classroom_TextBlock.Text = teacher.Classroom.ToString();
             birthday_TextBlock.Text = FormatDate(teacher.Birthday);
             age_TextBlock.Text = teacher.Age.ToString();

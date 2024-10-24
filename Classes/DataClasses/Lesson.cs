@@ -10,7 +10,7 @@ namespace Electronic_journal.Classes.DataClasses
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Class_name { get; set; }
+        public string Classname { get; set; }
         public int Classroom { get; set; }
         public int Teacher_id { get; set; }
         public int Lesson_hour { get; set; }

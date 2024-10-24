@@ -1,6 +1,6 @@
 ﻿namespace Electronic_journal.Classes.DataClasses
 {
-    public class Note : Base
+    public class Note
     {
         public int Id { get; set; }
         public int Author_id { get; set; }

@@ -642,13 +642,14 @@ namespace Electronic_journal.Classes
             return subjects;
         }
 
-        public static List<Message> GetMessages(int id)
+        public static List<Message> GetMessages(int id, int role)
         {
             List<Message> messages = [];
             connector.Open();
-            string querry = "SELECT * FROM messages WHERE author_id = @Id OR single_target_id = @Id";
+            string querry = "SELECT * FROM messages WHERE (author_id = @Id AND school_role = @Role) OR (single_target_id = @Id AND target_school_role = @Role)";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Id", id);
+            command.Parameters.AddWithValue("@Role", role);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -657,11 +658,41 @@ namespace Electronic_journal.Classes
                 {
                     Id = reader.GetInt32(0),
                     Author_id = reader.GetInt32(1),
-                    Single_target = reader.GetByte(2) == 1,
-                    Target_id = reader.GetInt32(3),
-                    Group_id = reader.GetString(4),
-                    Title = reader.GetString(5),
-                    Content = reader.GetString(6)
+                    School_role = reader.GetInt32(2),
+                    Single_target = reader.GetByte(3) == 1,
+                    Target_id = reader.GetInt32(4),
+                    Tareg_school_role = reader.GetInt32(5),
+                    Group_id = reader.GetString(6),
+                    Title = reader.GetString(7),
+                    Content = reader.GetString(8)
+                });
+            }
+            connector.Close();
+            return messages;
+        }
+
+        public static List<Message> GetMessages(string classname)
+        {
+            List<Message> messages = [];
+            connector.Open();
+            string querry = "SELECT * FROM messages WHERE groupd_target_id = @Id)";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Id", classname);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                messages.Add(new Message
+                {
+                    Id = reader.GetInt32(0),
+                    Author_id = reader.GetInt32(1),
+                    School_role = reader.GetInt32(2),
+                    Single_target = reader.GetByte(3) == 1,
+                    Target_id = reader.GetInt32(4),
+                    Tareg_school_role = reader.GetInt32(5),
+                    Group_id = reader.GetString(6),
+                    Title = reader.GetString(7),
+                    Content = reader.GetString(8)
                 });
             }
             connector.Close();
@@ -1023,6 +1054,40 @@ namespace Electronic_journal.Classes
                 return -1;
             }
         }
+
+        public static string GetClassname(int parentId)
+        {
+            if (parentId <= 0)
+                return null;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT class FROM students WHERE parent_1_id = @Id OR parent_2_id = @Id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", parentId);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassname - success log - Classname retrieved successfully");
+                    return result.ToString();
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassname - error log - Class not found in database");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetClassname - error log - Failed to retriev classname");
+                Console.WriteLine("DatabaseOperator - GetClassname - exception message - " + ex.Message);
+                return null;
+            }
+        }
+
 
         #endregion
 

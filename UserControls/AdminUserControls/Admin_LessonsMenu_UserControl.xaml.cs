@@ -18,26 +18,17 @@ namespace Electronic_journal.UserControls.AdminUserControls
         private List<List<Lesson>> lessons_list;
 
         private List<string> Subjects = [];
-        //[
-        //    "", "Język polski", "Matematyka", "Język angielski", "Historia", "Wiedza o społeczeństwie (WOS)",
-        //    "Geografia", "Biologia", "Chemia", "Fizyka", "Informatyka", "Wychowanie fizyczne (WF)",
-        //    "Edukacja dla bezpieczeństwa (EDB)", "Religia", "Etyka", "Język rosyjski", "Podstawy przedsiębiorczości"
-        //];
 
-    private string Class_name;
+        private string Class_name;
 
         bool check = true;
 
         public Admin_LessonsMenu_UserControl(MainWindow window)
         {
             InitializeComponent();
+            Subjects = DatabaseOperator.GetSubjects();
             InitializeGrid();
             this.window = window;
-            Subjects = DatabaseOperator.GetSubjects();
-            foreach (var subject in Subjects)
-            {
-                Console.WriteLine(subject);
-            }
             lessons_list = [];
         }
 
@@ -170,21 +161,13 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
                     ComboBox comboBox = new()
                     {
+                        ItemsSource = Subjects,
                         Width = 70,
                         Height = 20,
                         Margin = new Thickness(0, 10, 0, 5),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center
                     };
-
-                    foreach (string subject in Subjects)
-                    {
-                        ComboBoxItem comboBoxItem = new()
-                        {
-                            Content = subject
-                        };
-                        comboBox.Items.Add(comboBoxItem);
-                    }
 
 
                     TextBox textBox = new()
@@ -253,7 +236,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
         private void FillGrid(List<Lesson> lessons)
         {
-            if(lessons.Count == 0)
+            if (lessons.Count == 0)
             {
                 MessageBox.Show("This class doesn't have lessons plan yet.");
                 check = false;

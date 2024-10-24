@@ -48,7 +48,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             classes_DataGrid.Columns.Clear();
 
-            classes_DataGrid.Columns.Add(CreateTextColumn("Class", "Class_name"));
+            classes_DataGrid.Columns.Add(CreateTextColumn("Class", "Classname"));
             classes_DataGrid.Columns.Add(CreateTextColumn("Classroom", "Classroom"));
             classes_DataGrid.Columns.Add(CreateTextColumn("Homeroom Teacher Name", "HomeroomTeacher_name"));
             classes_DataGrid.Columns.Add(CreateTextColumn("Homeroom Teacher Surname", "HomeroomTeacher_surname"));

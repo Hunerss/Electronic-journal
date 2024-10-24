@@ -1,5 +1,6 @@
 ﻿using Electronic_journal.Classes;
 using Electronic_journal.Classes.DataClasses;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,7 +20,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
         private List<string> Subjects = [];
 
-        private string Class_name;
+        private string classname;
 
         bool check = true;
 
@@ -70,7 +71,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             personel_DataGrid.Columns.Add(CreateTextColumn("Name", "Name"));
             personel_DataGrid.Columns.Add(CreateTextColumn("Surname", "Surname"));
             personel_DataGrid.Columns.Add(CreateTextColumn("Subject", "Subject"));
-            personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Class_name"));
+            personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Classname"));
             personel_DataGrid.Columns.Add(CreateTextColumn("Classroom", "Classroom"));
         }
 
@@ -105,45 +106,82 @@ namespace Electronic_journal.UserControls.AdminUserControls
         {
             List<Lesson> lessons = GetLessons();
 
-            ShowScheduleConflicts(lessons_list);
-
             if (lessons.Count == 0)
             {
                 MessageBox.Show("There is nothing to save.");
             }
             else
             {
-                ShowScheduleConflicts(lessons_list);
-                foreach (Lesson lesson in lessons)
-                {
-                    lesson.Class_name = Class_name;
-                    //DatabaseOperator.AddLesson(lesson);
-                }
-                //if (ShowScheduleConflicts(lessons_list))
-                //{
-                //    if (check)
-                //    {
+                
+                Dictionary<int, List<int>> conflicts = ShowScheduleConflicts(lessons);
 
-                //    }
-                //    else
-                //    {
-                //        foreach (Lesson lesson in lessons)
-                //        {
-                //            lesson.Class_name = Class_name;
-                //            DatabaseOperator.AddLesson(lesson);
-                //        }
-                //    }
-                //}
+                if (conflicts.Count == 0)
+                {
+                    Console.WriteLine("Zero conflicts");
+                    //DatabaseOperator.RemoveLessonsByClass(classname);
+
+                    try
+                    {
+                        foreach (Lesson lesson in lessons)
+                        {
+                            lesson.Classname = classname;
+                            Console.WriteLine("--------------------------------");
+                            Console.WriteLine(lesson.Id);
+                            Console.WriteLine(lesson.Name);
+                            Console.WriteLine(lesson.Classname);
+                            Console.WriteLine(lesson.Classroom);
+                            Console.WriteLine(lesson.Teacher_id);
+                            Console.WriteLine(lesson.Lesson_hour);
+                            Console.WriteLine(lesson.Lesson_day);
+
+                            //DatabaseOperator.AddLesson(lesson);
+                        }
+
+                        MessageBox.Show("Schedule saved successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred while saving the schedule: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("More then one conflict");
+                    string[] days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+                    StringBuilder message = new("Detected conflicts:");
+
+                    foreach (KeyValuePair<int, List<int>> conflict in conflicts)
+                    {
+                        int day = conflict.Key;
+                        List<int> hours = conflict.Value;
+
+                        if (day >= 1 && day <= 5)
+                        {
+                            string dayName = days[day - 1];
+
+                            foreach (int hour in hours)
+                            {
+                                message.AppendLine($"Day: {dayName}, Lesson: {hour}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Week day value overflow");
+                        }
+                    }
+
+                    MessageBox.Show(message.ToString(), "Schedule Conflicts", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
         private void Show_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Class_name = ((MenuItem)sender).Header.ToString();
-            class_header.Text = Class_name;
-            lessons = DatabaseOperator.GetLessons(Class_name);
+            classname = ((MenuItem)sender).Header.ToString();
+            class_header.Text = classname;
+            lessons = DatabaseOperator.GetLessons(classname);
             FillGrid(lessons);
-            Console.WriteLine("Class " + Class_name);
+            Console.WriteLine("Class " + classname);
         }
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
@@ -218,7 +256,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                             Lesson lesson = new()
                             {
                                 Name = comboBox.SelectedItem.ToString(),
-                                Class_name = Class_name,
+                                Classname = classname,
                                 Classroom = classroom,
                                 Teacher_id = teacher_id,
                                 Lesson_hour = row - 1,
@@ -231,7 +269,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                 }
             }
 
-            return lessons; // Zwróć listę lekcji
+            return lessons;
         }
 
         private void FillGrid(List<Lesson> lessons)
@@ -291,49 +329,26 @@ namespace Electronic_journal.UserControls.AdminUserControls
             }
         }
 
-        private List<(int TeacherId, int LessonDay, int LessonHour)> CheckScheduleConflicts(List<Lesson> lessons)
+        private Dictionary<int, List<int>> ShowScheduleConflicts(List<Lesson> lessons)
         {
-            var conflicts = lessons
-                .GroupBy(l => new { l.Teacher_id, l.Lesson_day, l.Lesson_hour })
-                .Where(g => g.Count() > 1)
-                .Select(g => (g.Key.Teacher_id, g.Key.Lesson_day, g.Key.Lesson_hour))
-                .ToList();
+            Dictionary<int, List<int>> conflicts = [];
 
+            foreach (Lesson lesson in lessons)
+            {
+                if (!DatabaseOperator.CheckLessons(lesson))
+                {
+                    if (!conflicts.TryGetValue(lesson.Lesson_day, out List<int>? hours))
+                    {
+                        hours = [];
+                        conflicts[lesson.Lesson_day] = hours;
+                    }
+                    hours.Add(lesson.Lesson_hour);
+                }
+            }
+            Console.WriteLine("conflicts " + conflicts.Count);
             return conflicts;
         }
 
-        private List<(int TeacherId, int LessonDay, int LessonHour)> CheckScheduleConflictsForMultipleClasses(List<List<Lesson>> allLessons)
-        {
-            List<Lesson> mergedLessons = [];
 
-            foreach (var lessonList in allLessons)
-            {
-                mergedLessons.AddRange(lessonList);
-            }
-
-            return CheckScheduleConflicts(mergedLessons);
-        }
-
-        private bool ShowScheduleConflicts(List<List<Lesson>> allLessons)
-        {
-            var conflicts = CheckScheduleConflictsForMultipleClasses(allLessons);
-
-            if (conflicts.Count == 0)
-            {
-                MessageBox.Show("Lessons don't colide.");
-                return true;
-            }
-
-            string message = "";
-            int counter = 1;
-            foreach (var conflict in conflicts)
-            {
-                message += $"{counter}. Teacher id: {conflict.TeacherId}, Lesson hour: {conflict.LessonHour}, Day: {conflict.LessonDay}\n";
-                counter++;
-            }
-
-            MessageBox.Show(message, "Conflicts Detected", MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
     }
 }

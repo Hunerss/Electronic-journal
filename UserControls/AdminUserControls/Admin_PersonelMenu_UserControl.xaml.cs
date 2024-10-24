@@ -188,7 +188,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                     personel_DataGrid.Columns.Add(CreateTextColumn("Surname", "Surname"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Birthday", "Birthday"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Age", "Age"));
-                    personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Class_name"));
+                    personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Classname"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Parent1", "Parent_1_id"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Parent2", "Parent_2_id"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Sex", "Sex"));
@@ -205,7 +205,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                     personel_DataGrid.Columns.Add(CreateTextColumn("Birthday", "Birthday"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Age", "Age"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Subject", "Subject"));
-                    personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Class_name"));
+                    personel_DataGrid.Columns.Add(CreateTextColumn("Classname", "Classname"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Classroom", "Classroom"));
                     personel_DataGrid.Columns.Add(CreateTextColumn("Sex", "Sex"));
                     break;

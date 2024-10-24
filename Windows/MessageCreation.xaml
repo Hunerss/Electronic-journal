@@ -5,8 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Electronic_journal.Windows"
         mc:Ignorable="d"
+        Background="RoyalBlue"
         Title="MessageCreation" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Margin="10" Text="Create new Message" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Radio Buttons for Single/Multiple -->
+                <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                    <ToggleButton x:Name="single_RadioButton" Content="Single" FontSize="20" IsChecked="True" Margin="0,0,10,0" VerticalContentAlignment="Center" />
+                    <ToggleButton x:Name="multiple_RadioButton" Content="Multiple" FontSize="20" Margin="10,0,0,0" VerticalContentAlignment="Center" />
+                </DockPanel>
+
+                <!-- User Role Selection -->
+                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                    <ToggleButton Grid.Column="0" x:Name="admin_RadioButton" Content="Admin" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
+                    <ToggleButton Grid.Column="1" x:Name="teacher_RadioButton" Content="Teacher" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
+                    <ToggleButton Grid.Column="2" x:Name="student_RadioButton" Content="Student" FontSize="20" IsChecked="True" Margin="5" VerticalContentAlignment="Center" />
+                    <ToggleButton Grid.Column="3" x:Name="parent_RadioButton" Content="Parent" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
+                </DockPanel>
+
+                <!-- Target Name/ID Input -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Target Email/Id" ToolTip="If you want to send a message to a specific person type their full name. If you want to send a message to a group of people such as class, type their classname." FontSize="20"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="name_TextBox" FontSize="20" Height="40" Margin="10"/>
+
+                <!-- Title Input -->
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Title" FontSize="20" Margin="0,10,0,0"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="title_TextBox" FontSize="20" Height="40" Margin="10"/>
+
+                <!-- Content Input -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Content" FontSize="20" Margin="0,10,0,0"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="content_TextBox" FontSize="20" Height="150" Margin="10"/>
+
+                <!-- Buttons -->
+                <Button Grid.Row="5" Grid.Column="0" x:Name="return_Button" Content="Return" Click="Button_Click" Margin="10"/>
+                <Button Grid.Row="5" Grid.Column="1" x:Name="send_Button" Content="Send" Click="Button_Click" Margin="10"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

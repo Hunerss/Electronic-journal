@@ -1,81 +1,77 @@
 ﻿using Electronic_journal.Classes;
 using Electronic_journal.Classes.DataClasses;
+using Electronic_journal.Windows;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Electronic_journal.UserControls.GeneralUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy General_Messages_UserControl.xaml
-    /// </summary>
     public partial class General_Messages_UserControl : UserControl
     {
         MainWindow window;
-        Admin admin;
-        Teacher teacher;
-        Student student;
-        Person parent;
+        Person user;
+        Admin Admin;
+
+        public General_Messages_UserControl(MainWindow window, Person user)
+        {
+            InitializeComponent();
+            this.window = window;
+            this.user = user;
+        }
 
         public General_Messages_UserControl(MainWindow window, Admin admin)
         {
             InitializeComponent();
             this.window = window;
-            this.admin = admin;
-        }
-
-        public General_Messages_UserControl(MainWindow window, Teacher teacher)
-        {
-            InitializeComponent();
-            this.window = window;
-            this.teacher = teacher;
-        }
-
-        public General_Messages_UserControl(MainWindow window, Student student)
-        {
-            InitializeComponent();
-            this.window = window;
-            this.student = student;
-        }
-
-        public General_Messages_UserControl(MainWindow window, Person parent)
-        {
-            InitializeComponent();
-            this.window = window;
-            this.parent = parent;
+            this.Admin = admin;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Message> messages = [];
-            if (admin != null)
+            List<Message> messages = GetUserMessages();
+            messages_DataGrid.ItemsSource = messages;
+        }
+
+        private List<Message> GetUserMessages()
+        {
+            List<Message> messages = new();
+            int roleId = 0;
+
+            if (Admin is Admin admin)
             {
-                messages.AddRange(DatabaseOperator.GetMessages(admin.Id, 0));
+                roleId = 0;
+                messages.AddRange(DatabaseOperator.GetMessages(admin.Id, roleId));
             }
-            else if (teacher != null)
+            else if (user is Teacher teacher)
             {
-                messages.AddRange(DatabaseOperator.GetMessages(teacher.Id, 1));
+                roleId = 1;
+                messages.AddRange(DatabaseOperator.GetMessages(teacher.Id, roleId));
                 messages.AddRange(DatabaseOperator.GetMessages(teacher.Classname));
             }
-            else if (student != null)
+            else if (user is Student student)
             {
-                messages.AddRange(DatabaseOperator.GetMessages(student.Id, 2));
+                roleId = 2;
+                messages.AddRange(DatabaseOperator.GetMessages(student.Id, roleId));
                 messages.AddRange(DatabaseOperator.GetMessages(student.Classname));
             }
-            else if (parent != null)
+            else if (user is Person parent)
             {
-                messages.AddRange(DatabaseOperator.GetMessages(parent.Id, 3));
-                string classname = DatabaseOperator.GetClassname(parent.Id);
+                roleId = 3;
+                messages.AddRange(DatabaseOperator.GetMessages(parent.Id, roleId));
+                string classname = DatabaseOperator.GetClassnameParent(parent.Id);
                 messages.AddRange(DatabaseOperator.GetMessages(classname));
             }
-            messages_DataGrid.ItemsSource = messages;
+
+            return messages;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageCreation messageWindow = new(user);
+            messageWindow.Show();
         }
 
-        private void MessagesDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void MessagesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (messages_DataGrid.SelectedItem is Message selectedMessage)
             {

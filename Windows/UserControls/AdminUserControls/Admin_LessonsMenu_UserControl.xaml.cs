@@ -118,7 +118,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                 if (conflicts.Count == 0)
                 {
                     Console.WriteLine("Zero conflicts");
-                    //DatabaseOperator.RemoveLessonsByClass(classname);
+                    DatabaseOperator.RemoveLessonsByClass(classname);
 
                     try
                     {
@@ -134,7 +134,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                             Console.WriteLine(lesson.Lesson_hour);
                             Console.WriteLine(lesson.Lesson_day);
 
-                            //DatabaseOperator.AddLesson(lesson);
+                            DatabaseOperator.AddLesson(lesson);
                         }
 
                         MessageBox.Show("Schedule saved successfully.");
@@ -180,6 +180,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             classname = ((MenuItem)sender).Header.ToString();
             class_header.Text = classname;
             lessons = DatabaseOperator.GetLessons(classname);
+            ClearGrid();
             FillGrid(lessons);
             Console.WriteLine("Class " + classname);
         }

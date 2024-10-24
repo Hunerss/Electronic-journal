@@ -603,6 +603,41 @@ namespace Electronic_journal.Classes
 
         #endregion
 
+        #region Messages and Notes
+        public static bool AddMessage(Message message)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO messages(author_id, school_role, single_target, single_target_id, target_school_role, group_target_id, title, content) " +
+                                "VALUES (@Author_id, @School_role, @Single_target, @Single_target_id, @Target_school_role, @Group_target_id, @Title, @Content)";
+
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Author_id", message.Author_id);
+                command.Parameters.AddWithValue("@School_role", message.School_role);
+                command.Parameters.AddWithValue("@Single_target", message.Single_target);
+                command.Parameters.AddWithValue("@Single_target_id", message.Target_id);
+                command.Parameters.AddWithValue("@Target_school_role", message.Target_school_role);
+                command.Parameters.AddWithValue("@Group_target_id", message.Group_id);
+                command.Parameters.AddWithValue("@Title", message.Title);
+                command.Parameters.AddWithValue("@Content", message.Content);
+
+                command.ExecuteNonQuery();
+
+                Console.WriteLine("DatabaseOperator - AddMessage - success log - Message added successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddMessage - error log - Failed to add message");
+                Console.WriteLine("DatabaseOperator - AddMessage - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Getters
@@ -661,7 +696,7 @@ namespace Electronic_journal.Classes
                     School_role = reader.GetInt32(2),
                     Single_target = reader.GetByte(3) == 1,
                     Target_id = reader.GetInt32(4),
-                    Tareg_school_role = reader.GetInt32(5),
+                    Target_school_role = reader.GetInt32(5),
                     Group_id = reader.GetString(6),
                     Title = reader.GetString(7),
                     Content = reader.GetString(8)
@@ -689,7 +724,7 @@ namespace Electronic_journal.Classes
                     School_role = reader.GetInt32(2),
                     Single_target = reader.GetByte(3) == 1,
                     Target_id = reader.GetInt32(4),
-                    Tareg_school_role = reader.GetInt32(5),
+                    Target_school_role = reader.GetInt32(5),
                     Group_id = reader.GetString(6),
                     Title = reader.GetString(7),
                     Content = reader.GetString(8)
@@ -953,6 +988,110 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static int GetUserId(string email, int school_role)
+        {
+            if (string.IsNullOrEmpty(email) || school_role < 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT school_role_id FROM users WHERE email=@Email AND school_role=@School_role";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@School_role", school_role);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetUserId - success log - User id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+        public static int GetUserId(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM users WHERE email=@Email";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Email", email);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetUserId - success log - User id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
+        public static int GetAdminId(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM users WHERE email=@Email AND school_role=@School_role";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@School_role", 0);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    int id = Convert.ToInt32(result);
+                    Console.WriteLine("DatabaseOperator - GetAdminId - success log - Admin id retrieved successfully");
+                    return id;
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetAdminId - error log - Admin not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
         public static int GetLastAdminId()
         {
             try
@@ -1055,9 +1194,9 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static string GetClassname(int parentId)
+        public static string GetClassnameParent(int id)
         {
-            if (parentId <= 0)
+            if (id <= 0)
                 return null;
 
             try
@@ -1065,29 +1204,94 @@ namespace Electronic_journal.Classes
                 connector.Open();
                 string querry = "SELECT class FROM students WHERE parent_1_id = @Id OR parent_2_id = @Id";
                 using MySqlCommand command = new(querry, connector);
-                command.Parameters.AddWithValue("@Id", parentId);
+                command.Parameters.AddWithValue("@Id", id);
 
                 object result = command.ExecuteScalar();
                 connector.Close();
                 if (result != null && result != DBNull.Value)
                 {
-                    Console.WriteLine("DatabaseOperator - GetClassname - success log - Classname retrieved successfully");
+                    Console.WriteLine("DatabaseOperator - GetClassnameParent - success log - Classname retrieved successfully");
                     return result.ToString();
                 }
                 else
                 {
-                    Console.WriteLine("DatabaseOperator - GetClassname - error log - Class not found in database");
+                    Console.WriteLine("DatabaseOperator - GetClassnameParent - error log - Class not found in database");
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - GetClassname - error log - Failed to retriev classname");
-                Console.WriteLine("DatabaseOperator - GetClassname - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - GetClassnameParent - error log - Failed to retriev classname");
+                Console.WriteLine("DatabaseOperator - GetClassnameParent - exception message - " + ex.Message);
                 return null;
             }
         }
 
+        public static string GetClassnameStudent(int id)
+        {
+            if (id <= 0)
+                return null;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT class FROM students WHERE id = @Id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassnameStudent - success log - Classname retrieved successfully");
+                    return result.ToString();
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassnameStudent - error log - Class not found in database");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetClassnameStudent - error log - Failed to retriev classname");
+                Console.WriteLine("DatabaseOperator - GetClassnameStudent - exception message - " + ex.Message);
+                return null;
+            }
+        }
+
+        public static string GetClassnameTeacher(int id)
+        {
+            if (id <= 0)
+                return null;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT class FROM teachers WHERE id = @Id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassnameTeacher - success log - Classname retrieved successfully");
+                    return result.ToString();
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetClassnameTeacher - error log - Class not found in database");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetClassnameTeacher - error log - Failed to retriev classname");
+                Console.WriteLine("DatabaseOperator - GetClassnameTeacher - exception message - " + ex.Message);
+                return null;
+            }
+        }
 
         #endregion
 

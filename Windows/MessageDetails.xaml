@@ -5,11 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Electronic_journal"
         mc:Ignorable="d"
-        Title="MessageDetails" Height="450" Width="800">
-    <Grid>
-        <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" Margin="10"/>
-        <TextBlock Text="{Binding Author}" FontSize="16" Margin="10,40,10,0"/>
-        <TextBlock Text="{Binding Target}" FontSize="16" Margin="10,70,10,0"/>
-        <TextBlock Text="{Binding Content}" FontSize="14" Margin="10,100,10,10"/>
+        Background="AliceBlue"
+        Title="MessageDetails" Height="350" Width="500">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="Title:" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="{Binding Title}" FontSize="16" VerticalAlignment="Center"/>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="Author:" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="{Binding AuthorEmail}" FontSize="16" VerticalAlignment="Center"/>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="Target:" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="{Binding TargetInfo}" FontSize="16" VerticalAlignment="Center"/>
+        </Border>
+
+        <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5" VerticalAlignment="Top">
+            <TextBlock Text="Content:" FontSize="16" FontWeight="Bold"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
+            <TextBlock Text="{Binding Content}" FontSize="14" TextWrapping="Wrap"/>
+        </Border>
     </Grid>
 </Window>

@@ -12,17 +12,21 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
+
+        <!-- Nagłówek formularza -->
         <TextBlock Margin="10" Text="Create new Message" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
             <Grid Grid.Column="1" Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -33,35 +37,51 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Radio Buttons for Single/Multiple -->
-                <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                    <ToggleButton x:Name="single_RadioButton" Content="Single" FontSize="20" IsChecked="True" Margin="0,0,10,0" VerticalContentAlignment="Center" />
-                    <ToggleButton x:Name="multiple_RadioButton" Content="Multiple" FontSize="20" Margin="10,0,0,0" VerticalContentAlignment="Center" />
-                </DockPanel>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <DockPanel HorizontalAlignment="Center">
+                        <ToggleButton x:Name="single_ToggleButton" Content="Single" FontSize="18" IsChecked="True" Margin="0,0,10,0" VerticalContentAlignment="Center" Click="ToggleButton_Click"/>
+                        <ToggleButton x:Name="multiple_ToggleButton" Content="Multiple" FontSize="18" Margin="10,0,0,0" VerticalContentAlignment="Center" Click="ToggleButton_Click"/>
+                    </DockPanel>
+                </Border>
 
-                <!-- User Role Selection -->
-                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                    <ToggleButton Grid.Column="0" x:Name="admin_RadioButton" Content="Admin" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
-                    <ToggleButton Grid.Column="1" x:Name="teacher_RadioButton" Content="Teacher" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
-                    <ToggleButton Grid.Column="2" x:Name="student_RadioButton" Content="Student" FontSize="20" IsChecked="True" Margin="5" VerticalContentAlignment="Center" />
-                    <ToggleButton Grid.Column="3" x:Name="parent_RadioButton" Content="Parent" FontSize="20" Margin="5" VerticalContentAlignment="Center" />
-                </DockPanel>
+                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <DockPanel HorizontalAlignment="Center">
+                        <ToggleButton x:Name="admin_ToggleButton" Content="Admin" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="teacher_ToggleButton" Content="Teacher" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="student_ToggleButton" Content="Student" FontSize="18" IsChecked="True" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="parent_ToggleButton" Content="Parent" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
+                    </DockPanel>
+                </Border>
 
-                <!-- Target Name/ID Input -->
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Target Email/Id" ToolTip="If you want to send a message to a specific person type their full name. If you want to send a message to a group of people such as class, type their classname." FontSize="20"/>
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="name_TextBox" FontSize="20" Height="40" Margin="10"/>
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <TextBlock Text="Target Email/Id" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <TextBox x:Name="name_TextBox" FontSize="18" Height="40" ToolTip="If you want to send a message to a specific person type their full name. If you want to send a message to a group of people such as class, type their classname."/>
+                </Border>
 
-                <!-- Title Input -->
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Title" FontSize="20" Margin="0,10,0,0"/>
-                <TextBox Grid.Row="3" Grid.Column="1" x:Name="title_TextBox" FontSize="20" Height="40" Margin="10"/>
+                <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <TextBlock Text="Title" FontSize="18"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <TextBox x:Name="title_TextBox" FontSize="18" Height="40"/>
+                </Border>
 
-                <!-- Content Input -->
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Content" FontSize="20" Margin="0,10,0,0"/>
-                <TextBox Grid.Row="4" Grid.Column="1" x:Name="content_TextBox" FontSize="20" Height="150" Margin="10"/>
+                <Border Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <TextBlock Text="Content" FontSize="18"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <ScrollViewer>
+                        <TextBox x:Name="content_TextBox" FontSize="18" Height="150" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Border>
 
-                <!-- Buttons -->
-                <Button Grid.Row="5" Grid.Column="0" x:Name="return_Button" Content="Return" Click="Button_Click" Margin="10"/>
-                <Button Grid.Row="5" Grid.Column="1" x:Name="send_Button" Content="Send" Click="Button_Click" Margin="10"/>
+                <Border Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <Button x:Name="return_Button" Content="Return" Click="Button_Click" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <Button x:Name="send_Button" Content="Send" Click="Button_Click" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

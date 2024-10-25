@@ -3,7 +3,9 @@
 using Electronic_journal.Classes.DataClasses;
 using MySqlConnector;
 using SHA3.Net;
+using System.Data;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Electronic_journal.Classes
 {
@@ -606,6 +608,7 @@ namespace Electronic_journal.Classes
         #region Messages and Notes
         public static bool AddMessage(Message message)
         {
+            Console.WriteLine("Id: " + message.Author_id + ", Role: " + message.School_role);
             try
             {
                 connector.Open();
@@ -624,7 +627,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Content", message.Content);
 
                 command.ExecuteNonQuery();
-
+                connector.Close();
                 Console.WriteLine("DatabaseOperator - AddMessage - success log - Message added successfully");
                 return true;
             }
@@ -681,7 +684,10 @@ namespace Electronic_journal.Classes
         {
             List<Message> messages = [];
             connector.Open();
-            string querry = "SELECT * FROM messages WHERE (author_id = @Id AND school_role = @Role) OR (single_target_id = @Id AND target_school_role = @Role)";
+            string querry = "SELECT m.id, m.title, m.content, GetEmail(m.author_id,m.school_role) as AuthorEmail, GetEmail(m.single_target_id,m.target_school_role) as TargetInfo, m.group_target_id " +
+                "FROM messages m INNER JOIN users u ON m.author_id = u.school_role_id " +
+                "WHERE(m.single_target = 1 AND m.author_id = @Id AND m.school_role = @Role) " +
+                "OR (m.single_target = 1 AND m.single_target_id = @Id AND target_school_role = @Role) GROUP BY m.id;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Id", id);
             command.Parameters.AddWithValue("@Role", role);
@@ -691,18 +697,23 @@ namespace Electronic_journal.Classes
             {
                 messages.Add(new Message
                 {
-                    Id = reader.GetInt32(0),
-                    Author_id = reader.GetInt32(1),
-                    School_role = reader.GetInt32(2),
-                    Single_target = reader.GetByte(3) == 1,
-                    Target_id = reader.GetInt32(4),
-                    Target_school_role = reader.GetInt32(5),
-                    Group_id = reader.GetString(6),
-                    Title = reader.GetString(7),
-                    Content = reader.GetString(8)
+                    Id = reader.GetInt32("id"),
+                    Title = reader.GetString("title"),
+                    Content = reader.GetString("content"),
+                    AuthorEmail = reader.GetString("AuthorEmail"),
+                    TargetInfo = reader.GetString("TargetInfo")
                 });
             }
-            connector.Close();
+            connector.Close(); 
+            foreach (Message message in messages)
+            {
+                Console.WriteLine("---------------------------");
+                Console.WriteLine(message.Id);
+                Console.WriteLine(message.Title);
+                Console.WriteLine(message.Content);
+                Console.WriteLine(message.AuthorEmail);
+                Console.WriteLine(message.TargetInfo);
+            }
             return messages;
         }
 
@@ -710,24 +721,21 @@ namespace Electronic_journal.Classes
         {
             List<Message> messages = [];
             connector.Open();
-            string querry = "SELECT * FROM messages WHERE groupd_target_id = @Id)";
+            string querry = "SELECT m.id, m.title, m.content, u.email AS AuthorEmail, m.group_target_id AS TargetInfo " +
+                "FROM messages m JOIN users u ON m.author_id = u.id WHERE m.group_target_id = @Classname";
             using MySqlCommand command = new(querry, connector);
-            command.Parameters.AddWithValue("@Id", classname);
+            command.Parameters.AddWithValue("@Classname", classname);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
                 messages.Add(new Message
                 {
-                    Id = reader.GetInt32(0),
-                    Author_id = reader.GetInt32(1),
-                    School_role = reader.GetInt32(2),
-                    Single_target = reader.GetByte(3) == 1,
-                    Target_id = reader.GetInt32(4),
-                    Target_school_role = reader.GetInt32(5),
-                    Group_id = reader.GetString(6),
-                    Title = reader.GetString(7),
-                    Content = reader.GetString(8)
+                    Id = reader.GetInt32("id"),
+                    Title = reader.GetString("title"),
+                    Content = reader.GetString("content"),
+                    AuthorEmail = reader.GetString("AuthorEmail"),
+                    TargetInfo = reader.GetString("TargetInfo")
                 });
             }
             connector.Close();
@@ -971,19 +979,19 @@ namespace Electronic_journal.Classes
                 if (result != null && result != DBNull.Value)
                 {
                     int id = Convert.ToInt32(result);
-                    Console.WriteLine("DatabaseOperator - GetUserId - success log - user id retrieved successfully");
+                    Console.WriteLine("DatabaseOperator - GetUserId 1 - success log - user id retrieved successfully");
                     return id;
                 }
                 else
                 {
-                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    Console.WriteLine("DatabaseOperator - GetUserId 1 - error log - User not found in database");
                     return -1;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
-                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - GetUserId 1 - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId 1 - exception message - " + ex.Message);
                 return -1;
             }
         }
@@ -1006,19 +1014,19 @@ namespace Electronic_journal.Classes
                 if (result != null && result != DBNull.Value)
                 {
                     int id = Convert.ToInt32(result);
-                    Console.WriteLine("DatabaseOperator - GetUserId - success log - User id retrieved successfully");
+                    Console.WriteLine("DatabaseOperator - GetUserId 2 - success log - User id retrieved successfully");
                     return id;
                 }
                 else
                 {
-                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    Console.WriteLine("DatabaseOperator - GetUserId 2 - error log - User not found in database");
                     return -1;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
-                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - GetUserId 2 - error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId 2 - exception message - " + ex.Message);
                 return -1;
             }
         }
@@ -1040,19 +1048,19 @@ namespace Electronic_journal.Classes
                 if (result != null && result != DBNull.Value)
                 {
                     int id = Convert.ToInt32(result);
-                    Console.WriteLine("DatabaseOperator - GetUserId - success log - User id retrieved successfully");
+                    Console.WriteLine("DatabaseOperator - GetUserId 3 - success log - User id retrieved successfully");
                     return id;
                 }
                 else
                 {
-                    Console.WriteLine("DatabaseOperator - GetUserId - error log - User not found in database");
+                    Console.WriteLine("DatabaseOperator - GetUserId 3 - error log - User not found in database");
                     return -1;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("DatabaseOperator - GetUserId - error log - Failed to retriev id");
-                Console.WriteLine("DatabaseOperator - GetUserId - exception message - " + ex.Message);
+                Console.WriteLine("DatabaseOperator - GetUserId 3- error log - Failed to retriev id");
+                Console.WriteLine("DatabaseOperator - GetUserId 3 - exception message - " + ex.Message);
                 return -1;
             }
         }
@@ -1743,7 +1751,7 @@ namespace Electronic_journal.Classes
             }
         }
 
-        private static string HashPassword(string input)
+        public static string HashPassword(string input)
         {
             return BitConverter.ToString(Sha3.Sha3256().ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", "").ToLower();
         }

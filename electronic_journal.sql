@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 11:29 PM
+-- Generation Time: Oct 25, 2024 at 10:54 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `electronic_journal`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmail` (IN `id` INT, IN `role` INT, OUT `email` TEXT)   BEGIN
+         SELECT users.email INTO email FROM users
+         WHERE users.school_role_id = id AND users.school_role = role;
+       END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetEmail` (`id` INT, `role` INT) RETURNS TEXT CHARSET utf8mb4 COLLATE utf8mb4_general_ci DETERMINISTIC BEGIN
+    DECLARE email TEXT;
+      SELECT users.email INTO email 
+      FROM users
+      WHERE users.school_role_id = id AND users.school_role = role;
+    RETURN email;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -56,36 +78,37 @@ CREATE TABLE `lessons` (
 --
 
 INSERT INTO `lessons` (`id`, `name`, `class`, `classroom`, `teacher_id`, `lesson`, `day`) VALUES
-(1, 'Matematyka', '1a', 120, 19, 1, 1),
-(2, 'Język polski', '1a', 101, 1, 1, 2),
-(3, 'Język angielski', '1a', 103, 3, 1, 3),
-(4, 'Historia', '1a', 104, 4, 1, 4),
-(5, 'Język rosyjski', '1a', 116, 15, 1, 5),
-(6, 'Fizyka', '1a', 109, 9, 2, 1),
-(7, 'Matematyka', '1a', 120, 19, 2, 2),
-(8, 'Język polski', '1a', 101, 1, 2, 3),
-(9, 'Język angielski', '1a', 103, 3, 2, 4),
-(10, 'Biologia', '1a', 107, 7, 2, 5),
-(11, 'Historia', '1a', 104, 4, 3, 1),
-(12, 'Chemia', '1a', 108, 8, 3, 2),
-(13, 'Biologia', '1a', 106, 6, 3, 3),
-(14, 'Matematyka', '1a', 120, 19, 3, 4),
-(15, 'Fizyka', '1a', 109, 9, 3, 5),
-(16, 'Język angielski', '1a', 103, 3, 4, 1),
-(17, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 4, 2),
-(18, 'Wiedza o społeczeństwie (WOS)', '1a', 105, 5, 4, 3),
-(19, 'Informatyka', '1a', 110, 10, 4, 4),
-(20, 'Matematyka', '1a', 120, 19, 4, 5),
-(21, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 5, 1),
-(22, 'Biologia', '1a', 107, 7, 5, 2),
-(23, 'Religia', '1a', 114, 13, 5, 3),
-(24, 'Geografia', '1a', 106, 6, 5, 4),
-(25, 'Chemia', '1a', 108, 8, 5, 5),
-(26, 'Edukacja dla bezpieczeństwa (EDB)', '1a', 113, 12, 6, 1),
-(27, 'Język polski', '1a', 101, 1, 6, 2),
-(28, 'Informatyka', '1a', 110, 10, 6, 3),
-(29, 'Podstawy przedsiębiorczości', '1a', 117, 16, 6, 4),
-(30, 'Etyka', '1a', 115, 14, 6, 5);
+(121, 'Matematyka', '1b', 120, 19, 0, 1),
+(122, 'Matematyka', '1a', 120, 19, 1, 1),
+(123, 'Język polski', '1a', 101, 1, 1, 2),
+(124, 'Język angielski', '1a', 103, 3, 1, 3),
+(125, 'Historia', '1a', 104, 4, 1, 4),
+(126, 'Język rosyjski', '1a', 116, 15, 1, 5),
+(127, 'Fizyka', '1a', 109, 9, 2, 1),
+(128, 'Matematyka', '1a', 120, 19, 2, 2),
+(129, 'Język polski', '1a', 101, 1, 2, 3),
+(130, 'Język angielski', '1a', 103, 3, 2, 4),
+(131, 'Biologia', '1a', 107, 7, 2, 5),
+(132, 'Historia', '1a', 104, 4, 3, 1),
+(133, 'Chemia', '1a', 108, 8, 3, 2),
+(134, 'Biologia', '1a', 106, 6, 3, 3),
+(135, 'Matematyka', '1a', 120, 19, 3, 4),
+(136, 'Fizyka', '1a', 109, 9, 3, 5),
+(137, 'Język angielski', '1a', 103, 3, 4, 1),
+(138, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 4, 2),
+(139, 'Wiedza o społeczeństwie (WOS)', '1a', 105, 5, 4, 3),
+(140, 'Informatyka', '1a', 110, 10, 4, 4),
+(141, 'Matematyka', '1a', 120, 19, 4, 5),
+(142, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 5, 1),
+(143, 'Biologia', '1a', 107, 7, 5, 2),
+(144, 'Religia', '1a', 114, 13, 5, 3),
+(145, 'Geografia', '1a', 106, 6, 5, 4),
+(146, 'Chemia', '1a', 108, 8, 5, 5),
+(147, 'Edukacja dla bezpieczeństwa (EDB)', '1a', 113, 12, 6, 1),
+(148, 'Język polski', '1a', 101, 1, 6, 2),
+(149, 'Informatyka', '1a', 110, 10, 6, 3),
+(150, 'Podstawy przedsiębiorczości', '1a', 117, 16, 6, 4),
+(151, 'Etyka', '1a', 115, 14, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -96,12 +119,22 @@ INSERT INTO `lessons` (`id`, `name`, `class`, `classroom`, `teacher_id`, `lesson
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `author_id` int(11) NOT NULL,
+  `school_role` int(11) NOT NULL,
   `single_target` tinyint(1) NOT NULL,
-  `single_target_id` int(11) NOT NULL,
-  `group_target_id` text NOT NULL,
+  `single_target_id` int(11) DEFAULT NULL,
+  `target_school_role` int(11) NOT NULL,
+  `group_target_id` text DEFAULT NULL,
   `title` text NOT NULL,
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `author_id`, `school_role`, `single_target`, `single_target_id`, `target_school_role`, `group_target_id`, `title`, `content`) VALUES
+(1, 1, 1, 0, 0, 2, '1a', '1a grades', 'grades'),
+(2, 1, 1, 1, 1, 0, NULL, 'Disappearing Messages', 'Hello, My messages to our students started to disappear after last update. Can you fdo some thing with it');
 
 -- --------------------------------------------------------
 
@@ -326,7 +359,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `school_role`, `school_role_id`, `email`, `password`) VALUES
-(1, 0, 0, 'admin@school.edu.pl', 'fb001dfcffd1c899f3297871406242f097aecf1a5342ccf3ebcd116146188e4b'),
+(1, 0, 1, 'admin@school.edu.pl', 'fb001dfcffd1c899f3297871406242f097aecf1a5342ccf3ebcd116146188e4b'),
 (2, 1, 1, 'Anna.Nowak@school.edu.pl', 'b1292bfe2967647ad048d3d6ac93c24883e16a542c64767281a43d4d87745f0b'),
 (3, 1, 2, 'Jan.Kowalski@school.edu.pl', 'cb5d389501217e7a853a2dfdd1258264fccefc0fb8509b6acf44afad6417a600'),
 (4, 1, 3, 'Maria.Wiśniewska@school.edu.pl', 'ecfc57784418b24ed01c26f20c75997cc152371b11503b8ce842901a10999468'),
@@ -514,13 +547,13 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notes`

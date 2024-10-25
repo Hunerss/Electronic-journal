@@ -55,7 +55,13 @@ namespace Electronic_journal.UserControls.StartUserControls
                         int id = DatabaseOperator.GetRole(login, password);
                         if (id == 0)
                         {
-                            window.frame.NavigationService.Navigate(new Admin_Menu_UserControl(window));
+                            Admin admin = new()
+                            {
+                                Id = DatabaseOperator.GetAdminId(login),
+                                Email = login,
+                                Password = DatabaseOperator.HashPassword(password)
+                            };
+                            window.frame.NavigationService.Navigate(new Admin_Menu_UserControl(window, admin));
                         }
                         else if (id == 1)
                         {

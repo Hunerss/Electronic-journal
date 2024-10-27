@@ -1,5 +1,7 @@
 ﻿using Electronic_journal.Classes.DataClasses;
+using Electronic_journal.UserControls.GeneralUserControls;
 using Electronic_journal.UserControls.TeacherUserControls;
+using Electronic_journal.Windows.UserControls.GeneralUserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,19 +47,13 @@ namespace Electronic_journal.UserControls.StudentUserControls
                 case "profile_button":
                     //window.frame.NavigationService.Navigate(new Teacjer_Profile_UserControl(window, student));
                     break;
-                case "class_button":
-                    //window.frame.NavigationService.Navigate(new Admin_ClassesMenu_UserControl(window));
-                    break;
                 case "lessons_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new General_Lessons_UserControl(window, student));
                     break;
                 case "messages_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new General_Messages_UserControl(window, student));
                     break;
                 case "grades_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
-                    break;
-                case "attendence_button":
                     //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
                     break;
                 case "logout_button":

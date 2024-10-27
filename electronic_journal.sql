@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2024 at 02:14 PM
+-- Generation Time: Oct 27, 2024 at 08:24 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -41,6 +41,16 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `GetEmail` (`id` INT, `role` INT) RET
     RETURN email;
 END$$
 
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetFullName` (`studentId` INT) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_general_ci DETERMINISTIC BEGIN
+    DECLARE fullName VARCHAR(255);
+
+    SELECT CONCAT(name, ' ', surname) INTO fullName
+    FROM students
+    WHERE id = studentId;
+
+    RETURN fullName;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -51,11 +61,51 @@ DELIMITER ;
 
 CREATE TABLE `grades` (
   `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `description` text NOT NULL,
   `grade` text NOT NULL,
+  `weight` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
+  `class` text NOT NULL,
   `teacher_id` int(11) NOT NULL,
   `creation_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grades`
+--
+
+INSERT INTO `grades` (`id`, `name`, `description`, `grade`, `weight`, `student_id`, `class`, `teacher_id`, `creation_date`) VALUES
+(1, 'spr1', 'Sprawdzian z 1. rozdziału', '2', 3, 1, '1a', 1, 20241027),
+(2, 'spr1', 'Sprawdzian z 1. rozdziału', '3', 3, 2, '1a', 1, 20241027),
+(3, 'spr1', 'Sprawdzian z 1. rozdziału', '3', 3, 3, '1a', 1, 20241027),
+(4, 'spr1', 'Sprawdzian z 1. rozdziału', '4', 3, 4, '1a', 1, 20241027),
+(5, 'spr1', 'Sprawdzian z 1. rozdziału', '3', 3, 5, '1a', 1, 20241027),
+(6, 'spr1', 'Sprawdzian z 1. rozdziału', '5', 3, 6, '1a', 1, 20241027),
+(7, 'spr1', 'Sprawdzian z 1. rozdziału', '5', 3, 7, '1a', 1, 20241027),
+(8, 'spr1', 'Sprawdzian z 1. rozdziału', '4', 3, 8, '1a', 1, 20241027),
+(9, 'spr1', 'Sprawdzian z 1. rozdziału', '3', 3, 9, '1a', 1, 20241027),
+(10, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 10, '1a', 1, 20241027),
+(11, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 11, '1a', 1, 20241027),
+(12, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 12, '1a', 1, 20241027),
+(13, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 13, '1a', 1, 20241027),
+(14, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 14, '1a', 1, 20241027),
+(15, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 15, '1a', 1, 20241027),
+(16, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 16, '1a', 1, 20241027),
+(17, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 17, '1a', 1, 20241027),
+(18, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 18, '1a', 1, 20241027),
+(19, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 19, '1a', 1, 20241027),
+(20, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 20, '1a', 1, 20241027),
+(21, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 21, '1a', 1, 20241027),
+(22, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 22, '1a', 1, 20241027),
+(23, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 23, '1a', 1, 20241027),
+(24, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 24, '1a', 1, 20241027),
+(25, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 25, '1a', 1, 20241027),
+(26, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 26, '1a', 1, 20241027),
+(27, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 27, '1a', 1, 20241027),
+(28, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 28, '1a', 1, 20241027),
+(29, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 29, '1a', 1, 20241027),
+(30, 'spr1', 'Sprawdzian z 1. rozdziału', '', 3, 30, '1a', 1, 20241027);
 
 -- --------------------------------------------------------
 
@@ -135,7 +185,15 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `author_id`, `school_role`, `single_target`, `single_target_id`, `target_school_role`, `group_target_id`, `title`, `content`) VALUES
 (1, 1, 1, 0, 0, 2, '1a', '1a grades', 'grades'),
-(2, 1, 1, 1, 1, 0, NULL, 'Disappearing Messages', 'Hello, My messages to our students started to disappear after last update. Can you fdo some thing with it');
+(2, 1, 1, 1, 1, 0, NULL, 'Disappearing Messages', 'Hello, My messages to our students started to disappear after last update. Can you fdo some thing with it'),
+(3, 1, 1, 1, 1, 2, NULL, 'Bad grade', 'Why didnt you study for last test?'),
+(4, 1, 1, 1, -1, 2, NULL, 'After school match', 'You were promoted to go and reprezent our school in after school football match on 07.11.2024, 19:00 at city stadium'),
+(5, 0, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
+(6, 0, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
+(7, 0, -1, 1, -1, 2, NULL, 'Re: Bad Grade', 'Because of football turnament'),
+(8, -1, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
+(9, 2, 2, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
+(10, 1, 2, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament');
 
 -- --------------------------------------------------------
 
@@ -172,66 +230,67 @@ CREATE TABLE `parents` (
 --
 
 INSERT INTO `parents` (`id`, `name`, `surname`, `birthday`, `sex`) VALUES
-(1, 'Piotr', 'Nowak', 19635659, 1),
-(2, 'Joanna', 'Nowak', 19766907, 0),
-(3, 'Andrzej', 'Kowalski', 19614459, 1),
+(1, 'Piotr', 'Nowak', 19630506, 1),
+(2, 'Joanna', 'Nowak', 19760907, 0),
+(3, 'Andrzej', 'Kowalski', 19610414, 1),
 (4, 'Maria', 'Kowalska', 19691214, 0),
-(5, 'Marek', 'Wiśniewski', 19660021, 1),
-(6, 'Małgorzata', 'Wiśniewska', 19817793, 0),
-(7, 'Jan', 'Wójcik', 19792512, 1),
-(8, 'Barbara', 'Wójcik', 19679526, 0),
-(9, 'Marcin', 'Kowalczyk', 19638132, 1),
-(10, 'Barbara', 'Kowalczyk', 19751755, 0),
-(11, 'Piotr', 'Kamiński', 19645957, 1),
-(12, 'Agnieszka', 'Kamińska', 19704188, 0),
-(13, 'Krzysztof', 'Lewandowski', 19655258, 1),
-(14, 'Anna', 'Lewandowska', 19786073, 0),
-(15, 'Tomasz', 'Zieliński', 19694057, 1),
-(16, 'Magdalena', 'Zielińska', 19679657, 0),
-(17, 'Jan', 'Woźniak', 19609608, 1),
-(18, 'Katarzyna', 'Woźniak', 19809558, 0),
-(19, 'Piotr', 'Szymański', 19675153, 1),
-(20, 'Maria', 'Szymańska', 19758601, 0),
-(21, 'Tomasz', 'Dąbrowski', 19647264, 1),
-(22, 'Barbara', 'Dąbrowska', 19692205, 0),
-(23, 'Andrzej', 'Kozłowski', 19691690, 1),
-(24, 'Maria', 'Kozłowska', 19687041, 0),
-(25, 'Grzegorz', 'Mazur', 19651066, 1),
-(26, 'Agnieszka', 'Mazurska', 19738672, 0),
-(27, 'Grzegorz', 'Jankowski', 19662419, 1),
-(28, 'Agnieszka', 'Jankowska', 19833277, 0),
-(29, 'Marek', 'Kwiatkowski', 19678237, 1),
-(30, 'Zofia', 'Kwiatkowska', 19670952, 0),
-(31, 'Tomasz', 'Wojciechowski', 19631368, 1),
+(5, 'Marek', 'Wiśniewski', 19660601, 1),
+(6, 'Małgorzata', 'Wiśniewska', 19810701, 0),
+(7, 'Jan', 'Wójcik', 19791205, 1),
+(8, 'Barbara', 'Wójcik', 19670926, 0),
+(9, 'Marcin', 'Kowalczyk', 19630813, 1),
+(10, 'Barbara', 'Kowalczyk', 19750501, 0),
+(11, 'Piotr', 'Kamiński', 19640501, 1),
+(12, 'Agnieszka', 'Kamińska', 19700101, 0),
+(13, 'Krzysztof', 'Lewandowski', 19650501, 1),
+(14, 'Anna', 'Lewandowska', 19780601, 0),
+(15, 'Tomasz', 'Zieliński', 19690501, 1),
+(16, 'Magdalena', 'Zielińska', 19670501, 0),
+(17, 'Jan', 'Woźniak', 19600801, 1),
+(18, 'Katarzyna', 'Woźniak', 19800801, 0),
+(19, 'Piotr', 'Szymański', 19670101, 1),
+(20, 'Maria', 'Szymańska', 19750101, 0),
+(21, 'Tomasz', 'Dąbrowski', 19641201, 1),
+(22, 'Barbara', 'Dąbrowska', 19691201, 0),
+(23, 'Andrzej', 'Kozłowski', 19691201, 1),
+(24, 'Maria', 'Kozłowska', 19681201, 0),
+(25, 'Grzegorz', 'Mazur', 19651001, 1),
+(26, 'Agnieszka', 'Mazurska', 19730601, 0),
+(27, 'Grzegorz', 'Jankowski', 19661201, 1),
+(28, 'Agnieszka', 'Jankowska', 19830701, 0),
+(29, 'Marek', 'Kwiatkowski', 19670301, 1),
+(30, 'Zofia', 'Kwiatkowska', 19650201, 0),
+(31, 'Tomasz', 'Wojciechowski', 19630301, 1),
 (32, 'Małgorzata', 'Wojciechowska', 19849399, 0),
-(33, 'Marek', 'Krawczyk', 19786111, 1),
-(34, 'Joanna', 'Krawczyk', 19670762, 0),
-(35, 'Tomasz', 'Kaczmarek', 19737003, 1),
-(36, 'Zofia', 'Kaczmarek', 19838519, 0),
-(37, 'Marek', 'Piotrowski', 19725038, 1),
-(38, 'Anna', 'Piotrowska', 19707886, 0),
-(39, 'Tomasz', 'Grabowski', 19656298, 1),
-(40, 'Joanna', 'Grabowska', 19748928, 0),
-(41, 'Piotr', 'Zając', 19731849, 1),
-(42, 'Zofia', 'Zając', 19675527, 0),
-(43, 'Marcin', 'Pawłowski', 19666196, 1),
-(44, 'Barbara', 'Pawłowska', 19790230, 0),
-(45, 'Adam', 'Król', 19718191, 1),
-(46, 'Magdalena', 'Król', 19718313, 0),
-(47, 'Grzegorz', 'Michalski', 19756772, 1),
-(48, 'Katarzyna', 'Michalska', 19761946, 0),
-(49, 'Krzysztof', 'Wróbel', 19797785, 1),
-(50, 'Agnieszka', 'Wróbel', 19798653, 0),
-(51, 'Tomasz', 'Wieczorek', 19716409, 1),
-(52, 'Magdalena', 'Wieczorek', 19815920, 0),
-(53, 'Grzegorz', 'Jabłoński', 19767114, 1),
-(54, 'Magdalena', 'Jabłońska', 19729042, 0),
-(55, 'Andrzej', 'Nowakowski', 19770128, 1),
-(56, 'Anna', 'Nowakowska', 19750652, 0),
-(57, 'Piotr', 'Majewski', 19753783, 1),
-(58, 'Magdalena', 'Majewska', 19850521, 0),
-(59, 'Piotr', 'Olszewski', 19712307, 1),
-(60, 'Barbara', 'Olszewska', 19675962, 0);
+(33, 'Marek', 'Krawczyk', 19786101, 1),
+(34, 'Joanna', 'Krawczyk', 19670101, 0),
+(35, 'Tomasz', 'Kaczmarek', 19730101, 1),
+(36, 'Zofia', 'Kaczmarek', 19830101, 0), 
+(37, 'Marek', 'Piotrowski', 19720301, 1),
+(38, 'Anna', 'Piotrowska', 19720101, 0), 
+(39, 'Tomasz', 'Grabowski', 19650301, 1),
+(40, 'Joanna', 'Grabowska', 19750101, 0),
+(41, 'Piotr', 'Zając', 19730101, 1),
+(42, 'Zofia', 'Zając', 19670101, 0),
+(43, 'Marcin', 'Pawłowski', 19660101, 1),
+(44, 'Barbara', 'Pawłowska', 19750101, 0),
+(45, 'Adam', 'Król', 19710101, 1),
+(46, 'Magdalena', 'Król', 19710101, 0),
+(47, 'Grzegorz', 'Michalski', 19750101, 1), 
+(48, 'Katarzyna', 'Michalska', 19760101, 0),
+(49, 'Krzysztof', 'Wróbel', 19790101, 1),
+(50, 'Agnieszka', 'Wróbel', 19790101, 0),
+(51, 'Tomasz', 'Wieczorek', 19710101, 1),
+(52, 'Magdalena', 'Wieczorek', 19820101, 0),
+(53, 'Grzegorz', 'Jabłoński', 19710101, 1),
+(54, 'Magdalena', 'Jabłońska', 19710101, 0),
+(55, 'Andrzej', 'Nowakowski', 19710101, 1),
+(56, 'Anna', 'Nowakowska', 19710101, 0),
+(57, 'Piotr', 'Majewski', 19710101, 1),
+(58, 'Magdalena', 'Majewska', 19820101, 0),
+(59, 'Piotr', 'Olszewski', 19710101, 1),
+(60, 'Barbara', 'Olszewska', 19670101, 0);
+
 
 -- --------------------------------------------------------
 
@@ -256,36 +315,37 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name`, `surname`, `class`, `birthday`, `age`, `sex`, `parent_1_id`, `parent_2_id`) VALUES
-(1, 'Andrzej', 'Nowak', '1A', 20097280, 15, 1, 1, 2),
+(1, 'Andrzej', 'Nowak', '1A', 20090728, 15, 1, 1, 2),
 (2, 'Maria', 'Kowalska', '1A', 20090106, 15, 0, 3, 4),
-(3, 'Paweł', 'Wiśniewski', '1A', 20097196, 15, 1, 5, 6),
-(4, 'Barbara', 'Wójcik', '1A', 20091151, 15, 0, 7, 8),
-(5, 'Andrzej', 'Kowalczyk', '1A', 20099545, 15, 1, 9, 10),
-(6, 'Małgorzata', 'Kamińska', '1A', 20097262, 15, 0, 11, 12),
-(7, 'Jan', 'Lewandowski', '1A', 20104967, 14, 1, 13, 14),
-(8, 'Katarzyna', 'Zielińska', '1A', 20094971, 15, 0, 15, 16),
-(9, 'Krzysztof', 'Woźniak', '1A', 20091460, 15, 1, 17, 18),
-(10, 'Zofia', 'Szymańska', '1A', 20094812, 15, 0, 19, 20),
-(11, 'Adam', 'Dąbrowski', '1A', 20090479, 15, 1, 21, 22),
-(12, 'Magdalena', 'Kozłowska', '1A', 20090735, 16, 0, 23, 24),
+(3, 'Paweł', 'Wiśniewski', '1A', 20090719, 15, 1, 5, 6),
+(4, 'Barbara', 'Wójcik', '1A', 20091101, 15, 0, 7, 8),
+(5, 'Andrzej', 'Kowalczyk', '1A', 20090905, 15, 1, 9, 10),
+(6, 'Małgorzata', 'Kamińska', '1A', 20090726, 15, 0, 11, 12),
+(7, 'Jan', 'Lewandowski', '1A', 20100601, 14, 1, 13, 14),
+(8, 'Katarzyna', 'Zielińska', '1A', 20090401, 15, 0, 15, 16),
+(9, 'Krzysztof', 'Woźniak', '1A', 20090401, 15, 1, 17, 18),
+(10, 'Zofia', 'Szymańska', '1A', 20090412, 15, 0, 19, 20),
+(11, 'Adam', 'Dąbrowski', '1A', 20090301, 15, 1, 21, 22),
+(12, 'Magdalena', 'Kozłowska', '1A', 20090701, 16, 0, 23, 24),
 (13, 'Paweł', 'Mazur', '1A', 20090106, 15, 1, 25, 26),
-(14, 'Anna', 'Jankowska', '1A', 20107390, 14, 0, 27, 28),
-(15, 'Tomasz', 'Kwiatkowski', '1A', 20091962, 15, 1, 29, 30),
-(16, 'Marek', 'Wojciechowski', '1A', 20097486, 15, 1, 31, 32),
-(17, 'Zofia', 'Krawczyk', '1A', 20096588, 15, 0, 33, 34),
-(18, 'Piotr', 'Kaczmarek', '1A', 20092085, 15, 1, 35, 36),
-(19, 'Joanna', 'Piotrowska', '1A', 20103606, 14, 0, 37, 38),
-(20, 'Tomasz', 'Grabowski', '1A', 20099545, 15, 1, 39, 40),
-(21, 'Zofia', 'Zając', '1A', 20099471, 15, 0, 41, 42),
-(22, 'Marek', 'Pawłowski', '1A', 20098745, 15, 1, 43, 44),
-(23, 'Anna', 'Król', '1A', 20095165, 15, 0, 45, 46),
-(24, 'Krzysztof', 'Michalski', '1A', 20096234, 15, 1, 47, 48),
-(25, 'Maria', 'Wróbel', '1A', 20096555, 15, 0, 49, 50),
-(26, 'Adam', 'Wieczorek', '1A', 20098415, 15, 1, 51, 52),
-(27, 'Joanna', 'Jabłońska', '1A', 20094560, 15, 0, 53, 54),
-(28, 'Piotr', 'Nowakowski', '1A', 20093478, 15, 1, 55, 56),
-(29, 'Zofia', 'Majewska', '1A', 20096588, 15, 0, 57, 58),
-(30, 'Tomasz', 'Olszewski', '1A', 20099345, 15, 1, 59, 60);
+(14, 'Anna', 'Jankowska', '1A', 20100601, 14, 0, 27, 28),
+(15, 'Tomasz', 'Kwiatkowski', '1A', 20090301, 15, 1, 29, 30),
+(16, 'Marek', 'Wojciechowski', '1A', 20090801, 15, 1, 31, 32),
+(17, 'Zofia', 'Krawczyk', '1A', 20090601, 15, 0, 33, 34),
+(18, 'Piotr', 'Kaczmarek', '1A', 20090501, 15, 1, 35, 36),
+(19, 'Joanna', 'Piotrowska', '1A', 20100601, 14, 0, 37, 38),
+(20, 'Tomasz', 'Grabowski', '1A', 20090905, 15, 1, 39, 40),
+(21, 'Zofia', 'Zając', '1A', 20090501, 15, 0, 41, 42),
+(22, 'Marek', 'Pawłowski', '1A', 20090801, 15, 1, 43, 44),
+(23, 'Anna', 'Król', '1A', 20090516, 15, 0, 45, 46),
+(24, 'Krzysztof', 'Michalski', '1A', 20090601, 15, 1, 47, 48),
+(25, 'Maria', 'Wróbel', '1A', 20090501, 15, 0, 49, 50),
+(26, 'Adam', 'Wieczorek', '1A', 20090815, 15, 1, 51, 52),
+(27, 'Joanna', 'Jabłońska', '1A', 20090501, 15, 0, 53, 54),
+(28, 'Piotr', 'Nowakowski', '1A', 20090301, 15, 1, 55, 56),
+(29, 'Zofia', 'Majewska', '1A', 20090601, 15, 0, 57, 58),
+(30, 'Tomasz', 'Olszewski', '1A', 20090915, 15, 1, 59, 60);
+
 
 -- --------------------------------------------------------
 
@@ -391,36 +451,36 @@ INSERT INTO `users` (`id`, `school_role`, `school_role_id`, `email`, `password`)
 (29, 1, 28, 'Kamil.Olszewski@school.edu.pl', 'edde0f6deacdfc823f50d4a694d24496de237518df77d5268aae213645b3960a'),
 (30, 1, 29, 'Ewa.Stępień@school.edu.pl', '339f12005f6f89876a041bd87fdec5d02aeb70bf5187b093122a4f5c8d9ae89a'),
 (31, 1, 30, 'Karol.Witkowski@school.edu.pl', '53e9ab672d13c49ec37e9fa059e56ac523ffee6dd23d86d4c01380879c84d67b'),
-(32, 2, 1, 'Andrzej.Nowak@school.edu.pl', 'fb92c2a7d619d35c6b28465eb7e3e1ad3c8dea9ca6ed5a67207d1964298664ed'),
-(33, 2, 2, 'Maria.Kowalska@school.edu.pl', 'aa601ea3dd71804783740e1df97c442c08e1dd94eaa15ee281c6e309ee323c65'),
-(34, 2, 3, 'Paweł.Wiśniewski@school.edu.pl', 'e8b13718b672bce882f801aa84b98d1ab7e1470aed65f7a5907642db5724e242'),
-(35, 2, 4, 'Barbara.Wójcik@school.edu.pl', 'ddddb60d149cbfb5a5885ba57ea15803d08d40e6be4b979ae90f38024d9c9cad'),
-(36, 2, 5, 'Andrzej.Kowalczyk@school.edu.pl', 'ecfa6c4c1dc31595a020258696cc88c278c46cb6df12c80cec263fd94d41a277'),
-(37, 2, 6, 'Małgorzata.Kamińska@school.edu.pl', 'a06ca76943cd961751f6741124c9927a7488f827de1880bff5a292f302608b7f'),
-(38, 2, 7, 'Jan.Lewandowski@school.edu.pl', 'f60bcc637456fba4b9081ebe535317b85c97e986fcfcde902b1805a1b1fae109'),
-(39, 2, 8, 'Katarzyna.Zielińska@school.edu.pl', '60c3b0ea15900cffe00acd8a22f78858a01472263ba25a1b596c6c34583ab7e1'),
-(40, 2, 9, 'Krzysztof.Woźniak@school.edu.pl', 'a1a008e9daefd63d2367eef24a88f1de2ba9b959cabd3d9c8ac43ae11b751912'),
-(41, 2, 10, 'Zofia.Szymańska@school.edu.pl', 'd2d692b19dedaf3588b03ec9444210a76e6af768e312ac944dc998b07e10f052'),
-(42, 2, 11, 'Adam.Dąbrowski@school.edu.pl', '28a41c303c160c1ce4ab6c131f1d2f60bb4b085bfa9fe973f30ffb2448b832cb'),
-(43, 2, 12, 'Magdalena.Kozłowska@school.edu.pl', '4fdf9a2a7bea5f2ee3437155e190e4e6b4cc58e05edb63ce5fbe2d3bc18a0b68'),
-(44, 2, 13, 'Paweł.Mazur@school.edu.pl', '0cddfe7e24629bc43a3140abc4671d57deaf7b488b5f4e0a594fc04f2d82f579'),
-(45, 2, 14, 'Anna.Jankowska@school.edu.pl', 'f30d83b5820d50ddbe7ce90fd4dbfafd42e59a731df34c3f26668451718af16a'),
-(46, 2, 15, 'Tomasz.Kwiatkowski@school.edu.pl', 'b56f5b7a635b2f2fcebbbcfdc66148413722cfda5d4d5d6bcb95c670dafa59dd'),
-(47, 2, 16, 'Marek.Wojciechowski@school.edu.pl', '6c779bac3ae22b353ccaf3b70db9b2254b79a08883a1f43802890218d818cfda'),
-(48, 2, 17, 'Zofia.Krawczyk@school.edu.pl', '5a99174140fdddd37d5079dd3a07337496056e8f612f299e8a9d3c66be9a7db6'),
-(49, 2, 18, 'Piotr.Kaczmarek@school.edu.pl', '407d357744bab29e4f29ddd2f983e37327a01cdb345a36b4040228a40d83e44e'),
-(50, 2, 19, 'Joanna.Piotrowska@school.edu.pl', '90d68fc1347795d9ff749a8820b7e27d8f12ebfb7430cc60f0e6d5cd9599ff60'),
-(51, 2, 20, 'Tomasz.Grabowski@school.edu.pl', 'e6b4069939ec2f30c0031998eedb84e503227b31f90010c107eb56a1495a666c'),
-(52, 2, 21, 'Zofia.Zając@school.edu.pl', '4a3e0db4665dea7d9544018eee091ffc1c33a9d7cf124cc03ba949cac641fd35'),
-(53, 2, 22, 'Marek.Pawłowski@school.edu.pl', '25784bfe5b317a1f4fe4ccbabe214c4e3d43b1b34e3079f5d4cf7ac1a91108aa'),
-(54, 2, 23, 'Anna.Król@school.edu.pl', '28a6e0878cc536a3333b6bb9888e32d7b6077eba554cb8ff2ac18517cd5ac649'),
-(55, 2, 24, 'Krzysztof.Michalski@school.edu.pl', '03814c682aed7607f2b45dee64c07159edc89ca0480de503977c64eb9ef9f43d'),
-(56, 2, 25, 'Maria.Wróbel@school.edu.pl', '6ab98612011558b42b9f17dd6eae59054925afd82d6c35634d9ad2c18008c282'),
-(57, 2, 26, 'Adam.Wieczorek@school.edu.pl', '36d46a4ddf61cb5237d0af667aace4363f2861ca66b1ea44d44ad1e04311c416'),
-(58, 2, 27, 'Joanna.Jabłońska@school.edu.pl', '186fb6582ebd60ac0ece953db087e2ffed131e54a398c8aa7e4def24176df798'),
-(59, 2, 28, 'Piotr.Nowakowski@school.edu.pl', '012dad76cfce68e9895b27476caa6e395b4d539525123c6fd33760cbceafe2ab'),
-(60, 2, 29, 'Zofia.Majewska@school.edu.pl', '39539e79960737085d084c949f7a790a14229179bdc801587adb65097251ec80'),
-(61, 2, 30, 'Tomasz.Olszewski@school.edu.pl', '363a2d25c0761de974b1171e3a9dea23ac13fba933ef841bd69e7882ec650178'),
+(32, 2, 1, 'Andrzej.Nowak@school.edu.pl', '6839bc25447d45c86dbf18226221f4679cd2174c572939c535fa8faad01c0ee3'),
+(33, 2, 2, 'Maria.Kowalska@school.edu.pl', '79f4504c8b566e9dfbee791046646c6c28fb9484c8124a67fe3e93be0c8de9c1'),
+(34, 2, 3, 'Paweł.Wiśniewski@school.edu.pl', '15a2d8cb5ed6cc6261b0b065603848d85ce4250715f4126302676258b5202393'),
+(35, 2, 4, 'Barbara.Wójcik@school.edu.pl', 'c10cbf0d92e270317932cf6f8a39c137a11c124f38a42c366ae1294de907a43a'),
+(36, 2, 5, 'Andrzej.Kowalczyk@school.edu.pl', '883d80917a16502882b80f54cbec715b928d560817f67db7688bb8c9606bd530'),
+(37, 2, 6, 'Małgorzata.Kamińska@school.edu.pl', 'ee79762b275f457c36d895c94c7135c97d455d9da7c85ff57b790f42c3e83890'),
+(38, 2, 7, 'Jan.Lewandowski@school.edu.pl', '9e4432c0f87bb85039910874fec6f10311f971c24186ba6f66c1432fc4f3ee19'),
+(39, 2, 8, 'Katarzyna.Zielińska@school.edu.pl', '8b255804ca0dc6ab12688ee96d9216b5e43e5a89978748952b5fa74933fcc90b'),
+(40, 2, 9, 'Krzysztof.Woźniak@school.edu.pl', 'a69c0bc76892b5c754fffb8c6f017b13693655d84b84f5f24c996207078e485f'),
+(41, 2, 10, 'Zofia.Szymańska@school.edu.pl', 'd009ec3076f0337b29c1dbcba656e90ec4f78a6b7a77b680f0dac8fc2032633a'),
+(42, 2, 11, 'Adam.Dąbrowski@school.edu.pl', '856236f1d02734ab9965cfd9af4329a1bc808ee3e7129cde76647852b8085bf4'),
+(43, 2, 12, 'Magdalena.Kozłowska@school.edu.pl', 'dc7633ca1980c02f021cb7321992ca9758ba247bf34a1d3bae8bb99f7864a845'),
+(44, 2, 13, 'Paweł.Mazur@school.edu.pl', '102db01db38547649ef9b5f842609b549a26653ae7171ff98ca4d1b083747a56'),
+(45, 2, 14, 'Anna.Jankowska@school.edu.pl', 'd6797d75a93b111f85301759f9ab843ae37c6b96ab097dc0bf2ccf5ab497cbb0'),
+(46, 2, 15, 'Tomasz.Kwiatkowski@school.edu.pl', 'e5b9afd8410251ec3add10149f5790bac56b485b831fbc3cf54543041ad198c2'),
+(47, 2, 16, 'Marek.Wojciechowski@school.edu.pl', 'e5d23a6fce71c459312345280baa7f0bf65eaa4b33fdd4aea21477963bacc3cc'),
+(48, 2, 17, 'Zofia.Krawczyk@school.edu.pl', '1ce6a4eeb2eb3d239145934fb241fba63904e800cb7eef626ff77dfc0d03e199'),
+(49, 2, 18, 'Piotr.Kaczmarek@school.edu.pl', '147f216b2c2980cc9046d412415af1148502c454af376dfa08c16dd39c89889e'),
+(50, 2, 19, 'Joanna.Piotrowska@school.edu.pl', '5fae8e352ffc69f1ff4dccbe76c58edb12933a5e5d2e8ffa157d8f8cf78a6b38'),
+(51, 2, 20, 'Tomasz.Grabowski@school.edu.pl', '7279b5a0dde0b910b12bfac79c2552711da52d06d06aacfd7ef3f94eba26f92a'),
+(52, 2, 21, 'Zofia.Zając@school.edu.pl', '476de191d171f4065bb6dbdfc48d58f12e390b70dd53fcd728f868f3605cdeca'),
+(53, 2, 22, 'Marek.Pawłowski@school.edu.pl', '78f5bc3f3055d146d7d27f77d83e9b0993b622ae00585170c78509f446706c3d'),
+(54, 2, 23, 'Anna.Król@school.edu.pl', 'c5f76b84cbb8878dfa28b9febbddd673172738808867411b7dfb4c25ec800587'),
+(55, 2, 24, 'Krzysztof.Michalski@school.edu.pl', 'a618764e2c1dfd3ba78b1ba8735d82496b5b8a3e7ea9fb08a623280903214c26'),
+(56, 2, 25, 'Maria.Wróbel@school.edu.pl', '798ba6e2072f9122b2ae7fc22dd448a16897e4caffaaa078c23cb56b57ddcaa6'),
+(57, 2, 26, 'Adam.Wieczorek@school.edu.pl', '5102c7944d9fb199fca770986b7af24f59cbe10cd490dd15a667ee1c015e09dd'),
+(58, 2, 27, 'Joanna.Jabłońska@school.edu.pl', '9c5e396773aeeb45ed02923db6a3b8425f027167fc429ae9702449950feb17fb'),
+(59, 2, 28, 'Piotr.Nowakowski@school.edu.pl', '961263bb107f9fff387cb9b3d074c312293bf22549fd83f6b14ce5fbc8f0a165'),
+(60, 2, 29, 'Zofia.Majewska@school.edu.pl', '23be3c2f01c3def8a6e51c16a61f99e23268e066af63ce3af900db185c31cab9'),
+(61, 2, 30, 'Tomasz.Olszewski@school.edu.pl', 'f1d2290ff0fb8da4a2796340021120acc650db3b95b60b00bf811234eae4d505'),
 (62, 3, 1, 'Piotr.Nowak@school.edu.pl', '49939cf1969166988571c32d9f1d072e2b401c5434a56a83207a6a5e8916a6e5'),
 (63, 3, 2, 'Joanna.Nowak@school.edu.pl', '525a81c76ad3a0aa9b34b0b5ebafbde24f1b93b1c911421063f6ecf8f775a0ff'),
 (64, 3, 3, 'Andrzej.Kowalski@school.edu.pl', '77d166020ee3feb3d27b424c3dd30bb783b1597b8103593847338432ae902312'),
@@ -542,7 +602,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `lessons`
@@ -554,7 +614,7 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `notes`

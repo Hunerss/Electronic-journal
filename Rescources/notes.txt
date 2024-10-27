@@ -1,8 +1,9 @@
 Teacher Features
 1. Profile - done
-2. Class profile - if teacher have class then he have access to class profile
-there he can se their main average, grades, attendence and notes
-3. Lessons - teacher sees his lessons plan
-4. Messages - teacher can send message to one student, teacher, parent or admin or to whole group e.g. students from class 2b
+2. Class profile - droped 
+	if teacher have class then he have access to class profile	there he can se their main average, grades, attendence and notes
+3. Lessons - done
+4. Messages - done
 5. Grades and Notes - teacher can choose one of classes he teaches and add or remove or modify mark or send note about student behavior
-6. Attendence - teacher can choose one from lessons during this day and check attendence
+6. Attendence - droped
+	teacher can choose one from lessons during this day and check attendence

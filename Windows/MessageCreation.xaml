@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Electronic_journal.Windows"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Background="RoyalBlue"
         Title="MessageCreation" Height="450" Width="800">
     <Grid>
@@ -13,13 +14,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!-- Nagłówek formularza -->
         <TextBlock Margin="10" Text="Create new Message" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="6*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -38,26 +38,29 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                    <DockPanel HorizontalAlignment="Center">
-                        <ToggleButton x:Name="single_ToggleButton" Content="Single" FontSize="18" IsChecked="True" Margin="0,0,10,0" VerticalContentAlignment="Center" Click="ToggleButton_Click"/>
-                        <ToggleButton x:Name="multiple_ToggleButton" Content="Multiple" FontSize="18" Margin="10,0,0,0" VerticalContentAlignment="Center" Click="ToggleButton_Click"/>
-                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ToggleButton x:Name="single_ToggleButton" Content="Single" FontSize="18" IsChecked="True" Margin="5" Click="ToggleButton_Click"/>
+                        <ToggleButton x:Name="multiple_ToggleButton" Content="Multiple" FontSize="18" Margin="5" Click="ToggleButton_Click"/>
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                    <DockPanel HorizontalAlignment="Center">
-                        <ToggleButton x:Name="admin_ToggleButton" Content="Admin" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
-                        <ToggleButton x:Name="teacher_ToggleButton" Content="Teacher" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
-                        <ToggleButton x:Name="student_ToggleButton" Content="Student" FontSize="18" IsChecked="True" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
-                        <ToggleButton x:Name="parent_ToggleButton" Content="Parent" FontSize="18" Margin="5" VerticalContentAlignment="Center" Click="RoleToggleButton_Click"/>
-                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ToggleButton x:Name="admin_ToggleButton" Content="Admin" FontSize="18" Margin="5" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="teacher_ToggleButton" Content="Teacher" FontSize="18" Margin="5" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="student_ToggleButton" Content="Student" FontSize="18" IsChecked="True" Margin="5" Click="RoleToggleButton_Click"/>
+                        <ToggleButton x:Name="parent_ToggleButton" Content="Parent" FontSize="18" Margin="5" Click="RoleToggleButton_Click"/>
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
                     <TextBlock Text="Target Email/Id" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                    <TextBox x:Name="name_TextBox" FontSize="18" Height="40" ToolTip="If you want to send a message to a specific person type their full name. If you want to send a message to a group of people such as class, type their classname."/>
+                    <DockPanel HorizontalAlignment="Left">
+                        <TextBox x:Name="name_TextBox" FontSize="18" MinWidth="370" Height="40" ToolTip="If you want to send a message to a specific person type their full name. If you want to send a message to a group of people such as class, type their classname." />
+                        <ComboBox x:Name="emails_ComboBox" FontSize="18" Height="40" MinWidth="70" MaxWidth="100" SelectionChanged="Emails_ComboBox_SelectionChanged"/>
+                    </DockPanel>
                 </Border>
 
                 <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
@@ -72,7 +75,7 @@
                 </Border>
                 <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
                     <ScrollViewer>
-                        <TextBox x:Name="content_TextBox" FontSize="18" Height="150" TextWrapping="Wrap"/>
+                        <TextBox x:Name="content_TextBox" FontSize="18" Height="150" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
                     </ScrollViewer>
                 </Border>
 

@@ -56,6 +56,8 @@ namespace Electronic_journal.Windows
             if (message == null) return;
 
             DatabaseOperator.AddMessage(message);
+            MessageBox.Show("Message sent");
+            Close();
         }
 
         private Message CreateMessage()
@@ -219,5 +221,19 @@ namespace Electronic_journal.Windows
                 MessageBox.Show("Fill Content");
         }
 
+        private void Emails_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (emails_ComboBox.SelectedItem != null)
+            {
+                name_TextBox.Text = emails_ComboBox.SelectedItem.ToString();
+                emails_ComboBox.SelectedItem = null;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<string> emails = DatabaseOperator.GetEmails();
+            emails_ComboBox.ItemsSource = emails;
+        }
     }
 }

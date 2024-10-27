@@ -709,6 +709,22 @@ namespace Electronic_journal.Classes
 
         #region Lists
 
+        public static List<string> GetEmails()
+        {
+            List<string> emails = [];
+            connector.Open();
+            string querry = "SELECT email FROM users ORDER BY email ASC;";
+            using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                emails.Add(reader.GetString(0));
+            }
+            connector.Close();
+            return emails;
+        }
+
         public static List<string> GetClassesHeaders()
         {
             List<string> headers = [];

@@ -921,6 +921,32 @@ namespace Electronic_journal.Classes
             return classes;
         }
 
+        public static List<Lesson> GetLessons(int teacher_id)
+        {
+            List<Lesson> classes = [];
+            connector.Open();
+            string querry = "SELECT * FROM lessons WHERE teacher_id=@Teacher;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Teacher", teacher_id);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                classes.Add(new Lesson
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Classname = reader.GetString(2),
+                    Classroom = reader.GetInt32(3),
+                    Teacher_id = reader.GetInt32(4),
+                    Lesson_hour = reader.GetInt32(5),
+                    Lesson_day = reader.GetInt32(6)
+                });
+            }
+            connector.Close();
+            return classes;
+        }
+
         #endregion
 
         #region IDs

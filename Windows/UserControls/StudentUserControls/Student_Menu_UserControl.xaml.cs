@@ -2,6 +2,7 @@
 using Electronic_journal.UserControls.GeneralUserControls;
 using Electronic_journal.UserControls.TeacherUserControls;
 using Electronic_journal.Windows.UserControls.GeneralUserControls;
+using Electronic_journal.Windows.UserControls.StudentUserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace Electronic_journal.UserControls.StudentUserControls
             switch (userName)
             {
                 case "profile_button":
-                    //window.frame.NavigationService.Navigate(new Teacjer_Profile_UserControl(window, student));
+                    window.frame.NavigationService.Navigate(new Student_Profile_UserControl(window, student));
                     break;
                 case "lessons_button":
                     window.frame.NavigationService.Navigate(new General_Lessons_UserControl(window, student));

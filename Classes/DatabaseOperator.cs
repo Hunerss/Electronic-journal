@@ -1587,6 +1587,36 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static string GetParentName(int id)
+        {
+            try
+            {
+                connector.Open();
+                string querry = "SELECT CONCAT(name, ' ', surname) AS full_name FROM parents WHERE id = @Id;";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetParentName - success log - Parent full name retrieved successfully");
+                    return result.ToString();
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetParentName - error log - Parent not found in database");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetParentName - error log - Failed to retriev parent name");
+                Console.WriteLine("DatabaseOperator - GetParentName - exception message - " + ex.Message);
+                return null;
+            }
+        }
+
         public static int GetLessonsCount(int Teacher_id)
         {
             try

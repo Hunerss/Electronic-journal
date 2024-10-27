@@ -140,7 +140,6 @@ namespace Electronic_journal.Windows.UserControls.GeneralUserControls
                 {
                     var textBlock = new TextBlock
                     {
-                        HorizontalAlignment = HorizontalAlignment.Center,
                         TextWrapping = TextWrapping.Wrap
                     };
 

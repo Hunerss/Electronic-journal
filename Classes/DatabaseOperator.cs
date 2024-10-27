@@ -638,17 +638,18 @@ namespace Electronic_journal.Classes
             }
         }
 
-        public static bool AddGrade(string name, int weight, int teacher_id, string classname, int student_id)
+        public static bool AddGrade(string name, string description, int weight, int teacher_id, string classname, int student_id)
         {
             try
             {
                 connector.Open();
 
-                string query = "INSERT INTO grades(name, weight, student_id, class, teacher_id, creation_date) " +
-                                "VALUES (@Name, @Weight, @Student, @Class, @Teacher, @Creation)";
+                string query = "INSERT INTO grades(name, description, weight, student_id, class, teacher_id, creation_date) " +
+                                "VALUES (@Name, @Description, @Weight, @Student, @Class, @Teacher, @Creation)";
 
                 using MySqlCommand command = new(query, connector);
                 command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Description", description);
                 command.Parameters.AddWithValue("@Weight", weight);
                 command.Parameters.AddWithValue("@Student", student_id);
                 command.Parameters.AddWithValue("@Class", classname);
@@ -674,11 +675,12 @@ namespace Electronic_journal.Classes
             try
             {
 
-                string query = "INSERT INTO grades(name, weight, student_id, class, teacher_id, creation_date) " +
-                                "VALUES (@Name, @Weight, @Student, @Class, @Teacher, @Creation)";
+                string query = "INSERT INTO grades(name, description, weight, student_id, class, teacher_id, creation_date) " +
+                                "VALUES (@Name, @Description, @Weight, @Student, @Class, @Teacher, @Creation)";
 
                 using MySqlCommand command = new(query, connector);
                 command.Parameters.AddWithValue("@Name", grade.Name);
+                command.Parameters.AddWithValue("@Description", grade.Description);
                 command.Parameters.AddWithValue("@Weight", grade.Weight);
                 command.Parameters.AddWithValue("@Student", grade.Student_id);
                 command.Parameters.AddWithValue("@Class", grade.Classname);
@@ -1028,7 +1030,7 @@ namespace Electronic_journal.Classes
         {
             List<Grade> classes = [];
             connector.Open();
-            string querry = "SELECT id, name, grade, weight, student_id, class, GetFullName(student_id), teacher_id, creation_date " +
+            string querry = "SELECT id, name, description, grade, weight, student_id, class, GetFullName(student_id), teacher_id, creation_date " +
                 "FROM grades g WHERE class = @Classname AND teacher_id = @Teacher;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Classname", classname);
@@ -1041,13 +1043,14 @@ namespace Electronic_journal.Classes
                 {
                     Id = reader.GetInt32(0),
                     Name = reader.GetString(1),
-                    Mark = reader.GetString(2),
-                    Weight = reader.GetInt32(3),
-                    Student_id = reader.GetInt32(4),
-                    Classname = reader.GetString(5),
-                    Student_name = reader.GetString(6),
-                    Teacher_id = reader.GetInt32(7),
-                    Creation_date = reader.GetInt32(8)
+                    Description = reader.GetString(2),
+                    Mark = reader.GetString(3),
+                    Weight = reader.GetInt32(4),
+                    Student_id = reader.GetInt32(5),
+                    Classname = reader.GetString(6),
+                    Student_name = reader.GetString(7),
+                    Teacher_id = reader.GetInt32(8),
+                    Creation_date = reader.GetInt32(9)
                 });
             }
             connector.Close();

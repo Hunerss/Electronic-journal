@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Electronic_journal.Windows"
         mc:Ignorable="d"
-       Title="Add New Grade" Height="200" Width="300">
+       Title="Add New Grade" Height="240" Width="300">
     <StackPanel Margin="10">
         <TextBlock Text="Name:" Margin="0,0,0,5"/>
-        <TextBox x:Name="NameTextBox" Width="200" Margin="0,0,0,10"/>
+        <TextBox x:Name="name_TextBox" Width="200" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Description:" Margin="0,0,0,5"/>
+        <TextBox x:Name="description_TextBox" Width="200" Margin="0,0,0,10"/>
 
         <TextBlock Text="Weight:" Margin="0,0,0,5"/>
-        <TextBox x:Name="WeightTextBox" Width="200" Margin="0,0,0,10"/>
+        <TextBox x:Name="weight_TextBox" Width="200" Margin="0,0,0,10"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Add" Width="75" Margin="0,0,5,0" Click="AddButton_Click"/>

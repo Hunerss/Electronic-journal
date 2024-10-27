@@ -82,7 +82,7 @@ namespace Electronic_journal.Windows.UserControls.TeacherUserControls
                 try
                 {
                     DatabaseOperator.UpdateGrade(grade);
-                    Console.WriteLine("Grades updated")
+                    Console.WriteLine("Grades updated");
                 }
                 catch (Exception ex)
                 {
@@ -97,6 +97,11 @@ namespace Electronic_journal.Windows.UserControls.TeacherUserControls
             grades = DatabaseOperator.GetGrades(classname, teacher.Id);
             gradesDataGrid.ItemsSource = grades;
             Console.WriteLine("Class " + classname);
+        }
+
+        private void Return_Button_Click(object sender, RoutedEventArgs e)
+        {
+            window.frame.NavigationService.GoBack();
         }
     }
 }

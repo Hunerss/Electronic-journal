@@ -31,19 +31,21 @@
                 <ColumnDefinition Width="6*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1">
-                <DataGrid x:Name="gradesDataGrid" AutoGenerateColumns="False" CanUserAddRows="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Student" Binding="{Binding Student_name}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Grade" Binding="{Binding Mark}"/>
-                        <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Creation_date}" IsReadOnly="True"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <!--<Button Content="Zapisz" Click="SaveButton_Click" />-->
-                <TextBlock Text="Main Content"/>
-            </StackPanel>
+            <ScrollViewer Grid.Column="1">
+                <StackPanel>
+                    <DataGrid x:Name="gradesDataGrid" AutoGenerateColumns="False" CanUserAddRows="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Student" Binding="{Binding Student_name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Grade" Binding="{Binding Mark}"/>
+                            <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Creation_date}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

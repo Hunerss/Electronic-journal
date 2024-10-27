@@ -1,6 +1,5 @@
 ﻿using Electronic_journal.Classes;
 using Electronic_journal.Classes.DataClasses;
-using System;
 using System.Windows;
 
 namespace Electronic_journal.Windows
@@ -8,6 +7,7 @@ namespace Electronic_journal.Windows
     public partial class GradeCreation : Window
     {
         public string GradeName { get; private set; }
+        public string GradeDescription { get; private set; }
         public int GradeWeight { get; private set; }
 
         private int teacher_id;
@@ -22,23 +22,45 @@ namespace Electronic_journal.Windows
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            GradeName = NameTextBox.Text;
+            GradeName = name_TextBox.Text.Trim();
+            GradeDescription = description_TextBox.Text.Trim();
 
-            if (int.TryParse(WeightTextBox.Text, out int weight))
+            if (string.IsNullOrWhiteSpace(GradeName))
             {
-                GradeWeight = weight;
-                List<Student> students = DatabaseOperator.GetStudents(classname);
-                foreach (Student student in students)
-                {
-                    DatabaseOperator.AddGrade(GradeName, GradeWeight, teacher_id, classname, student.Id);
-                }
-                DialogResult = true;
+                MessageBox.Show("Fill name field");
+                return;
             }
-            else
+
+            if (string.IsNullOrWhiteSpace(GradeDescription))
+            {
+                MessageBox.Show("Fill description field");
+                return;
+            }
+
+            if (!int.TryParse(weight_TextBox.Text, out int weight))
             {
                 MessageBox.Show("Please enter a valid integer for Weight.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
+
+            GradeWeight = weight;
+
+            List<Student> students = DatabaseOperator.GetStudents(classname);
+            try
+            {
+                foreach (Student student in students)
+                {
+                    DatabaseOperator.AddGrade(GradeName, GradeDescription, GradeWeight, teacher_id, classname, student.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding grades: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            DialogResult = true;
         }
+
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

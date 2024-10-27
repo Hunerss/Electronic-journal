@@ -10,6 +10,7 @@ namespace Electronic_journal.Classes.DataClasses
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public string Mark { get; set; }
         public int Weight { get; set; }
         public int Student_id { get; set; }

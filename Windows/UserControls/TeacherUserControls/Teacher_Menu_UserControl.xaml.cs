@@ -2,6 +2,7 @@
 using Electronic_journal.UserControls.AdminUserControls;
 using Electronic_journal.UserControls.GeneralUserControls;
 using Electronic_journal.Windows.UserControls.GeneralUserControls;
+using Electronic_journal.Windows.UserControls.TeacherUserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,10 +56,7 @@ namespace Electronic_journal.UserControls.TeacherUserControls
                     window.frame.NavigationService.Navigate(new General_Messages_UserControl(window, teacher));
                     break;
                 case "grades_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
-                    break;
-                case "attendence_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new Teacher_Grades_UserControl(window, teacher));
                     break;
                 case "logout_button":
                     window.frame.NavigationService.GoBack();

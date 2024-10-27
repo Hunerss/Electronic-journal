@@ -5,22 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Electronic_journal.Windows.UserControls.TeacherUserControls"
              mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Margin="10" Text="UserControl Title" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Grid Grid.Row="1">
+        <Menu>
+            <MenuItem x:Name="classes_MenuItem" Header="Classes"/>
+            <MenuItem Header="Operations">
+                <MenuItem x:Name="add_MenuItem" Header="Add new grade" Click="Add_MenuItem_Click"/>
+                <MenuItem x:Name="save_MenuItem" Header="Save grades" Click="Save_MenuItem_Click"/>
+                <MenuItem x:Name="reload_MenuItem" Header="Reload grades" Click="Reload_MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <DockPanel Grid.Row="1" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Grades " FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 8 0"/>
+            <TextBlock x:Name="grades_header" Text="" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="6*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1">
+            <StackPanel Grid.Column="1">
+                <DataGrid x:Name="gradesDataGrid" AutoGenerateColumns="False" CanUserAddRows="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Student" Binding="{Binding Student_name}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Grade" Binding="{Binding Mark}"/>
+                        <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Creation_date}" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--<Button Content="Zapisz" Click="SaveButton_Click" />-->
                 <TextBlock Text="Main Content"/>
-            </Grid>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,0 +1,21 @@
+﻿<Window x:Class="Electronic_journal.Windows.GradeCreation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Electronic_journal.Windows"
+        mc:Ignorable="d"
+       Title="Add New Grade" Height="200" Width="300">
+    <StackPanel Margin="10">
+        <TextBlock Text="Name:" Margin="0,0,0,5"/>
+        <TextBox x:Name="NameTextBox" Width="200" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Weight:" Margin="0,0,0,5"/>
+        <TextBox x:Name="WeightTextBox" Width="200" Margin="0,0,0,10"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Add" Width="75" Margin="0,0,5,0" Click="AddButton_Click"/>
+            <Button Content="Cancel" Width="75" Click="CancelButton_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

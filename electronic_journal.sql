@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2024 at 10:54 PM
+-- Generation Time: Oct 27, 2024 at 02:14 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -54,7 +54,7 @@ CREATE TABLE `grades` (
   `grade` text NOT NULL,
   `student_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
-  `creation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `creation_date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -78,37 +78,38 @@ CREATE TABLE `lessons` (
 --
 
 INSERT INTO `lessons` (`id`, `name`, `class`, `classroom`, `teacher_id`, `lesson`, `day`) VALUES
-(121, 'Matematyka', '1b', 120, 19, 0, 1),
-(122, 'Matematyka', '1a', 120, 19, 1, 1),
-(123, 'Język polski', '1a', 101, 1, 1, 2),
-(124, 'Język angielski', '1a', 103, 3, 1, 3),
-(125, 'Historia', '1a', 104, 4, 1, 4),
-(126, 'Język rosyjski', '1a', 116, 15, 1, 5),
-(127, 'Fizyka', '1a', 109, 9, 2, 1),
-(128, 'Matematyka', '1a', 120, 19, 2, 2),
-(129, 'Język polski', '1a', 101, 1, 2, 3),
-(130, 'Język angielski', '1a', 103, 3, 2, 4),
-(131, 'Biologia', '1a', 107, 7, 2, 5),
-(132, 'Historia', '1a', 104, 4, 3, 1),
-(133, 'Chemia', '1a', 108, 8, 3, 2),
-(134, 'Biologia', '1a', 106, 6, 3, 3),
-(135, 'Matematyka', '1a', 120, 19, 3, 4),
-(136, 'Fizyka', '1a', 109, 9, 3, 5),
-(137, 'Język angielski', '1a', 103, 3, 4, 1),
-(138, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 4, 2),
-(139, 'Wiedza o społeczeństwie (WOS)', '1a', 105, 5, 4, 3),
-(140, 'Informatyka', '1a', 110, 10, 4, 4),
-(141, 'Matematyka', '1a', 120, 19, 4, 5),
-(142, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 5, 1),
-(143, 'Biologia', '1a', 107, 7, 5, 2),
-(144, 'Religia', '1a', 114, 13, 5, 3),
-(145, 'Geografia', '1a', 106, 6, 5, 4),
-(146, 'Chemia', '1a', 108, 8, 5, 5),
-(147, 'Edukacja dla bezpieczeństwa (EDB)', '1a', 113, 12, 6, 1),
-(148, 'Język polski', '1a', 101, 1, 6, 2),
-(149, 'Informatyka', '1a', 110, 10, 6, 3),
-(150, 'Podstawy przedsiębiorczości', '1a', 117, 16, 6, 4),
-(151, 'Etyka', '1a', 115, 14, 6, 5);
+(1, 'Matematyka', '1a', 120, 19, 1, 1),
+(2, 'Język polski', '1a', 101, 1, 1, 2),
+(3, 'Język angielski', '1a', 103, 3, 1, 3),
+(4, 'Historia', '1a', 104, 4, 1, 4),
+(5, 'Język rosyjski', '1a', 116, 15, 1, 5),
+(6, 'Fizyka', '1a', 109, 9, 2, 1),
+(7, 'Matematyka', '1a', 120, 19, 2, 2),
+(8, 'Język polski', '1a', 101, 1, 2, 3),
+(9, 'Język angielski', '1a', 103, 3, 2, 4),
+(10, 'Biologia', '1a', 107, 7, 2, 5),
+(11, 'Historia', '1a', 104, 4, 3, 1),
+(12, 'Chemia', '1a', 108, 8, 3, 2),
+(13, 'Biologia', '1a', 106, 6, 3, 3),
+(14, 'Matematyka', '1a', 120, 19, 3, 4),
+(15, 'Fizyka', '1a', 109, 9, 3, 5),
+(16, 'Język angielski', '1a', 103, 3, 4, 1),
+(17, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 4, 2),
+(18, 'Wiedza o społeczeństwie (WOS)', '1a', 105, 5, 4, 3),
+(19, 'Informatyka', '1a', 110, 10, 4, 4),
+(20, 'Matematyka', '1a', 120, 19, 4, 5),
+(21, 'Wychowanie fizyczne (WF)', '1a', 1, 11, 5, 1),
+(22, 'Biologia', '1a', 107, 7, 5, 2),
+(23, 'Religia', '1a', 114, 13, 5, 3),
+(24, 'Geografia', '1a', 106, 6, 5, 4),
+(25, 'Chemia', '1a', 108, 8, 5, 5),
+(26, 'Edukacja dla bezpieczeństwa (EDB)', '1a', 113, 12, 6, 1),
+(27, 'Język polski', '1a', 101, 1, 6, 2),
+(28, 'Informatyka', '1a', 110, 10, 6, 3),
+(29, 'Podstawy przedsiębiorczości', '1a', 117, 16, 6, 4),
+(30, 'Etyka', '1a', 115, 14, 6, 5),
+(31, 'Matematyka', '1b', 120, 19, 0, 1),
+(32, 'Język polski', '1b', 101, 1, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -547,7 +548,7 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `messages`

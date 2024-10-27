@@ -31,7 +31,7 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <Grid x:Name="main_Grid" Grid.Row="1" Margin="10">
+                    <Grid x:Name="main_Grid" Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="100*"/>

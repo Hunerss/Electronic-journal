@@ -4,6 +4,7 @@ Teacher Features
 	if teacher have class then he have access to class profile	there he can se their main average, grades, attendence and notes
 3. Lessons - done
 4. Messages - done
-5. Grades and Notes - teacher can choose one of classes he teaches and add or remove or modify mark or send note about student behavior
+5.1. Grades - teacher can choose one of classes he teaches and add or remove or modify mark
+5.2. Notes - droped - send note about student behavior
 6. Attendence - droped
 	teacher can choose one from lessons during this day and check attendence

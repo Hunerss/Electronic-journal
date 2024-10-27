@@ -48,9 +48,6 @@ namespace Electronic_journal.UserControls.TeacherUserControls
                 case "profile_button":
                     window.frame.NavigationService.Navigate(new Teacher_Profile_UserControl(window, teacher));
                     break;
-                case "class_button":
-                    //window.frame.NavigationService.Navigate(new Admin_ClassesMenu_UserControl(window));
-                    break;
                 case "lessons_button":
                     window.frame.NavigationService.Navigate(new General_Lessons_UserControl(window, teacher));
                     break;

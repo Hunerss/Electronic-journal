@@ -260,7 +260,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
                 case Student student:
                     DatabaseOperator.UpdateStudent(student);
                     email = student.Name + "." + student.Surname + "@school.edu.pl";
-                    password = student.Surname + student.Birthday;
+                    password = student.Name + student.Surname + student.Birthday;
                     DatabaseOperator.UpdateUser(2, student.Id, email, password);
                     break;
                 case Person parent:

@@ -13,6 +13,7 @@ namespace Electronic_journal.Classes.DataClasses
         public string Mark { get; set; }
         public int Weight { get; set; }
         public int Student_id { get; set; }
+        public string Classname { get; set; }
         public string Student_name { get; set; }
         public int Teacher_id { get; set; }
         public int Creation_date { get; set; }

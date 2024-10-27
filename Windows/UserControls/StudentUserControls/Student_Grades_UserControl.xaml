@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Electronic_journal.Windows.UserControls.StudentUserControls.Student_Grades_UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Electronic_journal.Windows.UserControls.StudentUserControls"
+             Loaded="UserControl_Loaded"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Grades " FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 8 0"/>
+            <TextBlock x:Name="grades_header" Text="" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="1">
+                <StackPanel>
+                    <StackPanel x:Name="grades_StackPanel">
+                        
+                    </StackPanel>
+                    <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

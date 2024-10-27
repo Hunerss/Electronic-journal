@@ -942,6 +942,35 @@ namespace Electronic_journal.Classes
             return people;
         }
 
+        public static List<Teacher> GetTeachers(string classname)
+        {
+            List<Teacher> people = [];
+            connector.Open();
+            string querry = "SELECT t.id , t.name , t.surname , t.subject , t.class , t.classroom, t.birthday, t.age, t.sex " +
+                "FROM teachers t INNER JOIN lessons l ON t.id = l.teacher_id WHERE l.class = @Classname;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Classname", classname);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                people.Add(new Teacher
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Subject = reader.GetString(3),
+                    Classname = reader.GetString(4),
+                    Classroom = reader.GetInt32(5),
+                    Birthday = reader.GetInt32(6),
+                    Age = reader.GetInt32(7),
+                    Sex = reader.GetByte(8)
+                });
+            }
+            connector.Close();
+            return people;
+        }
+
         public static List<Admin> GetAdmins()
         {
             List<Admin> people = [];
@@ -1051,6 +1080,36 @@ namespace Electronic_journal.Classes
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Classname", classname);
             command.Parameters.AddWithValue("@Teacher", teacher_id);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                classes.Add(new Grade
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Description = reader.GetString(2),
+                    Mark = reader.GetString(3),
+                    Weight = reader.GetInt32(4),
+                    Student_id = reader.GetInt32(5),
+                    Classname = reader.GetString(6),
+                    Student_name = reader.GetString(7),
+                    Teacher_id = reader.GetInt32(8),
+                    Creation_date = reader.GetInt32(9)
+                });
+            }
+            connector.Close();
+            return classes;
+        }
+
+        public static List<Grade> GetGrades(int student_id)
+        {
+            List<Grade> classes = [];
+            connector.Open();
+            string querry = "SELECT id, name, description, grade, weight, student_id, class, GetFullName(student_id), teacher_id, creation_date " +
+                "FROM grades g WHERE student_id = @Student;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Student", student_id);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -1635,7 +1694,7 @@ namespace Electronic_journal.Classes
                 }
                 else
                 {
-                    Console.WriteLine("DatabaseOperator - GetLessonsCount - error log - Teacger not found in database");
+                    Console.WriteLine("DatabaseOperator - GetLessonsCount - error log - Teacher not found in database");
                     return -1;
                 }
             }
@@ -1644,6 +1703,36 @@ namespace Electronic_journal.Classes
                 Console.WriteLine("DatabaseOperator - GetLessonsCount - error log - Failed to retriev lessons number");
                 Console.WriteLine("DatabaseOperator - GetLessonsCount - exception message - " + ex.Message);
                 return -1;
+            }
+        }
+
+        public static string GetSubject(int Teacher_id)
+        {
+            try
+            {
+                connector.Open();
+                string querry = "SELECT subject FROM teachers WHERE id = @Id;";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", Teacher_id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetSubject - success log - Teacher subject retrieved successfully");
+                    return result.ToString();
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetSubject - error log - Teacher not found in database");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetSubject - error log - Failed to retriev teacher subject");
+                Console.WriteLine("DatabaseOperator - GetSubject - exception message - " + ex.Message);
+                return null;
             }
         }
 

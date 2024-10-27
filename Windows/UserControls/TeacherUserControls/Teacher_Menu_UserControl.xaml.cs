@@ -1,6 +1,7 @@
 ﻿using Electronic_journal.Classes.DataClasses;
 using Electronic_journal.UserControls.AdminUserControls;
 using Electronic_journal.UserControls.GeneralUserControls;
+using Electronic_journal.Windows.UserControls.GeneralUserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,6 @@ namespace Electronic_journal.UserControls.TeacherUserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             teacher_header.Text = "Welcome - " + teacher.Name + " " + teacher.Surname;
-            if (teacher.Classname!="") class_button.IsEnabled = true;
-            else class_button.IsEnabled = false;
                 
         }
 
@@ -53,7 +52,7 @@ namespace Electronic_journal.UserControls.TeacherUserControls
                     //window.frame.NavigationService.Navigate(new Admin_ClassesMenu_UserControl(window));
                     break;
                 case "lessons_button":
-                    //window.frame.NavigationService.Navigate(new Admin_LessonsMenu_UserControl(window));
+                    window.frame.NavigationService.Navigate(new General_Lessons_UserControl(window, teacher));
                     break;
                 case "messages_button":
                     window.frame.NavigationService.Navigate(new General_Messages_UserControl(window, teacher));

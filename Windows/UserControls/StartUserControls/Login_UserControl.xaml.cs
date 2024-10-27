@@ -1,6 +1,7 @@
 ﻿using Electronic_journal.Classes;
 using Electronic_journal.Classes.DataClasses;
 using Electronic_journal.UserControls.AdminUserControls;
+using Electronic_journal.UserControls.ParentUserControls;
 using Electronic_journal.UserControls.StudentUserControls;
 using Electronic_journal.UserControls.TeacherUserControls;
 using System;
@@ -68,14 +69,16 @@ namespace Electronic_journal.UserControls.StartUserControls
                             Teacher teacher = DatabaseOperator.GetTeacher(login, password);
                             window.frame.NavigationService.Navigate(new Teacher_Menu_UserControl(window, teacher));
                         }
-                        else
+                        else if (id == 2)
                         {
                             Student student = DatabaseOperator.GetStudent(login, password);
-                            Console.WriteLine(student.Name);
                             window.frame.NavigationService.Navigate(new Student_Menu_UserControl(window, student));
                         }
-
-
+                        else
+                        {
+                            Person parent = DatabaseOperator.GetPerson(login, password);
+                            window.frame.NavigationService.Navigate(new Parent_Menu_UserControl(window, parent));
+                        }
                     }
                     else
                     {

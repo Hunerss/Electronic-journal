@@ -1446,6 +1446,39 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static int GetStudentParent(int id)
+        {
+            if (id <= 0)
+                return -1;
+
+            try
+            {
+                connector.Open();
+                string querry = "SELECT id FROM students WHERE parent_1_id = @Id OR parent_2_id = @Id";
+                using MySqlCommand command = new(querry, connector);
+                command.Parameters.AddWithValue("@Id", id);
+
+                object result = command.ExecuteScalar();
+                connector.Close();
+                if (result != null && result != DBNull.Value)
+                {
+                    Console.WriteLine("DatabaseOperator - GetStudentParent - success log - Student id retrieved successfully");
+                    return Convert.ToInt32(result);
+                }
+                else
+                {
+                    Console.WriteLine("DatabaseOperator - GetStudentParent - error log - Student not found in database");
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - GetStudentParent - error log - Failed to retriev student id");
+                Console.WriteLine("DatabaseOperator - GetStudentParent - exception message - " + ex.Message);
+                return -1;
+            }
+        }
+
         public static string GetClassnameStudent(int id)
         {
             if (id <= 0)

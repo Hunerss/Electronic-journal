@@ -608,7 +608,6 @@ namespace Electronic_journal.Classes
         #region Messages and Notes
         public static bool AddMessage(Message message)
         {
-            Console.WriteLine("Id: " + message.Author_id + ", Role: " + message.School_role);
             try
             {
                 connector.Open();
@@ -639,6 +638,67 @@ namespace Electronic_journal.Classes
             }
         }
 
+        public static bool AddGrade(string name, int weight, int teacher_id, string classname, int student_id)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = "INSERT INTO grades(name, weight, student_id, class, teacher_id, creation_date) " +
+                                "VALUES (@Name, @Weight, @Student, @Class, @Teacher, @Creation)";
+
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@Weight", weight);
+                command.Parameters.AddWithValue("@Student", student_id);
+                command.Parameters.AddWithValue("@Class", classname);
+                command.Parameters.AddWithValue("@Teacher", teacher_id);
+                string todayDate = DateTime.Now.ToString("yyyyMMdd");
+                command.Parameters.AddWithValue("@Creation", todayDate);
+
+                command.ExecuteNonQuery();
+                connector.Close();
+                Console.WriteLine("DatabaseOperator - AddGrade - success log - Grade added successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddGrade - error log - Failed to add grade");
+                Console.WriteLine("DatabaseOperator - AddGrade - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+        public static bool AddGrade(Grade grade, MySqlConnection connector)
+        {
+            try
+            {
+
+                string query = "INSERT INTO grades(name, weight, student_id, class, teacher_id, creation_date) " +
+                                "VALUES (@Name, @Weight, @Student, @Class, @Teacher, @Creation)";
+
+                using MySqlCommand command = new(query, connector);
+                command.Parameters.AddWithValue("@Name", grade.Name);
+                command.Parameters.AddWithValue("@Weight", grade.Weight);
+                command.Parameters.AddWithValue("@Student", grade.Student_id);
+                command.Parameters.AddWithValue("@Class", grade.Classname);
+                command.Parameters.AddWithValue("@Teacher", grade.Teacher_id);
+                string todayDate = DateTime.Now.ToString("yyyyMMdd");
+                command.Parameters.AddWithValue("@Creation", todayDate);
+
+                command.ExecuteNonQuery();
+                Console.WriteLine("DatabaseOperator - AddGrade - success log - Grade added successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DatabaseOperator - AddGrade - error log - Failed to add grade");
+                Console.WriteLine("DatabaseOperator - AddGrade - exception message - " + ex.Message);
+                return false;
+            }
+        }
+
+
         #endregion
 
         #endregion
@@ -653,6 +713,23 @@ namespace Electronic_journal.Classes
             connector.Open();
             string querry = "SELECT class FROM teachers GROUP BY class;";
             using MySqlCommand command = new(querry, connector);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                headers.Add(reader.GetString(0));
+            }
+            connector.Close();
+            return headers;
+        }
+
+        public static List<string> GetClassesHeaders(int teacher_id)
+        {
+            List<string> headers = [];
+            connector.Open();
+            string querry = "SELECT class FROM lessons WHERE teacher_id = @Teacher GROUP BY class;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Teacher", teacher_id);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -941,6 +1018,36 @@ namespace Electronic_journal.Classes
                     Teacher_id = reader.GetInt32(4),
                     Lesson_hour = reader.GetInt32(5),
                     Lesson_day = reader.GetInt32(6)
+                });
+            }
+            connector.Close();
+            return classes;
+        }
+
+        public static List<Grade> GetGrades(string classname, int teacher_id)
+        {
+            List<Grade> classes = [];
+            connector.Open();
+            string querry = "SELECT id, name, grade, weight, student_id, class, GetFullName(student_id), teacher_id, creation_date " +
+                "FROM grades g WHERE class = @Classname AND teacher_id = @Teacher;";
+            using MySqlCommand command = new(querry, connector);
+            command.Parameters.AddWithValue("@Classname", classname);
+            command.Parameters.AddWithValue("@Teacher", teacher_id);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                classes.Add(new Grade
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Mark = reader.GetString(2),
+                    Weight = reader.GetInt32(3),
+                    Student_id = reader.GetInt32(4),
+                    Classname = reader.GetString(5),
+                    Student_name = reader.GetString(6),
+                    Teacher_id = reader.GetInt32(7),
+                    Creation_date = reader.GetInt32(8)
                 });
             }
             connector.Close();
@@ -1656,6 +1763,38 @@ namespace Electronic_journal.Classes
             catch (Exception ex)
             {
                 Console.WriteLine("Error updating parent: " + ex.Message);
+            }
+            finally
+            {
+                connector.Close();
+            }
+        }
+
+        public static void UpdateGrade(Grade grade)
+        {
+            try
+            {
+                connector.Open();
+
+                string query = "UPDATE grades SET grade = @Grade, creation_date = @Date WHERE id = @Id;";
+
+                using var command = new MySqlCommand(query, connector);
+                command.Parameters.AddWithValue("@Id", grade.Id);
+                command.Parameters.AddWithValue("@Grade", grade.Mark); 
+                string todayDate = DateTime.Now.ToString("yyyyMMdd");
+                command.Parameters.AddWithValue("@Date", todayDate);
+
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    AddGrade(grade, connector);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating grade: " + ex.Message);
             }
             finally
             {

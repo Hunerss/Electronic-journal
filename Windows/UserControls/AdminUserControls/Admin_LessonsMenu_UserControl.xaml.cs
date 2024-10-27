@@ -7,9 +7,6 @@ using System.Windows.Data;
 
 namespace Electronic_journal.UserControls.AdminUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Admin_LessonsMenu_UserControl.xaml
-    /// </summary>
     public partial class Admin_LessonsMenu_UserControl : UserControl
     {
         private MainWindow window;
@@ -39,18 +36,11 @@ namespace Electronic_journal.UserControls.AdminUserControls
             {
                 personel_DataGrid.ItemsSource = DatabaseOperator.GetTeachers();
                 SetupDataGridColumns();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading teachers: {ex.Message}");
-            }
-            try
-            {
                 SetupClassMenuItems();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading classes: {ex.Message}");
+                Console.WriteLine($"Error while loading: {ex.Message}");
             }
         }
 
@@ -112,7 +102,7 @@ namespace Electronic_journal.UserControls.AdminUserControls
             }
             else
             {
-                
+
                 Dictionary<int, List<int>> conflicts = ShowScheduleConflicts(lessons);
 
                 if (conflicts.Count == 0)
@@ -211,11 +201,13 @@ namespace Electronic_journal.UserControls.AdminUserControls
 
                     TextBox textBox = new()
                     {
-                        Width = 30,
-                        Height = 20,
+                        Width = 40,
+                        Height = 30,
                         Margin = new Thickness(0, 5, 0, 0),
                         HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                        VerticalContentAlignment = VerticalAlignment.Center
                     };
 
                     dockPanel.Children.Add(comboBox);
@@ -263,13 +255,11 @@ namespace Electronic_journal.UserControls.AdminUserControls
                                 Lesson_hour = row - 1,
                                 Lesson_day = column
                             };
-
                             lessons.Add(lesson);
                         }
                     }
                 }
             }
-
             return lessons;
         }
 
@@ -318,13 +308,9 @@ namespace Electronic_journal.UserControls.AdminUserControls
                     foreach (var dockChild in dockPanel.Children)
                     {
                         if (dockChild is ComboBox comboBox)
-                        {
                             comboBox.SelectedItem = null;
-                        }
                         else if (dockChild is TextBox textBox)
-                        {
                             textBox.Text = string.Empty;
-                        }
                     }
                 }
             }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Electronic_journal"
         mc:Ignorable="d"
         Background="AliceBlue"
-        Title="MessageDetails" Height="350" Width="500">
+        Title="Message Details" Height="350" Width="500">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

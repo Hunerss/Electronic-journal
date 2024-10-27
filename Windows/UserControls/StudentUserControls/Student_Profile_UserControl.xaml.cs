@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Electronic_journal.Windows.UserControls.StudentUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Student_Profile_UserControl.xaml
-    /// </summary>
     public partial class Student_Profile_UserControl : UserControl
     {
         MainWindow window;

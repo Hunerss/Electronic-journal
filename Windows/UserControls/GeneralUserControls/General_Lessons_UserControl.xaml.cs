@@ -6,9 +6,6 @@ using System.Windows.Controls;
 
 namespace Electronic_journal.Windows.UserControls.GeneralUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy General_Lessons_UserControl.xaml
-    /// </summary>
     public partial class General_Lessons_UserControl : UserControl
     {
         private MainWindow window;
@@ -16,7 +13,7 @@ namespace Electronic_journal.Windows.UserControls.GeneralUserControls
         private DateTime weekBeginning;
         private List<string> week = [];
 
-        Dictionary<string, string> freeDays = new Dictionary<string, string>
+        Dictionary<string, string> freeDays = new()
         {
             // Rozpoczęcie roku szkolnego
             {"02.09", "Uroczyste rozpoczęcie roku szkolnego"},
@@ -184,9 +181,7 @@ namespace Electronic_journal.Windows.UserControls.GeneralUserControls
             foreach (var lesson in lessons)
             {
                 if (row == lesson.Lesson_hour + 2 && column == lesson.Lesson_day)
-                {
                     return $"{lesson.Name} ({lesson.Classroom})\n{lesson.Classname}";
-                }
             }
             return string.Empty;
         }
@@ -227,9 +222,7 @@ namespace Electronic_journal.Windows.UserControls.GeneralUserControls
                     int column = Grid.GetColumn(textBlock);
 
                     if (column >= 1 && column <= 5 && row >= 2 && row <= 11)
-                    {
                         textBlock.Text = string.Empty;
-                    }
                 }
             }
         }

@@ -62,35 +62,29 @@ namespace Electronic_journal.UserControls.GeneralUserControls
             if (admin != null)
             {
                 roleId = 0;
-                //Console.WriteLine(admin.Id.ToString() + roleId.ToString());
                 messages.AddRange(DatabaseOperator.GetMessages(admin.Id, roleId));
             }
             else if (teacher != null)
             {
                 roleId = 1;
                 className = teacher.Classname;
-                //Console.WriteLine(teacher.Id.ToString() + roleId.ToString());
                 messages.AddRange(DatabaseOperator.GetMessages(teacher.Id, roleId));
             }
             else if (student != null)
             {
                 roleId = 2;
                 className = student.Classname;
-                //Console.WriteLine(student.Id.ToString() + roleId.ToString());
                 messages.AddRange(DatabaseOperator.GetMessages(student.Id, roleId));
             }
             else if (parent != null)
             {
                 roleId = 3;
-                //className = DatabaseOperator.GetClassnameParent(parent.Id);
-                Console.WriteLine(parent.Id.ToString() + roleId.ToString());
+                className = DatabaseOperator.GetClassnameParent(parent.Id);
                 messages.AddRange(DatabaseOperator.GetMessages(parent.Id, roleId));
             }
 
             if (className != null)
-            {
                 messages.AddRange(DatabaseOperator.GetMessages(className));
-            }
 
             return messages;
         }
@@ -104,9 +98,7 @@ namespace Electronic_journal.UserControls.GeneralUserControls
                 messageWindow.Show();
             }
             else
-            {
                 LoadMessages();
-            }
         }
 
         private void MessagesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

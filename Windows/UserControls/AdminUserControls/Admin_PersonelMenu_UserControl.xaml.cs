@@ -6,9 +6,6 @@ using System.Windows.Data;
 
 namespace Electronic_journal.UserControls.AdminUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Admin_PersonelMenu_UserControl.xaml
-    /// </summary>
     public partial class Admin_PersonelMenu_UserControl : UserControl
     {
         MainWindow window;

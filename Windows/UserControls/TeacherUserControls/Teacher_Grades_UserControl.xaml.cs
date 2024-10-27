@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace Electronic_journal.Windows.UserControls.TeacherUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Teacher_Grades_UserControl.xaml
-    /// </summary>
     public partial class Teacher_Grades_UserControl : UserControl
     {
         MainWindow window;

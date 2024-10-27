@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Electronic_journal.Windows"
         mc:Ignorable="d"
-       Title="Add New Grade" Height="240" Width="300">
+        Background="AliceBlue"
+        Title="Grade Creator" Height="240" Width="300">
     <StackPanel Margin="10">
         <TextBlock Text="Name:" Margin="0,0,0,5"/>
         <TextBox x:Name="name_TextBox" Width="200" Margin="0,0,0,10"/>

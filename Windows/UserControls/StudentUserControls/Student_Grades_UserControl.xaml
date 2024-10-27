@@ -24,9 +24,7 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
-                    <StackPanel x:Name="grades_StackPanel">
-                        
-                    </StackPanel>
+                    <StackPanel x:Name="grades_StackPanel"/>
                     <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
                 </StackPanel>
             </ScrollViewer>

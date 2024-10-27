@@ -1,25 +1,10 @@
-﻿using Electronic_journal.Classes.DataClasses;
-using Electronic_journal.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Electronic_journal.Classes;
+using Electronic_journal.Classes.DataClasses;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Electronic_journal.Windows.UserControls.ParentUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Parent_Grades_UserControl.xaml
-    /// </summary>
     public partial class Parent_Grades_UserControl : UserControl
     {
         MainWindow window;

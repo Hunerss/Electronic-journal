@@ -14,9 +14,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem x:Name="choose_class_menuItem" Header="Choose Class">
-
-            </MenuItem>
+            <MenuItem x:Name="choose_class_menuItem" Header="Choose Class"/>
             <MenuItem x:Name="save_menuItem" Header="Save Lessons" Click="MenuItem_Click" />
         </Menu>
         <DockPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -53,12 +51,14 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <!-- Week day Headers -->
                         <TextBlock Text="Monday" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
                         <TextBlock Text="Tuesday" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
                         <TextBlock Text="Wednesday" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center"/>
                         <TextBlock Text="Thursday" Grid.Row="0" Grid.Column="4" VerticalAlignment="Center"/>
                         <TextBlock Text="Friday" Grid.Row="0" Grid.Column="5" VerticalAlignment="Center"/>
+                        
                         <!-- Lessons hour Headers -->
                         <TextBlock Text="0. 07:10 - 07:50" Margin="0 0 10 0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
                         <TextBlock Text="1. 08:00 - 08:45" Margin="0 0 10 0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
@@ -71,7 +71,7 @@
                         <TextBlock Text="8. 14:25 - 15:10" Margin="0 0 10 0" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
                         <TextBlock Text="9. 15:15 - 16:00" Margin="0 0 10 0" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
                     </Grid>
-                    <DataGrid x:Name="personel_DataGrid" AutoGenerateColumns="False" IsReadOnly="False"/>
+                    <DataGrid x:Name="personel_DataGrid" AutoGenerateColumns="False" IsReadOnly="True"/>
                     <Button x:Name="return_Button" Content="Return" Click="Return_Button_Click"/>
                 </StackPanel>
             </ScrollViewer>

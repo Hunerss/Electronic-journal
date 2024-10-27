@@ -6,9 +6,6 @@ using System.Windows.Data;
 
 namespace Electronic_journal.UserControls.AdminUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Admin_ClassesMenu_UserControl.xaml
-    /// </summary>
     public partial class Admin_ClassesMenu_UserControl : UserControl
     {
         MainWindow window;
@@ -55,14 +52,8 @@ namespace Electronic_journal.UserControls.AdminUserControls
             classes_DataGrid.Columns.Add(CreateTextColumn("Students Count", "Students_number"));
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //UpdateDatabase();
-        }
-
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            //UpdateDatabase();
             window.frame.NavigationService.GoBack();
         }
     }

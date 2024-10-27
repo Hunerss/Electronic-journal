@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Background="RoyalBlue"
-        Title="MessageCreation" Height="450" Width="800">
+        Title="Message Creator" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

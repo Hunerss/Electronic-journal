@@ -1,28 +1,12 @@
 ﻿using Electronic_journal.Classes.DataClasses;
-using Electronic_journal.UserControls.AdminUserControls;
 using Electronic_journal.UserControls.GeneralUserControls;
 using Electronic_journal.Windows.UserControls.GeneralUserControls;
 using Electronic_journal.Windows.UserControls.TeacherUserControls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Electronic_journal.UserControls.TeacherUserControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Teacher_Menu_UserControl.xaml
-    /// </summary>
     public partial class Teacher_Menu_UserControl : UserControl
     {
         MainWindow window;
@@ -38,7 +22,6 @@ namespace Electronic_journal.UserControls.TeacherUserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             teacher_header.Text = "Welcome - " + teacher.Name + " " + teacher.Surname;
-                
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

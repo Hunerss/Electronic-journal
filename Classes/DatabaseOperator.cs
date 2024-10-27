@@ -3,9 +3,7 @@
 using Electronic_journal.Classes.DataClasses;
 using MySqlConnector;
 using SHA3.Net;
-using System.Data;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Electronic_journal.Classes
 {
@@ -799,7 +797,7 @@ namespace Electronic_journal.Classes
                     TargetInfo = reader.GetString("TargetInfo")
                 });
             }
-            connector.Close(); 
+            connector.Close();
             foreach (Message message in messages)
             {
                 Console.WriteLine("---------------------------");
@@ -1951,7 +1949,7 @@ namespace Electronic_journal.Classes
 
                 using var command = new MySqlCommand(query, connector);
                 command.Parameters.AddWithValue("@Id", grade.Id);
-                command.Parameters.AddWithValue("@Grade", grade.Mark); 
+                command.Parameters.AddWithValue("@Grade", grade.Mark);
                 string todayDate = DateTime.Now.ToString("yyyyMMdd");
                 command.Parameters.AddWithValue("@Date", todayDate);
 
@@ -2000,7 +1998,7 @@ namespace Electronic_journal.Classes
                 command.Parameters.AddWithValue("@Day", lesson.Lesson_day);
 
                 int count = Convert.ToInt32(command.ExecuteScalar());
-                
+
                 bool tmp = count == 0;
                 Console.WriteLine("Method outcome " + tmp);
                 return tmp;

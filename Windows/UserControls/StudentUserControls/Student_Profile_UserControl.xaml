@@ -19,54 +19,51 @@
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="1">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <!-- Full Name -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Full name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="name_TextBlock" Grid.Row="0" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    
-                    <!-- Class -->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Class:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="class_TextBlock" Grid.Row="1" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                    
-                    <!-- Birthday -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Birthday:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="birthday_TextBlock" Grid.Row="2" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!-- Full Name -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Full name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="name_TextBlock" Grid.Row="0" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
 
-                    <!-- Age -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Age:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="age_TextBlock" Grid.Row="3" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <!-- Class -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Class:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="class_TextBlock" Grid.Row="1" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
-                    <!-- Sex -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Sex:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="sex_TextBlock" Grid.Row="4" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <!-- Birthday -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Birthday:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="birthday_TextBlock" Grid.Row="2" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
-                    <!-- First Parent -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="First Parent Name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="parent1_TextBlock" Grid.Row="5" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <!-- Age -->
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Age:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="age_TextBlock" Grid.Row="3" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
-                    <!-- Second Parent -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Second Parent Name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
-                    <TextBlock x:Name="parent2_TextBlock" Grid.Row="6" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <!-- Sex -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Sex:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="sex_TextBlock" Grid.Row="4" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
-                    <Button x:Name="return_Button" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Content="Return" Click="Return_Button_Click"/>
+                <!-- First Parent -->
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="First Parent Name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="parent1_TextBlock" Grid.Row="5" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
-                </Grid>
-            </ScrollViewer>
+                <!-- Second Parent -->
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Second Parent Name:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                <TextBlock x:Name="parent2_TextBlock" Grid.Row="6" Grid.Column="1" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+
+                <Button x:Name="return_Button" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Content="Return" Click="Return_Button_Click"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

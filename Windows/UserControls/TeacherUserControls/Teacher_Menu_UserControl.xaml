@@ -32,7 +32,6 @@
                 <Button Grid.Row="1" x:Name="lessons_button" Content="Lessons" Click="Button_Click"/>
                 <Button Grid.Row="2" x:Name="messages_button" Content="Messages" Click="Button_Click"/>
                 <Button Grid.Row="3" x:Name="grades_button" Content="Grades" Click="Button_Click"/>
-                <!--<Button Grid.Row="4" x:Name="attendence_button" Content="Attendence" Click="Button_Click"/>-->
                 <Button Grid.Row="5" x:Name="logout_button" Content="Log out" Click="Button_Click"/>
             </Grid>
         </Grid>

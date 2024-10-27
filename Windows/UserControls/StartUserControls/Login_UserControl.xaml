@@ -45,12 +45,8 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Name="login_TextBox" Grid.Row="0" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Piotr.Nowak@school.edu.pl</TextBox>
-                    <!-- admin@school.edu.pl -->
-                    <!-- Anna.Nowak@school.edu.pl -->
-                    <PasswordBox Name="password_TextBox" Grid.Row="1" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Password="PiotrNowak19630506"></PasswordBox>
-                    <!-- admin -->
-                    <!-- AnnaNowak19800512 -->
+                    <TextBox Name="login_TextBox" Grid.Row="0" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                    <PasswordBox Name="password_TextBox" Grid.Row="1" Height="40px" FontSize="20px" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></PasswordBox>
                 </Grid>
             </Grid>
         </Grid>

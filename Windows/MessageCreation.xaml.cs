@@ -70,6 +70,8 @@ namespace Electronic_journal.Windows
                 Target_school_role = GetTargetRole()
             };
 
+            Console.WriteLine("Autho: " +  message.Author_id + ", School role: " + message.School_role + ", Single target: "+ message.Single_target + ", Target role: " + message.Target_school_role);
+
             if (message.Single_target)
             {
                 if (!ValidateTarget(message)) return null;

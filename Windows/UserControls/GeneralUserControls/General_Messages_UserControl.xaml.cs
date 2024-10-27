@@ -100,7 +100,7 @@ namespace Electronic_journal.UserControls.GeneralUserControls
             string name = ((MenuItem)sender).Name;
             if (name == "new_message_MenuITem")
             {
-                MessageCreation messageWindow = admin != null ? new MessageCreation(admin) : teacher != null ? new MessageCreation(teacher) : new MessageCreation(parent);
+                MessageCreation messageWindow = admin != null ? new MessageCreation(admin) : teacher != null ? new MessageCreation(teacher) : student != null ? new MessageCreation(student) : new MessageCreation(parent);
                 messageWindow.Show();
             }
             else

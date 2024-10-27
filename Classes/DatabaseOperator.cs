@@ -1496,7 +1496,7 @@ namespace Electronic_journal.Classes
             string querry = "SELECT s.* FROM students s JOIN users u ON u.school_role_id = s.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 2;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Email", email);
-            command.Parameters.AddWithValue("@Password", password);
+            command.Parameters.AddWithValue("@Password", HashPassword(password));
 
             using var reader = command.ExecuteReader();
             if (reader.Read())
@@ -1508,10 +1508,10 @@ namespace Electronic_journal.Classes
                     Surname = reader.GetString(2),
                     Classname = reader.GetString(3),
                     Birthday = reader.GetInt32(4),
-                    Age = reader.GetInt32(7),
-                    Sex = reader.GetByte(8),
-                    Parent_1_id = reader.GetInt32(9),
-                    Parent_2_id = reader.GetInt32(10)
+                    Age = reader.GetInt32(5),
+                    Sex = reader.GetByte(6),
+                    Parent_1_id = reader.GetInt32(7),
+                    Parent_2_id = reader.GetInt32(8)
                 };
                 connector.Close();
                 return student;
@@ -1529,7 +1529,7 @@ namespace Electronic_journal.Classes
             string querry = "SELECT p.* FROM parents p JOIN users u ON u.school_role_id = p.id WHERE u.email = @Email AND u.password = @Password AND u.school_role = 3;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Email", email);
-            command.Parameters.AddWithValue("@Password", password);
+            command.Parameters.AddWithValue("@Password", HashPassword(password));
 
             using var reader = command.ExecuteReader();
             if (reader.Read())

@@ -71,6 +71,7 @@ namespace Electronic_journal.UserControls.StartUserControls
                         else
                         {
                             Student student = DatabaseOperator.GetStudent(login, password);
+                            Console.WriteLine(student.Name);
                             window.frame.NavigationService.Navigate(new Student_Menu_UserControl(window, student));
                         }
 

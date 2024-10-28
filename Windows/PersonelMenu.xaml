@@ -10,7 +10,7 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="5*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="1">
@@ -27,8 +27,8 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <TextBlock x:Name="admin_header_TextBlock" Margin="0 0 0 10" Text="Placeholder" Grid.Column="0" Grid.Row="0"/>
-                        <TextBlock Text="Admin" Margin="4 0 0 10" Grid.Column="1" Grid.Row="0"/>
+                        <TextBlock x:Name="admin_header_TextBlock" Margin="0 0 0 10" Text="Placeholder" Grid.Column="0" Grid.Row="0" FontSize="30"/>
+                        <TextBlock Text="Admin" Margin="4 0 0 10" Grid.Column="1" Grid.Row="0" FontSize="30"/>
 
                         <TextBlock Text="Email" Margin="0 0 15 10" Grid.Column="0" Grid.Row="1" />
                         <TextBox x:Name="admin_email" ToolTip="Write email adres of admin who you want to " Width="150" Margin="0 0 0 10" Grid.Column="1" Grid.Row="1"/>
@@ -55,8 +55,8 @@
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                        <TextBlock Text="Teacher" Margin="4 0 5 15" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="30"/>
+                        <TextBlock Text="Teacher" Margin="4 0 5 15" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="0" FontSize="30"/>
 
                         <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center"  Grid.Column="0" Grid.Row="1" />
                         <TextBox x:Name="teacher_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" />
@@ -74,7 +74,7 @@
                         <TextBox x:Name="teacher_classroom" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="5" />
 
                         <TextBlock Text="Birthday" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="6" />
-                        <DatePicker x:Name="teacher_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Grid.Column="1" Grid.Row="6" />
+                        <DatePicker x:Name="teacher_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="6" />
 
                         <TextBlock Text="Age" Margin="0 0 15 0" HorizontalAlignment="Center"  Grid.Column="0" Grid.Row="7" />
                         <TextBox x:Name="teacher_age" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="7" />
@@ -102,8 +102,8 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                            <TextBlock Text="Student" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" />
+                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="30"/>
+                            <TextBlock Text="Student" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" FontSize="30"/>
 
                             <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" />
                             <TextBox x:Name="student_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" />
@@ -115,7 +115,7 @@
                             <TextBox x:Name="student_class" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="3" />
 
                             <TextBlock Text="Birthday" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="6" />
-                            <DatePicker x:Name="student_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="6" />
+                            <DatePicker x:Name="student_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="6" />
 
                             <TextBlock Text="Age" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="7" />
                             <TextBox x:Name="student_age" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="7" />
@@ -140,8 +140,8 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                            <TextBlock Text="Parent 1" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" />
+                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="20"/>
+                            <TextBlock Text="Parent 1" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" FontSize="20"/>
 
                             <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" />
                             <TextBox x:Name="parent1_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" />
@@ -172,8 +172,8 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                            <TextBlock Text="Parent 2" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" />
+                            <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="20"/>
+                            <TextBlock Text="Parent 2" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" FontSize="20"/>
 
                             <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" />
                             <TextBox x:Name="parent2_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" />
@@ -207,8 +207,8 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                        <TextBlock Text="Parent" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="Add" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="30"/>
+                        <TextBlock Text="Parent" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" FontSize="30"/>
 
                         <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" />
                         <TextBox x:Name="parent_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" />
@@ -217,7 +217,7 @@
                         <TextBox x:Name="parent_surname" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" />
 
                         <TextBlock Text="Birthday" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="6" />
-                        <DatePicker x:Name="parent_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="6" />
+                        <DatePicker x:Name="parent_birthday" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="6" />
 
                         <TextBlock Text="Sex" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="8" />
                         <TextBox x:Name="parent_sex" ToolTip="0 - woman, 1 - men" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="8" />
@@ -236,8 +236,8 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Remove" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" />
-                        <TextBlock x:Name="remove_header" Text="Placeholder" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="Remove" HorizontalAlignment="Right" Margin="0 0 5 0" Grid.Column="0" Grid.Row="0" FontSize="30"/>
+                        <TextBlock x:Name="remove_header" Text="Placeholder" Margin="4 0 5 15" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0" FontSize="30"/>
 
                         <TextBlock Text="Name" Margin="0 0 15 0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" />
                         <TextBox x:Name="remove_name" Margin="0 0 0 15" Width="150" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" />

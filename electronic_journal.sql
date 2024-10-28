@@ -192,13 +192,8 @@ INSERT INTO `messages` (`id`, `author_id`, `school_role`, `single_target`, `sing
 (1, 1, 1, 0, 0, 2, '1a', '1a grades', 'grades'),
 (2, 1, 1, 1, 1, 0, NULL, 'Disappearing Messages', 'Hello, My messages to our students started to disappear after last update. Can you fdo some thing with it'),
 (3, 1, 1, 1, 1, 2, NULL, 'Bad grade', 'Why didnt you study for last test?'),
-(4, 1, 1, 1, -1, 2, NULL, 'After school match', 'You were promoted to go and reprezent our school in after school football match on 07.11.2024, 19:00 at city stadium'),
-(5, 0, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
-(6, 0, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
-(7, 0, -1, 1, -1, 2, NULL, 'Re: Bad Grade', 'Because of football turnament'),
-(8, -1, -1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
-(9, 2, 2, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament'),
-(10, 1, 2, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament');
+(4, 1, 1, 1, 1, 2, NULL, 'After school match', 'You were promoted to go and reprezent our school in after school football match on 07.11.2024, 19:00 at city stadium'),
+(5, 0, 1, 1, 1, 1, NULL, 'Re: Bad Grade', 'Because of football turnament');
 
 -- --------------------------------------------------------
 
@@ -617,7 +612,7 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notes`

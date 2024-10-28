@@ -191,8 +191,8 @@ namespace Electronic_journal.UserControls.AdminUserControls
                     ComboBox comboBox = new()
                     {
                         ItemsSource = Subjects,
-                        Width = 90,
-                        Height = 30,
+                        Width = 100,
+                        Height = 40,
                         Margin = new Thickness(0, 10, 0, 5),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center

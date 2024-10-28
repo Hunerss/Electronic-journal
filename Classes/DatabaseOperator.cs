@@ -777,10 +777,11 @@ namespace Electronic_journal.Classes
         {
             List<Message> messages = [];
             connector.Open();
-            string querry = "SELECT m.id, m.title, m.content, GetEmail(m.author_id,m.school_role) as AuthorEmail, GetEmail(m.single_target_id,m.target_school_role) as TargetInfo, m.group_target_id " +
+            Console.WriteLine("id:" + id + ", role: " + role);
+            string querry = "SELECT m.id, m.title, m.content, GetEmail(m.author_id,m.school_role) as AuthorEmail, GetEmail(m.single_target_id,m.target_school_role) as TargetInfo " +
                 "FROM messages m INNER JOIN users u ON m.author_id = u.school_role_id " +
                 "WHERE(m.single_target = 1 AND m.author_id = @Id AND m.school_role = @Role) " +
-                "OR (m.single_target = 1 AND m.single_target_id = @Id AND target_school_role = @Role) GROUP BY m.id;";
+                "OR (m.single_target = 1 AND m.single_target_id = @Id AND m.target_school_role = @Role) GROUP BY m.id;";
             using MySqlCommand command = new(querry, connector);
             command.Parameters.AddWithValue("@Id", id);
             command.Parameters.AddWithValue("@Role", role);
@@ -790,12 +791,12 @@ namespace Electronic_journal.Classes
             {
                 messages.Add(new Message
                 {
-                    Id = reader.GetInt32("id"),
-                    Title = reader.GetString("title"),
-                    Content = reader.GetString("content"),
-                    AuthorEmail = reader.GetString("AuthorEmail"),
-                    TargetInfo = reader.GetString("TargetInfo")
-                });
+                    Id = reader.GetInt32(0),
+                    Title = reader.GetString(1),
+                    Content = reader.GetString(2),
+                    AuthorEmail = reader.GetString(3),
+                    TargetInfo = reader.GetString(4)
+                }); ;
             }
             connector.Close();
             foreach (Message message in messages)

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Background="RoyalBlue"
-        Title="Message Creator" Height="450" Width="800">
+        Title="Message Creator" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -75,7 +75,7 @@
                 </Border>
                 <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5">
                     <ScrollViewer>
-                        <TextBox x:Name="content_TextBox" FontSize="18" Height="150" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                        <TextBox x:Name="content_TextBox" FontSize="18" Height="50" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
                     </ScrollViewer>
                 </Border>
 

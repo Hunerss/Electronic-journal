@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Icon="/Images/icon.ico"
         WindowStartupLocation="CenterScreen"
-        Title="Electronic Gradebook" Height="500" Width="820">
+        Title="Electronic Gradebook" Height="600" Width="1000">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#90CAF9" Offset="0.0" />

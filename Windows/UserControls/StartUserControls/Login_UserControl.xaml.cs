@@ -36,7 +36,7 @@ namespace Electronic_journal.UserControls.StartUserControls
                     string login = login_TextBox.Text, password = password_TextBox.Password;
                     if (DatabaseOperator.Login(login, password))
                     {
-                        MessageBox.Show("Correct login or password");
+                        MessageBox.Show("Correct login and password");
                         int id = DatabaseOperator.GetRole(login, password);
                         if (id == 0)
                         {

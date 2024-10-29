@@ -13,7 +13,7 @@ namespace Electronic_journal.Windows.UserControls.GeneralUserControls
         private DateTime weekBeginning;
         private List<string> week = [];
 
-        Dictionary<string, string> freeDays = new()
+        Dictionary<string, string> freeDays = new() 
         {
             // Rozpoczęcie roku szkolnego
             {"02.09", "Uroczyste rozpoczęcie roku szkolnego"},
